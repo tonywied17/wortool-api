@@ -3,8 +3,10 @@ const cors = require("cors");
 
 const app = express();
 
-
-
+app.use(cors({
+  origin: ['https://paarmy.com', 'https://app.paarmy.com', 'https://www.paarmy.com', 'http://localhost:4200', 'https://paapp.tbz.wtf'],
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}));
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -38,6 +40,7 @@ require("./app/routes/gallery.routes")(app);
 require("./app/routes/eu.routes")(app);
 require("./app/routes/us.routes")(app);
 require("./app/routes/score.routes")(app);
+require("./app/routes/muster.routes")(app);
 
 const PORT = process.env.PORT || 8083;
 app.listen(PORT, () => {
