@@ -3,10 +3,10 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Retrieve all gallery items
+    // Retrieve all gallery items from database
     router.get("/", gallery.findAll);
   
-    // Retrieve a single gallery item with id
+    // Retrieve a single gallery item with id from database
     router.get("/:id", gallery.findOne);
   
     app.use('/pa/gallery', router);
