@@ -2,7 +2,6 @@ const db = require("../models");
 const Eu = db.eu;
 const Op = db.Sequelize.Op;
 
-
 exports.findAll = (req, res) => {
 
   Eu.findAll()
