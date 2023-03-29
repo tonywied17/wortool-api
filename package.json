@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-express-sequelize-mysql",
+  "name": "express-paarmy-api",
   "version": "1.0.0",
   "description": "Node.js Rest Apis with Express, Sequelize & MySQL",
   "main": "server.js",
@@ -14,7 +14,6 @@
     "sequelize",
     "mysql"
   ],
-  "author": "bezkoder",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.1.3",
