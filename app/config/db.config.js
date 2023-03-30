@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '/home/tonewebdesign/envs/pa/.env' });
 
 module.exports = {
   HOST: process.env.DB_HOST,
