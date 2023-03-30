@@ -1,7 +1,7 @@
 {
   "name": "express-paarmy-api",
   "version": "1.0.0",
-  "description": "Node.js Rest Apis with Express, Sequelize & MySQL",
+  "description": "REST API backend for PA Army applications",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,6 +14,7 @@
     "sequelize",
     "mysql"
   ],
+  "author": "molex",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.1.3",
