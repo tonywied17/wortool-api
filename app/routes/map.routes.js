@@ -6,6 +6,9 @@ module.exports = app => {
   // Retrieve all Maps
   router.get("/", maps.findAll);
 
+  // Retrieve all Maps and their big map object
+  router.get("/big", maps.findAllBig);
+
   // Retrieve a single Map with id
   router.get("/:id", maps.findOne);
 

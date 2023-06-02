@@ -6,6 +6,7 @@ module.exports = (sequelize, Sequelize) => {
     csaArty: Sequelize.STRING,
     campaign: Sequelize.STRING,
     youtube: Sequelize.STRING,
+    attacker: Sequelize.STRING,
     strat: Sequelize.STRING,
     notes: Sequelize.TEXT
   },{

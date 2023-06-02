@@ -27,6 +27,47 @@ exports.findAll = (req, res) => {
     });
 };
 
+//get big map object
+exports.findAllBig = (req, res) => {
+
+  Map.findAll()
+  .then(async (data) => {
+    res.header("Content-Type", 'application/json');
+
+    const mergedData = [];
+
+    for (const map of data) {
+      console.log('https://app.paarmy.com/api.php?id=' + map.id);
+      const axiosInstance = axios.create({
+        method: 'get',
+        baseURL: 'https://app.paarmy.com/api.php?id=' + map.id,
+        headers: {}
+      });
+
+      const response = await axiosInstance.get();
+      let shittyJSON = response.data;
+      remove_empty(shittyJSON);
+
+      const mapData = map.get({ plain: true });
+
+      const mergedObject = {
+        ...mapData,
+        ...shittyJSON
+      };
+
+      mergedData.push(mergedObject);
+    }
+
+    res.send(mergedData);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving maps."
+    });
+  });
+
+};
+
 // Find a single Map with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
