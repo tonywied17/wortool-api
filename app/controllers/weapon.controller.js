@@ -19,37 +19,45 @@ exports.findAll = (req, res) => {
 
 // Find a single weapon item with an id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
-  
-    Weapon.findByPk(id)
-      .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find weapon with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error retrieving weapon with id=" + id
+  const id = req.params.id;
+
+  Weapon.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find weapon with id=${id}.`
         });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving weapon with id=" + id
       });
+    });
+};
+
+exports.createWeapon = (req, res) => {
+
+  // Validate request
+  if (!req.body.weapon) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
+
+  const weapon = {
+    weapon: req.body.weapon,
+    range: req.body.range,
+    length: req.body.lengthy,
+    ammo: req.body.ammo,
+    notes: req.body.notes
   };
 
-  exports.createWeapon = (req, res) => {
-
-    const weapon = {
-      weapon: req.body.weapon,
-      range: req.body.range,
-      length: req.body.length, 
-      ammo: req.body.ammo,
-      notes: req.body.notes
-    };
-
-    // Save Weapon to Database
-    Weapon.create(weapon)
+  // Save Weapon to Database
+  Weapon.create(weapon)
     .then(data => {
       res.send(data);
     })
@@ -59,5 +67,5 @@ exports.findOne = (req, res) => {
           err.message || "Some error occurred while creating the Blog."
       });
     });
-  };
+};
 

@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const Weapon = sequelize.define("weapons", {
       weapon: Sequelize.STRING,
       range: Sequelize.INTEGER,
-      length: Sequelize.INTEGER,
+      lengthy: Sequelize.INTEGER,
       ammo: Sequelize.STRING,
       notes: Sequelize.STRING,
     },{

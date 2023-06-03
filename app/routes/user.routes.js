@@ -1,5 +1,7 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
+const weapon = require("../controllers/weapon.controller");
+
 var router = require("express").Router();
 
 module.exports = function (app) {
@@ -31,5 +33,22 @@ module.exports = function (app) {
     controller.adminBoard
   );
 
+  // weapons
+
+  app.get(
+    "/pa/weapons/",
+    weapon.findAll
+  );
+
+  app.get(
+    "/pa/weapons/:id",
+    weapon.findOne
+  );
+
+  app.post(
+    "/pa/weapons/",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    weapon.createWeapon
+  );
 
 };
