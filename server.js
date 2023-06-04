@@ -19,25 +19,12 @@ app.set('json spaces', 2)
 const db = require("./app/models");
 const Role = db.role;
 
-db.sequelize.sync()
-  .then(() => {
-    // initial();
-    console.log("Synced db.");
-  })
-  .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
-
-  // when i deploy it remember:
+db.sequelize.sync();
+// when i deploy it remember:
 // force: true will drop the table if it already exists
 // db.sequelize.sync({force: true}).then(() => {
 //   console.log('Drop and Resync Database with { force: true }');
 //   initial();
-// });
-
-// // drop the table if it already exists
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
 // });
 
 app.get("/pa", (req, res) => {

@@ -1,5 +1,4 @@
 const { authJwt } = require("../middleware");
-const controller = require("../controllers/user.controller");
 const weapon = require("../controllers/weapon.controller");
 
 var router = require("express").Router();
@@ -13,25 +12,20 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/pa/test/all", controller.allAccess);
-
   app.get(
-    "/pa/test/user",
-    [authJwt.verifyToken],
-    controller.userBoard
+    "/pa/weapons/",
+    weapon.findAll
   );
 
   app.get(
-    "/pa/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
+    "/pa/weapons/:id",
+    weapon.findOne
   );
 
-  app.get(
-    "/pa/test/admin",
+  app.post(
+    "/pa/weapons/",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
+    weapon.createWeapon
   );
-
 
 };

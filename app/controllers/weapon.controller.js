@@ -51,7 +51,7 @@ exports.createWeapon = (req, res) => {
   const weapon = {
     weapon: req.body.weapon,
     range: req.body.range,
-    length: req.body.lengthy,
+    lengthy: req.body.lengthy,
     ammo: req.body.ammo,
     notes: req.body.notes
   };
