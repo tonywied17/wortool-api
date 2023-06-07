@@ -3,6 +3,7 @@ const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 
+
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
@@ -18,10 +19,20 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!"
       });
     }
+    
+    console.log(decoded.id + " " + req.params.userId)
+    // Check if the user ID from the token matches the supplied user ID
+    if (decoded.id != req.params.userId) {
+      return res.status(401).send({
+        message: "Unauthorized!"
+      });
+    }
+
     req.userId = decoded.id;
     next();
   });
 };
+
 
 isAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {

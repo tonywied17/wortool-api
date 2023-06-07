@@ -14,7 +14,7 @@ exports.findAll = (req, res) => {
       res.header("Content-Type", 'application/json');
 
       let test = data.forEach(element => {
-        console.log(element.id)
+        // console.log(element.id)
       })
 
       res.send(data);
@@ -37,7 +37,7 @@ exports.findAllBig = (req, res) => {
     const mergedData = [];
 
     for (const map of data) {
-      console.log('https://app.paarmy.com/api.php?id=' + map.id);
+      // console.log('https://app.paarmy.com/api.php?id=' + map.id);
       const axiosInstance = axios.create({
         method: 'get',
         baseURL: 'https://app.paarmy.com/api.php?id=' + map.id,

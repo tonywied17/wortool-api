@@ -47,6 +47,7 @@ require("./app/routes/muster.routes")(app);
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/weapon.routes')(app);
+require('./app/routes/note.routes')(app);
 
 
 const PORT = process.env.PORT || 8083;
