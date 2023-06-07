@@ -23,7 +23,7 @@ module.exports = function (app) {
   );
 
   app.post(
-    "/pa/weapons/",
+    "/pa/weapons/:userId",
     [authJwt.verifyToken, authJwt.isAdmin],
     weapon.createWeapon
   );

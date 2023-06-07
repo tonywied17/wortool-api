@@ -20,7 +20,7 @@ module.exports = function (app) {
   );
 
   app.put(
-    "/pa/auth/update",
+    "/pa/auth/:userId/update",
     [authJwt.verifyToken],
     controller.password
   );

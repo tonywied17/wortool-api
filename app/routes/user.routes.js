@@ -13,25 +13,31 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/pa/test/all", controller.allAccess);
+  app.get("/pa/vet/all", controller.allAccess);
 
-  app.get(
-    "/pa/test/user",
-    [authJwt.verifyToken],
-    controller.userBoard
-  );
+  // app.get(
+  //   "/pa/vet/user",
+  //   [authJwt.verifyToken],
+  //   controller.userBoard
+  // );
 
-  app.get(
-    "/pa/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
-  );
+  // app.get(
+  //   "/pa/vet/mod",
+  //   [authJwt.verifyToken, authJwt.isModerator],
+  //   controller.moderatorBoard
+  // );
 
-  app.get(
-    "/pa/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  );
+  // app.get(
+  //   "/pa/vet/admin",
+  //   [authJwt.verifyToken, authJwt.isAdmin],
+  //   controller.adminBoard
+  // );
 
+  app.get("/pa/vet/user/:userId", [authJwt.verifyToken], controller.userBoard);
 
+  app.get("/pa/vet/mod/:userId", [authJwt.verifyToken, authJwt.isModerator], controller.moderatorBoard);
+  
+  app.get("/pa/vet/admin/:userId", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
+
+  
 };

@@ -89,7 +89,7 @@ exports.signin = (req, res) => {
 
 
 exports.password = (req, res) => {
-  const userID = req.body.id;
+  const userID = req.params.userId;
   const passwordCurrent = req.body.passwordCurrent;
   const passwordNew = req.body.passwordNew;
 
