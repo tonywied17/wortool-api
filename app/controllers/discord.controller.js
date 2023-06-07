@@ -15,12 +15,12 @@ exports.findAll = (req, res) => {
       // Add more intents as needed
     ],
   });
-  client.login('MTExNjExNDQzMjUwMjgwODYxNw.G0Xwz1.8jFxFES7B84g1bg_5fqhC9c5uGTNEbPSd09T_o');
+  client.login('_BOT_TOKEN_');
 
 
   client.once('ready', () => {
-    const guild = client.guilds.cache.get('850786736756883496');
-    const channel = guild.channels.cache.get('901993697888051200');
+    const guild = client.guilds.cache.get('');
+    const channel = guild.channels.cache.get('');
 
     
 
