@@ -1,4 +1,9 @@
 const { Client, GatewayIntentBits, TextChannel, EmbedBuilder } = require('discord.js');
+const axios = require('axios');
+const db = require('../models');
+const DiscordUser = db.discordUser;
+const DiscordGuild = db.discordGuild;
+const Op = db.Sequelize.Op;
 require('dotenv').config();
 // require('dotenv').config({ path: '/home/tonewebdesign/envs/pa/.env' });
 
@@ -155,13 +160,13 @@ exports.findOneUserMsg = (req, res) => {
           .filter(role => role.name !== '@everyone')
           .map(role => ({ name: role.name, id: role.id }));
 
-          const maxRolesToPrint = 49;
-          const roles = guildMember.roles.cache
-            .filter(role => role.name !== '@everyone')
-            .map(role => role.name)
-            .slice(0, maxRolesToPrint);
-          
-          const rolesString = roles.join('\n');
+        const maxRolesToPrint = 49;
+        const roles = guildMember.roles.cache
+          .filter(role => role.name !== '@everyone')
+          .map(role => role.name)
+          .slice(0, maxRolesToPrint);
+
+        const rolesString = roles.join('\n');
 
         const discordUsername = guildMember.user.username;
         const userAvatarUrl = guildMember.user.avatarURL() || 'No avatar available.';
@@ -278,4 +283,175 @@ exports.destroyBot = (req, res) => {
   client.destroy();
 
   res.json({ message: 'Bot Destroyed!' });
+
+};
+
+
+
+//auth shit
+
+exports.auth = async function (req, res) {
+  try {
+    const code = req.query.code;
+    const params = new URLSearchParams();
+    let user;
+
+    params.append('client_id', process.env.CLIENT_ID);
+    params.append('client_secret', process.env.CLIENT_SECRET);
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
+    params.append('redirect_uri', "http://localhost:8083/pa/discord/auth");
+
+    const response = await axios.post('https://discord.com/api/oauth2/token', params);
+    const { access_token, token_type } = response.data;
+
+    const userDataResponse = await axios.get('https://discord.com/api/users/@me', {
+      headers: {
+        authorization: `${token_type} ${access_token}`
+      }
+    });
+
+    console.log('Data: ', userDataResponse.data);
+
+    user = {
+      username: userDataResponse.data.username,
+      email: userDataResponse.data.email,
+      avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
+      id: userDataResponse.data.id,
+    };
+
+
+    const guildsResponse = await axios.get('https://discord.com/api/users/@me/guilds', {
+      headers: {
+        authorization: `${token_type} ${access_token}`
+      }
+    });
+
+
+    const guilds = guildsResponse.data;
+
+    return res.send(`
+  <div style="margin: 25px auto;
+    max-width: 666px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: sans-serif;">
+    <h3>Welcome ${user.username}</h3>
+    <div style="display: flex; align-items: center;">
+      <img src="${user.avatar}" style="width: 80px; height: 80px; border-radius: 50%; margin-right: 10px;">
+
+      <div style="display: flex; flex-direction: column;">
+        <span>Email: ${user.email}</span>
+        <span>User ID: ${user.id}</span>
+      </div>
+    </div>
+
+    <h4>Guilds:</h4>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 10px; margin-top: 20px;">
+      ${guilds
+        .map(
+          (guild) => `
+            <div style="text-align: center;">
+              <p><b><big>${guild.name}</big></b><br /> (ID: ${guild.id})</p>
+              ${guild.icon
+              ? `<img src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png" style="max-width: 100px; max-height: 100px;"/>`
+              : '❌ NO ICON'
+            }
+            </div>
+          `
+        )
+        .join('')}
+    </div>
+  </div>
+`);
+
+  } catch (error) {
+    console.log('Error', error);
+    return res.send('Some error occurred!');
+  }
+};
+
+
+
+
+
+exports.authJSON = async function (req, res) {
+  try {
+    const code = req.query.code;
+    const params = new URLSearchParams();
+
+    params.append('client_id', process.env.CLIENT_ID);
+    params.append('client_secret', process.env.CLIENT_SECRET);
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
+    params.append('redirect_uri', "http://localhost:8083/pa/discord/authJSON");
+
+    const response = await axios.post('https://discord.com/api/oauth2/token', params);
+    const { access_token, token_type } = response.data;
+
+    const userDataResponse = await axios.get('https://discord.com/api/users/@me', {
+      headers: {
+        authorization: `${token_type} ${access_token}`
+      }
+    });
+
+    const guildsResponse = await axios.get('https://discord.com/api/users/@me/guilds', {
+      headers: {
+        authorization: `${token_type} ${access_token}`
+      }
+    });
+
+    const user = {
+      username: userDataResponse.data.username,
+      email: userDataResponse.data.email,
+      avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
+      userId: userDataResponse.data.id,
+    };
+
+    // Check if the user already exists in the database
+    const existingUser = await DiscordUser.findOne({
+      where: {
+        userId: user.userId
+      }
+    });
+
+    // Update the user if it exists, otherwise create a new user
+    if (existingUser) {
+      await existingUser.update(user);
+    } else {
+      await DiscordUser.create(user);
+    }
+
+    const guilds = guildsResponse.data.map((guild) => ({
+      name: guild.name,
+      guildId: guild.id,
+      userId: user.userId,
+      icon: guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : null
+    }));
+    
+    for (const guildData of guilds) {
+      const existingGuild = await DiscordGuild.findOne({
+        where: {
+          guildId: guildData.guildId
+        }
+      });
+    
+      if (existingGuild) {
+        await existingGuild.update(guildData);
+      } else {
+        await DiscordGuild.create(guildData);
+      }
+    }
+
+    const result = {
+      user,
+      guilds
+    };
+
+    return res.json(result);
+  } catch (error) {
+    console.log('Error', error);
+    return res.send('Some error occurred!');
+  }
 };

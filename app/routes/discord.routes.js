@@ -9,8 +9,66 @@ module.exports = function (app) {
     next();
   });
 
+  app.get('/pa/discord/auth/', discordController.auth);
+
+  app.get('/pa/discord/authJSON/', discordController.authJSON);
   // Testing routes
-  app.get("/pa/discord/", discordController.findAll);
+  app.get('/pa/discord/', (req, res) => {
+    res.send(`
+        <div style="margin: 300px auto;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: sans-serif;"
+        >
+            <a 
+                href="${process.env.OAUTH_URL}"
+                style="outline: none;
+                padding: 10px;
+                border: none;
+                font-size: 20px;
+                margin-top: 20px;
+                border-radius: 8px;
+                background: #6D81CD;
+                cursor:pointer;
+                text-decoration: none;
+                color: white;"
+            >
+            Login with Discord</a>
+        </div>
+    `)
+  })
+
+  
+  app.get('/pa/discordJSON/', (req, res) => {
+    res.send(`
+        <div style="margin: 300px auto;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: sans-serif;"
+        >
+            <a 
+                href="${process.env.OAUTH_URL2}"
+                style="outline: none;
+                padding: 10px;
+                border: none;
+                font-size: 20px;
+                margin-top: 20px;
+                border-radius: 8px;
+                background: #6D81CD;
+                cursor:pointer;
+                text-decoration: none;
+                color: white;"
+            >
+            Login with Discord</a>
+        </div>
+    `)
+  })
+
+
   app.get("/pa/discord/guild/:id/get", discordController.findOneGuild);
   app.get("/pa/discord/guild/:guildId/user/:userId/get", discordController.findOneUser);
   app.get("/pa/discord/guild/:guildId/channel/:channelId/user/:userId/get", discordController.findOneUserMsg);
