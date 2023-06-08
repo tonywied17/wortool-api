@@ -213,7 +213,9 @@ exports.findOneUserMsg = (req, res) => {
     } else {
       res.send('Invalid channel or channel type is not text');
     }
-
+    setTimeout(() => {
+      client.destroy();
+    }, 10000);
   });
 };
 
