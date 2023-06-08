@@ -75,15 +75,15 @@ exports.findOneUser = (req, res) => {
     const guildMember = guild.members.cache.get(userId);
 
     if (guildMember) {
+
       const roles = guildMember.roles.cache
         .filter(role => role.name !== '@everyone')
-        .reduce((result, role) => {
-          result[role.name] = role.id;
-          return result;
-        }, {});
+        .map(role => ({ name: role.name, id: role.id }));
+
       const discordUsername = guildMember.user.username;
       const userAvatarUrl = guildMember.user.avatarURL() || 'No avatar available.';
-      const serverNickname = guildMember.nickname || 'No server nickname.';
+      const serverNickname = JSON.stringify(guildMember.nickname) || 'No server nickname.';
+      const serverNicknameCleaned = serverNickname.replace(/["\\]/g, '').replace("'", "");
       const joinedTimestamp = guildMember.joinedTimestamp;
       const joinedDate = new Date(joinedTimestamp);
       const formattedDate = joinedDate.toLocaleString();
@@ -91,19 +91,20 @@ exports.findOneUser = (req, res) => {
       res.json({
         USER_SPECIFIC: {
           DISCORD_USERNAME: discordUsername,
+          DISCORD_ID: guildMember.id,
           DISCORD_AVATAR: userAvatarUrl,
         },
         GUILD_SPECIFIC: {
-          GUILD_ID: guildId,
+          GUILD_NICKNAME: serverNicknameCleaned,
           GUILD_NAME: guild.name,
+          GUILD_ID: guildId,
           GUILD_JOIN_DATE: formattedDate,
           GUILD_ROLES: roles,
-          GUILD_NICKNAME: serverNickname,
         },
-          API_SPECIFIC: {
-            GUILD_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get`,
-            GUILD_USER_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`,
-          }
+        API_SPECIFIC: {
+          GUILD_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get`,
+          GUILD_USER_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`,
+        }
       });
 
     } else {
@@ -114,14 +115,13 @@ exports.findOneUser = (req, res) => {
       client.destroy();
     }, 10000);
   });
-
 }
+
 
 exports.findOneUserMsg = (req, res) => {
   const userId = req.params.userId;
   const guildId = req.params.guildId;
   const channelId = req.params.channelId;
-
 
   const client = new Client({
     intents: [
@@ -153,52 +153,59 @@ exports.findOneUserMsg = (req, res) => {
       if (guildMember) {
         const rolesArr = guildMember.roles.cache
           .filter(role => role.name !== '@everyone')
-          .reduce((result, role) => {
-            result[role.name] = role.id;
-            return result;
-          }, {});
+          .map(role => ({ name: role.name, id: role.id }));
 
-        const roles = guildMember.roles.cache
-          .filter(role => role.name !== '@everyone')
-          .map(role => `${role.name}`);
-        const rolesString = roles.join('\n');
+          const maxRolesToPrint = 49;
+          const roles = guildMember.roles.cache
+            .filter(role => role.name !== '@everyone')
+            .map(role => role.name)
+            .slice(0, maxRolesToPrint);
+          
+          const rolesString = roles.join('\n');
 
         const discordUsername = guildMember.user.username;
         const userAvatarUrl = guildMember.user.avatarURL() || 'No avatar available.';
         const serverNickname = guildMember.nickname || 'No server nickname.';
+        const serverNicknameCleaned = serverNickname.replace(/["\\]/g, '').replace("'", '');
+
+
         const joinedTimestamp = guildMember.joinedTimestamp;
         const joinedDate = new Date(joinedTimestamp);
         const formattedDate = joinedDate.toLocaleString();
 
-        const daddyEmbed = new EmbedBuilder()
-          .setColor('#f800ff')
-          .setTitle('User Information')
-          .setURL(`https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`)
-          .setThumbnail(userAvatarUrl)
-          .addFields(
-            { name: 'Discord Username', value: discordUsername },
-            { name: 'Server Nickname', value: serverNickname },
-            { name: 'Guild ID', value: `\`${guildId}\``, inline: true },
-            { name: 'Guild Name', value: guild.name, inline: true },
-            { name: 'Joined Server', value: formattedDate },
-            { name: 'Guild Roles', value: rolesString },
-            { name: 'Guild API', value: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get` },
-            { name: 'Guild User API', value: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get` },
-          )
-          .setImage(userAvatarUrl)
-          .setTimestamp()
+        if (channel instanceof TextChannel) {
+          const daddyEmbed = new EmbedBuilder()
+            .setColor('#7e0807')
+            .setTitle('User Information')
+            .setURL(`https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`)
+            .setThumbnail(userAvatarUrl)
+            .addFields(
+              { name: 'Discord Username', value: discordUsername },
+              { name: 'Server Nickname', value: serverNicknameCleaned },
+              { name: 'Guild ID', value: `\`${guildId}\``, inline: true },
+              { name: 'Guild Name', value: guild.name, inline: true },
+              { name: 'Joined Server', value: formattedDate },
+              { name: 'Guild Roles', value: rolesString },
+              { name: 'Guild API', value: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get` },
+              { name: 'Guild User API', value: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get` },
+            )
+            .setImage(userAvatarUrl)
+            .setTimestamp()
 
+          channel.send({ embeds: [daddyEmbed] });
+        }
         res.json({
           USER_SPECIFIC: {
             DISCORD_USERNAME: discordUsername,
+            DISCORD_ID: guildMember.id,
             DISCORD_AVATAR: userAvatarUrl,
           },
           GUILD_SPECIFIC: {
-            GUILD_ID: guildId,
+            GUILD_NICKNAME: serverNicknameCleaned,
             GUILD_NAME: guild.name,
+            GUILD_ID: guildId,
             GUILD_JOIN_DATE: formattedDate,
             GUILD_ROLES: rolesArr,
-            GUILD_NICKNAME: serverNickname,
           },
           API_SPECIFIC: {
             GUILD_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get`,
@@ -206,7 +213,6 @@ exports.findOneUserMsg = (req, res) => {
           }
         });
 
-        channel.send({ embeds: [daddyEmbed] });
         // channel.send(`${discordUsername} / ${serverNickname}\n${userAvatarUrl}\n${rolesString}`);
       }
       res.json({ user: guildMember });
@@ -218,9 +224,6 @@ exports.findOneUserMsg = (req, res) => {
     }, 10000);
   });
 };
-
-
-
 
 
 exports.sendOneMsg = (req, res) => {
@@ -261,6 +264,7 @@ exports.sendOneMsg = (req, res) => {
     }, 10000);
   });
 }
+
 
 exports.destroyBot = (req, res) => {
   const client = new Client({
