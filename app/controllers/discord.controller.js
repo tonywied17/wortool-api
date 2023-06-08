@@ -100,6 +100,10 @@ exports.findOneUser = (req, res) => {
           GUILD_ROLES: roles,
           GUILD_NICKNAME: serverNickname,
         },
+          API_SPECIFIC: {
+            GUILD_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get`,
+            GUILD_USER_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`,
+          }
       });
 
     } else {
