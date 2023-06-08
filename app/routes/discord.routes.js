@@ -10,5 +10,6 @@ module.exports = function (app) {
   });
 
   app.get("/pa/discord/", discordController.findAll);
-
+  app.get("/pa/discord/:id/get", discordController.findOne);
+  app.get("/pa/discord/destroy", discordController.destroyBot);
 };
