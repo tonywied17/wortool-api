@@ -72,5 +72,3 @@ function initial() {
     name: "admin"
   });
 }
-
-module.exports = app;
