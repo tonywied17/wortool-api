@@ -4,8 +4,8 @@ const db = require('../models');
 const DiscordUser = db.discordUser;
 const DiscordGuild = db.discordGuild;
 const Op = db.Sequelize.Op;
-require('dotenv').config();
-// require('dotenv').config({ path: '/home/tonewebdesign/envs/pa/.env' });
+// require('dotenv').config();
+require('dotenv').config({ path: '/home/tonewebdesign/envs/pa/.env' });
 
 
 exports.findAll = (req, res) => {

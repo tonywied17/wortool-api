@@ -23,7 +23,6 @@
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
-    "express-session": "^1.17.3",
     "image-downloader": "^4.3.0",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^2.0.2",
