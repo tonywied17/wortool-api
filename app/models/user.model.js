@@ -25,5 +25,12 @@ module.exports = (sequelize, Sequelize) => {
     });
   };
 
+  User.associate = (models) => {
+    User.hasMany(models.Favorite, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE'
+    });
+  };
+
   return User;
 };

@@ -34,6 +34,7 @@ db.user = require("./user.model.js")(sequelize, Sequelize);
 db.role = require("./role.model.js")(sequelize, Sequelize);
 db.weapon = require("./weapon.model.js")(sequelize, Sequelize);
 db.note = require("./note.model.js")(sequelize, Sequelize);
+db.favorite = require("./favorite.model.js")(sequelize, Sequelize);
 db.discordUser = require("./discord.user.model.js")(sequelize, Sequelize);
 db.discordGuild = require("./discord.guild.model.js")(sequelize, Sequelize);
 
