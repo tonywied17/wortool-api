@@ -20,9 +20,15 @@ module.exports = function (app) {
   );
 
   app.put(
-    "/pa/auth/:userId/update",
+    "/pa/auth/:userId/updatePassword",
     [authJwt.verifyToken],
     controller.password
+  );
+
+  app.put(
+    "/pa/auth/:userId/updateProfile",
+    [authJwt.verifyToken],
+    controller.profile
   );
 
   app.post("/pa/auth/signin", controller.signin);

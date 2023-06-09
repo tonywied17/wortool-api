@@ -77,6 +77,8 @@ exports.signin = (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
+          avatar_url: user.avatar_url,
+          discordId: user.discordId,
           roles: authorities,
           accessToken: token
         });
@@ -92,6 +94,8 @@ exports.password = (req, res) => {
   const userID = req.params.userId;
   const passwordCurrent = req.body.passwordCurrent;
   const passwordNew = req.body.passwordNew;
+
+  console.log("userID: " + userID);
 
   User.findOne({
     where: {
@@ -121,6 +125,65 @@ exports.password = (req, res) => {
       })
         .then(() => {
           res.status(200).send({ message: "Password updated successfully!" });
+        })
+        .catch(err => {
+          res.status(500).send({ message: err.message });
+        });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+
+exports.profile = (req, res) => {
+  const userID = req.params.userId;
+  const email = req.body.email;
+  const avatar_url = req.body.avatar_url;
+  const discordId = req.body.discordId;
+
+  console.log("userID: " + userID);
+  console.log("email: " + email);
+  console.log("avatar_url: " + avatar_url);
+  console.log("discordId: " + discordId);
+
+  // Check if the email is already taken by another user
+  User.findOne({
+    where: {
+      email: email,
+      id: { [Op.not]: userID } // Exclude the current user's ID from the query
+    }
+  })
+    .then(existingUser => {
+      if (existingUser) {
+        return res.status(400).send({ message: "Email is already taken." });
+      }
+
+      // Update the user's profile
+      User.findOne({
+        where: {
+          id: userID
+        }
+      })
+        .then(user => {
+          if (!user) {
+            return res.status(404).send({ message: "User ID Not found." });
+          }
+
+          User.update(
+            { email: email, avatar_url: avatar_url, discordId: discordId },
+            {
+              where: {
+                id: userID
+              }
+            }
+          )
+            .then(() => {
+              res.status(200).send({ message: "Profile updated successfully!" });
+            })
+            .catch(err => {
+              res.status(500).send({ message: err.message });
+            });
         })
         .catch(err => {
           res.status(500).send({ message: err.message });

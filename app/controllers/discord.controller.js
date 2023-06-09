@@ -80,7 +80,6 @@ exports.findOneUser = (req, res) => {
     const guildMember = guild.members.cache.get(userId);
 
     if (guildMember) {
-
       const roles = guildMember.roles.cache
         .filter(role => role.name !== '@everyone')
         .map(role => ({ name: role.name, id: role.id }));
@@ -111,16 +110,16 @@ exports.findOneUser = (req, res) => {
           GUILD_USER_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`,
         }
       });
-
     } else {
-      res.send('Invalid user or user not found.');
+      res.status(404).json({ error: 'Invalid user or user not found.' });
     }
 
     setTimeout(() => {
       client.destroy();
     }, 10000);
   });
-}
+};
+
 
 
 exports.findOneUserMsg = (req, res) => {
@@ -300,7 +299,7 @@ exports.auth = async function (req, res) {
     params.append('client_secret', process.env.CLIENT_SECRET);
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
-    params.append('redirect_uri', "http://localhost:8083/pa/discord/auth");
+    params.append('redirect_uri', "https://api.tonewebdesign.com/pa/discord/auth");
 
     const response = await axios.post('https://discord.com/api/oauth2/token', params);
     const { access_token, token_type } = response.data;
@@ -385,7 +384,7 @@ exports.authJSON = async function (req, res) {
     params.append('client_secret', process.env.CLIENT_SECRET);
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
-    params.append('redirect_uri', "http://localhost:8083/pa/discord/authJSON");
+    params.append('redirect_uri', "https://api.tonewebdesign.com/pa/discord/authJSON");
 
     const response = await axios.post('https://discord.com/api/oauth2/token', params);
     const { access_token, token_type } = response.data;
