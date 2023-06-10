@@ -1,8 +1,6 @@
 const db = require('../models');
 const Note = db.note;
-const Op = db.Sequelize.Op;
 
-// Find notes for a specific user and map
 exports.findNotesByUserAndMap = (req, res) => {
   const userId = req.params.userId;
   const mapId = req.params.mapId;
@@ -24,7 +22,6 @@ exports.findNotesByUserAndMap = (req, res) => {
     });
 };
 
-// Create or update a note for a specific user and map
 exports.createOrUpdateNote = (req, res) => {
   const userId = req.params.userId;
   const mapId = req.params.mapId;
@@ -41,7 +38,6 @@ exports.createOrUpdateNote = (req, res) => {
   })
     .then(note => {
       if (note) {
-        // Note exists, update it
         note.note = noteText;
         note.save()
           .then(updatedNote => {
@@ -53,7 +49,6 @@ exports.createOrUpdateNote = (req, res) => {
             });
           });
       } else {
-        // Note doesn't exist, create it
         Note.create({
           userId: userId,
           mapId: mapId,

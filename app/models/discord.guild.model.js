@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
   }, {
     freezeTableName: true,
     collate: 'utf8mb4_unicode_ci',
-      charset: 'utf8mb4',
+    charset: 'utf8mb4',
   });
 
   DiscordGuild.associate = (models) => {

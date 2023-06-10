@@ -1,21 +1,13 @@
 const db = require("../models");
 const Map = db.maps;
-const Op = db.Sequelize.Op;
 const axios = require('axios');
 
-
-
-// Retrieve all Maps from the database.
 exports.findAll = (req, res) => {
 
   Map.findAll()
     .then(async data => {
 
       res.header("Content-Type", 'application/json');
-
-      let test = data.forEach(element => {
-        // console.log(element.id)
-      })
 
       res.send(data);
     })
@@ -27,7 +19,6 @@ exports.findAll = (req, res) => {
     });
 };
 
-//get big map object
 exports.findAllBig = (req, res) => {
 
   Map.findAll()
@@ -37,7 +28,6 @@ exports.findAllBig = (req, res) => {
     const mergedData = [];
 
     for (const map of data) {
-      // console.log('https://app.paarmy.com/api.php?id=' + map.id);
       const axiosInstance = axios.create({
         method: 'get',
         baseURL: 'https://app.paarmy.com/api.php?id=' + map.id,
@@ -68,7 +58,6 @@ exports.findAllBig = (req, res) => {
 
 };
 
-// Find a single Map with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 

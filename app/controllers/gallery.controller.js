@@ -1,11 +1,6 @@
 const db = require("../models");
 const Gallery = db.gallery;
-const Op = db.Sequelize.Op;
 
-
-
-
-// Retrieve all gallery items from the database.
 exports.findAll = (req, res) => {
 
   Gallery.findAll()
@@ -20,7 +15,6 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single gallery item with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
   

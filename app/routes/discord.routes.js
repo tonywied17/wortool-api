@@ -9,16 +9,21 @@ module.exports = function (app) {
     next();
   });
 
+  
   app.get("/pa/discord/guild/:id/get", discordController.findOneGuild);
   app.get("/pa/discord/guild/:guildId/user/:userId/get", discordController.findOneUser);
   app.get("/pa/discord/guild/:guildId/channel/:channelId/user/:userId/get", discordController.findOneUserMsg);
   app.get("/pa/discord/guild/:guildId/channel/:channelId/msg/:msg/get", discordController.sendOneMsg);
   app.get("/pa/discord/destroy", discordController.destroyBot);
-
   app.get('/pa/discord/auth/', discordController.auth);
-
   app.get('/pa/discord/authJSON/', discordController.authJSON);
-  // Testing routes
+
+
+/**
+ * 
+ * Routes for testing the Discord OAuth2 flow
+ * 
+ */
   app.get('/pa/discord/', (req, res) => {
     res.send(`
         <div style="margin: 300px auto;
@@ -46,7 +51,7 @@ module.exports = function (app) {
     `)
   })
 
-  
+
   app.get('/pa/discordJSON/', (req, res) => {
     res.send(`
         <div style="margin: 300px auto;

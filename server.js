@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 
 app.use(cors({
@@ -20,12 +19,6 @@ const db = require("./app/models");
 const Role = db.role;
 
 db.sequelize.sync();
-// when i deploy it remember:
-// force: true will drop the table if it already exists
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Database with { force: true }');
-//   initial();
-// });
 
 app.get("/pa", (req, res) => {
   res.json({ message: "Pennsylvania Army API." });
@@ -37,6 +30,7 @@ app.get("/pa", (req, res) => {
  * 
  * REST API ROUTES
  * 
+ * Where the fun begins!
  */
 require("./app/routes/map.routes")(app);
 require("./app/routes/gallery.routes")(app);
@@ -56,20 +50,3 @@ const PORT = process.env.PORT || 8083;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user"
-  });
- 
-  Role.create({
-    id: 2,
-    name: "moderator"
-  });
- 
-  Role.create({
-    id: 3,
-    name: "admin"
-  });
-}

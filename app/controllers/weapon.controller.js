@@ -1,8 +1,6 @@
 const db = require("../models");
 const Weapon = db.weapon;
-const Op = db.Sequelize.Op;
 
-// Retrieve all weapon items from the database.
 exports.findAll = (req, res) => {
 
   Weapon.findAll()
@@ -17,7 +15,6 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single weapon item with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -40,14 +37,6 @@ exports.findOne = (req, res) => {
 
 exports.createWeapon = (req, res) => {
 
-  // Validate request
-  if (!req.body.weapon) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
-
   const weapon = {
     weapon: req.body.weapon,
     range: req.body.range,
@@ -56,7 +45,6 @@ exports.createWeapon = (req, res) => {
     notes: req.body.notes
   };
 
-  // Save Weapon to Database
   Weapon.create(weapon)
     .then(data => {
       res.send(data);

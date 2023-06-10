@@ -1,8 +1,6 @@
 const db = require('../models');
 const Favorite = db.favorite;
-const Op = db.Sequelize.Op;
 
-// Find favorites for a specific user and map
 exports.findFavoritesByUserAndMap = (req, res) => {
     const userId = req.params.userId;
     const mapId = req.params.mapId;
@@ -24,7 +22,6 @@ exports.findFavoritesByUserAndMap = (req, res) => {
         });
 }
 
-// Create or update a favorite for a specific user and map
 exports.createOrUpdateFavorite = (req, res) => {
     const route = req.body.route;
     const userId = req.params.userId;
@@ -44,7 +41,6 @@ exports.createOrUpdateFavorite = (req, res) => {
         .then(favorite => {
             if (favorite) {
                 console.log('existing favorite: ' + favorite);
-                // Favorite exists, update it
                 favorite.favorite = type;
                 favorite.save()
                     .then(updatedFavorite => {
@@ -56,7 +52,6 @@ exports.createOrUpdateFavorite = (req, res) => {
                         });
                     });
             } else {
-                // Favorite doesn't exist, create it
                 Favorite.create({
                     route: route,
                     userId: userId,
@@ -80,7 +75,7 @@ exports.createOrUpdateFavorite = (req, res) => {
         });
 }
 
-// Find favorites for a specific user
+
 exports.findFavoritesByUser = (req, res) => {
     const userId = req.params.userId;
 
@@ -101,7 +96,6 @@ exports.findFavoritesByUser = (req, res) => {
 }
 
 
-// Find favorites for a specific map
 exports.findFavoritesByMap = (req, res) => {
     const mapId = req.params.mapId;
 
@@ -123,7 +117,6 @@ exports.findFavoritesByMap = (req, res) => {
 }
 
 
-// Delete a favorite for a specific user and map
 exports.deleteFavorite = (req, res) => {
     const userId = req.params.userId;
     const mapId = req.params.mapId;

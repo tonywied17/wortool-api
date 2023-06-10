@@ -12,7 +12,6 @@ module.exports = (sequelize, Sequelize) => {
     timestamps: false
   });
 
-  // Define associations
   Map.associate = (models) => {
     Map.hasMany(models.Note, {
       foreignKey: 'mapId',
