@@ -2,7 +2,6 @@ const db = require("../models");
 const Weapon = db.weapon;
 const Op = db.Sequelize.Op;
 
-// Retrieve all weapon items from the database.
 exports.findAll = (req, res) => {
 
   Weapon.findAll()
@@ -17,7 +16,6 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single weapon item with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -51,14 +49,16 @@ exports.createOrUpdateWeapon = (req, res) => {
     notes: req.body.notes
   };
 
+  const id = req.params.weaponId;
+
   console.log(weapon);
 
   // Update existing weapon or create new weapon
-  Weapon.findOne({ where: { weapon: weaponName } })
+  Weapon.findOne({ where: { id: id } })
     .then(existingWeapon => {
       if (existingWeapon) {
         // Update existing weapon
-        Weapon.update(weapon, { where: { weapon: weaponName } })
+        Weapon.update(weapon, { where: { id: id } })
           .then(num => {
             if (num[0] === 1) {
               res.send({
@@ -97,9 +97,6 @@ exports.createOrUpdateWeapon = (req, res) => {
       });
     });
 };
-
-
-
 
 exports.deleteWeapon = (req, res) => {
   const id = req.params.weaponId;
