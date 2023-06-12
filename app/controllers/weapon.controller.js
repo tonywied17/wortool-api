@@ -1,6 +1,8 @@
 const db = require("../models");
 const Weapon = db.weapon;
+const Op = db.Sequelize.Op;
 
+// Retrieve all weapon items from the database.
 exports.findAll = (req, res) => {
 
   Weapon.findAll()
@@ -15,6 +17,7 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Find a single weapon item with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -35,25 +38,89 @@ exports.findOne = (req, res) => {
     });
 };
 
-exports.createWeapon = (req, res) => {
 
+exports.createOrUpdateWeapon = (req, res) => {
+  const weaponName = req.body.weapon;
   const weapon = {
-    weapon: req.body.weapon,
+    weapon: weaponName,
+    type: req.body.type,
     range: req.body.range,
     lengthy: req.body.lengthy,
     ammo: req.body.ammo,
+    image: req.body.image,
     notes: req.body.notes
   };
 
-  Weapon.create(weapon)
-    .then(data => {
-      res.send(data);
+  console.log(weapon);
+
+  // Update existing weapon or create new weapon
+  Weapon.findOne({ where: { weapon: weaponName } })
+    .then(existingWeapon => {
+      if (existingWeapon) {
+        // Update existing weapon
+        Weapon.update(weapon, { where: { weapon: weaponName } })
+          .then(num => {
+            if (num[0] === 1) {
+              res.send({
+                message: "Weapon was updated successfully."
+              });
+            } else {
+              res.status(500).send({
+                message: `Cannot update weapon with name '${weaponName}'. Maybe weapon was not found or req.body is empty!`
+              });
+            }
+          })
+          .catch(err => {
+            res.status(500).send({
+              message: "Error updating weapon with name '" + weaponName + "': " + err.message
+            });
+          });
+      } else {
+        // Create new weapon
+        Weapon.create(weapon)
+          .then(data => {
+            res.send({
+              message: "Weapon was created successfully.",
+              weapon: data
+            });
+          })
+          .catch(err => {
+            res.status(500).send({
+              message: "Error creating weapon: " + err.message
+            });
+          });
+      }
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Blog."
+        message: "Error checking if weapon exists: " + err.message
       });
     });
 };
+
+
+
+
+exports.deleteWeapon = (req, res) => {
+  const id = req.params.weaponId;
+  Weapon.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Weapon was deleted successfully!"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete weapon with id=${id}. Maybe weapon was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete weapon with id=" + id
+      });
+    });
+}
 

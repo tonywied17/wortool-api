@@ -287,11 +287,7 @@ exports.destroyBot = (req, res) => {
 
 
 
-/**
- * 
- * OAUTH2 TESTING
- * 
- */
+//auth shit
 
 exports.auth = async function (req, res) {
   try {
@@ -432,14 +428,14 @@ exports.authJSON = async function (req, res) {
       userId: user.userId,
       icon: guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : null
     }));
-
+    
     for (const guildData of guilds) {
       const existingGuild = await DiscordGuild.findOne({
         where: {
           guildId: guildData.guildId
         }
       });
-
+    
       if (existingGuild) {
         await existingGuild.update(guildData);
       } else {

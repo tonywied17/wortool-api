@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+
 const app = express();
 
 app.use(cors({
@@ -16,7 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 app.set('json spaces', 2)
 
 const db = require("./app/models");
-const Role = db.role;
 
 db.sequelize.sync();
 
@@ -30,7 +30,6 @@ app.get("/pa", (req, res) => {
  * 
  * REST API ROUTES
  * 
- * Where the fun begins!
  */
 require("./app/routes/map.routes")(app);
 require("./app/routes/gallery.routes")(app);

@@ -21,6 +21,7 @@ verifyToken = (req, res, next) => {
     }
     
     console.log(decoded.id + " " + req.params.userId)
+    // Check if the user ID from the token matches the supplied user ID
     if (decoded.id != req.params.userId) {
       return res.status(401).send({
         message: "Unauthorized!"

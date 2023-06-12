@@ -9,14 +9,15 @@ module.exports = (sequelize, Sequelize) => {
     password: {
       type: Sequelize.STRING
     },
-    avatar_url: {
+    avatar_url:{
       type: Sequelize.STRING
     },
-    discordId: {
+    discordId:{
       type: Sequelize.STRING
     },
   });
 
+  // Define associations
   User.associate = (models) => {
     User.hasMany(models.Note, {
       foreignKey: 'userId',

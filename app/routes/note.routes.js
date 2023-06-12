@@ -10,8 +10,21 @@ module.exports = function (app) {
     next();
   });
 
+  // app.get(
+  //   "/pa/notes/map/:id",
+  //   [authJwt.verifyToken],
+  //   noteController.findNotesByUserAndMap
+  // );
+
   app.get("/pa/notes/map/:userId/:mapId", [authJwt.verifyToken], noteController.findNotesByUserAndMap);
+
+  // app.post(
+  //   "/pa/notes/map/:id",
+  //   [authJwt.verifyToken],
+  //   noteController.createOrUpdateNote
+  // );
 
   app.post("/pa/notes/map/:userId/:mapId", [authJwt.verifyToken], noteController.createOrUpdateNote);
 
+  
 };

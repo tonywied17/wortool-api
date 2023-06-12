@@ -1,5 +1,7 @@
 const db = require("../models");
 const Us = db.us;
+const Op = db.Sequelize.Op;
+
 
 exports.findAll = (req, res) => {
 

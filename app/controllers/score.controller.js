@@ -1,5 +1,7 @@
 const db = require("../models");
 const Score = db.score;
+const Op = db.Sequelize.Op;
+
 
 exports.findAll = (req, res) => {
 

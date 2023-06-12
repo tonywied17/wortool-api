@@ -1,7 +1,13 @@
 const db = require("../models");
 const Muster = db.muster;
+const Op = db.Sequelize.Op;
 
+
+
+
+// Retrieve all muster items from the database.
 exports.findAll = (req, res) => {
+
   Muster.findAll()
     .then(data => {
       res.send(data);
@@ -14,6 +20,7 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Find a single muster item with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
   

@@ -1,14 +1,30 @@
 module.exports = (sequelize, Sequelize) => {
   const Weapon = sequelize.define("weapons", {
-    weapon: Sequelize.STRING,
-    range: Sequelize.INTEGER,
-    lengthy: Sequelize.INTEGER,
-    ammo: Sequelize.STRING,
-    notes: Sequelize.STRING,
+    weapon: {
+      type: Sequelize.STRING
+    },
+    type: {
+      type: Sequelize.STRING
+    },
+    range: {
+      type: Sequelize.STRING
+    },
+    lengthy: {
+      type: Sequelize.STRING
+    },
+    ammo: {
+      type: Sequelize.STRING
+    },
+    image: {
+      type: Sequelize.STRING
+    },
+    notes: {
+      type: Sequelize.STRING
+    }
   }, {
     freezeTableName: true,
     timestamps: false
-  })
+  });
 
   return Weapon;
 };
