@@ -19,19 +19,30 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!"
       });
     }
-    
-    console.log(decoded.id + " " + req.params.userId)
-    // Check if the user ID from the token matches the supplied user ID
-    if (decoded.id != req.params.userId) {
-      return res.status(401).send({
-        message: "Unauthorized!"
-      });
+
+    console.log(decoded.id + " " + req.params.userId);
+
+    // Check if the param user ID matches the decoded ID
+    if (req.params.userId && decoded.id == req.params.userId) {
+      req.userId = decoded.id;
+      next();
+      return; // Proceed without sending 401
     }
 
-    req.userId = decoded.id;
-    next();
+    // Check if the body user ID matches the decoded ID
+    if (req.body.userId && decoded.id == req.body.userId) {
+      req.userId = decoded.id;
+      next();
+      return; // Proceed without sending 401
+    }
+
+    // If none of the conditions passed, send 401 Unauthorized
+    return res.status(401).send({
+      message: "Unauthorized!"
+    });
   });
 };
+
 
 
 isAdmin = (req, res, next) => {
