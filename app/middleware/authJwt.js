@@ -21,9 +21,11 @@ verifyToken = (req, res, next) => {
     }
 
     console.log(decoded.id + " " + req.params.userId);
+    console.log(decoded.id + " " + req.body.userId);
 
     // Check if the param user ID matches the decoded ID
     if (req.params.userId && decoded.id == req.params.userId) {
+      console.log('PARAMS: ' + req.params.userId + ' ' + decoded.id)
       req.userId = decoded.id;
       next();
       return; // Proceed without sending 401
@@ -31,6 +33,7 @@ verifyToken = (req, res, next) => {
 
     // Check if the body user ID matches the decoded ID
     if (req.body.userId && decoded.id == req.body.userId) {
+      console.log('BODY: ' + req.body.userId + ' ' + decoded.id)
       req.userId = decoded.id;
       next();
       return; // Proceed without sending 401

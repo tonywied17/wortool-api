@@ -33,11 +33,11 @@ module.exports = function (app) {
   //   controller.adminBoard
   // );
 
-  app.get("/pa/vet/user/:userId", [authJwt.verifyToken], controller.userBoard);
+  app.post("/pa/vet/user/", [authJwt.verifyToken], controller.userBoard);
 
-  app.get("/pa/vet/mod/:userId", [authJwt.verifyToken, authJwt.isModerator], controller.moderatorBoard);
+  app.post("/pa/vet/mod/", [authJwt.verifyToken, authJwt.isModerator], controller.moderatorBoard);
   
-  app.get("/pa/vet/admin/:userId", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
+  app.post("/pa/vet/admin/", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
   
 
   

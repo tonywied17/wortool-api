@@ -12,9 +12,9 @@ module.exports = function (app) {
   });
 
 
-  app.delete("/pa/weapons/u/:userId/weapon/:weaponId", [authJwt.verifyToken, authJwt.isAdmin], weapon.deleteWeapon);
+  app.delete("/pa/weapons/weapon/:weaponId", [authJwt.verifyToken, authJwt.isAdmin], weapon.deleteWeapon);
 
-  app.post("/pa/weapons/u/:userId/weapon/:weaponId", [authJwt.verifyToken, authJwt.isAdmin], weapon.createOrUpdateWeapon);
+  app.post("/pa/weapons/weapon/:weaponId", [authJwt.verifyToken, authJwt.isAdmin], weapon.createOrUpdateWeapon);
 
 
   app.get(
