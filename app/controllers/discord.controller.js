@@ -288,10 +288,10 @@ exports.destroyBot = (req, res) => {
 
 
 //auth shit
-
 exports.auth = async function (req, res) {
   try {
     const code = req.query.code;
+    const state = req.query.state; // Retrieve the state parameter from the query parameters
     const params = new URLSearchParams();
     let user;
 
@@ -299,7 +299,10 @@ exports.auth = async function (req, res) {
     params.append('client_secret', process.env.CLIENT_SECRET);
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
-    params.append('redirect_uri', "https://api.tonewebdesign.com/pa/discord/auth");
+    params.append('redirect_uri', `https://api.tonewebdesign.com/pa/discord/auth`); // Include the state parameter in the redirect_uri
+    params.append('scope', 'identify');
+
+    // Continue with the rest of your code for token retrieval
 
     const response = await axios.post('https://discord.com/api/oauth2/token', params);
     const { access_token, token_type } = response.data;
@@ -310,66 +313,47 @@ exports.auth = async function (req, res) {
       }
     });
 
-    console.log('Data: ', userDataResponse.data);
-
+    // Extract the necessary user data from the response
     user = {
       username: userDataResponse.data.username,
       email: userDataResponse.data.email,
       avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
-      id: userDataResponse.data.id,
+      discordId: userDataResponse.data.id,
+      userId: state
     };
 
+    console.log('State:', state); // Access the state parameter
+    console.log('User Data:', user); // Access the user data
 
-    const guildsResponse = await axios.get('https://discord.com/api/users/@me/guilds', {
-      headers: {
-        authorization: `${token_type} ${access_token}`
-      }
-    });
+    // Close the popup window immediately
+    const closeScript = `
+      <script>
+        window.opener.postMessage('popupClosed', '*');
+        window.close();
+      </script>
+    `;
 
+    // Set the content type header to 'text/html' instead of 'application/json'
+    res.setHeader('Content-Type', 'text/html');
 
-    const guilds = guildsResponse.data;
-
+    // Send the user data and the closing script as an HTML response
     return res.send(`
-  <div style="margin: 25px auto;
-    max-width: 666px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: sans-serif;">
-    <h3>Welcome ${user.username}</h3>
-    <div style="display: flex; align-items: center;">
-      <img src="${user.avatar}" style="width: 80px; height: 80px; border-radius: 50%; margin-right: 10px;">
-
-      <div style="display: flex; flex-direction: column;">
-        <span>Email: ${user.email}</span>
-        <span>User ID: ${user.id}</span>
-      </div>
-    </div>
-
-    <h4>Guilds:</h4>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 10px; margin-top: 20px;">
-      ${guilds
-        .map(
-          (guild) => `
-            <div style="text-align: center;">
-              <p><b><big>${guild.name}</big></b><br /> (ID: ${guild.id})</p>
-              ${guild.icon
-              ? `<img src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png" style="max-width: 100px; max-height: 100px;"/>`
-              : '❌ NO ICON'
-            }
-            </div>
-          `
-        )
-        .join('')}
-    </div>
-  </div>
-`);
-
+      <html>
+        <body>
+          <pre>${JSON.stringify({ user, closeScript }, null, 2)}</pre>
+          ${closeScript}
+        </body>
+      </html>
+    `);
   } catch (error) {
     console.log('Error', error);
     return res.send('Some error occurred!');
   }
 };
+
+
+
+
 
 
 
@@ -428,14 +412,14 @@ exports.authJSON = async function (req, res) {
       userId: user.userId,
       icon: guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : null
     }));
-    
+
     for (const guildData of guilds) {
       const existingGuild = await DiscordGuild.findOne({
         where: {
           guildId: guildData.guildId
         }
       });
-    
+
       if (existingGuild) {
         await existingGuild.update(guildData);
       } else {
