@@ -1,5 +1,8 @@
-const axios = require("axios");
 require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+const axios = require("axios");
+const { authJwt } = require("../middleware");
+const steamid = require("../controllers/steamid.controller");
+
 
 module.exports = function (app) {
   // CORS
@@ -16,6 +19,8 @@ module.exports = function (app) {
    */
 
   // Get Routes
+  app.get("/pa/steamids/", steamid.findAll);
+  app.get("/pa/steamid/:id", steamid.findOne);
   app.get("/pa/steam/appdetails", async (req, res) => {
     try {
       const { appid } = req.query;
@@ -44,4 +49,14 @@ module.exports = function (app) {
       res.status(500).json({ error: "Failed to fetch data from Steam API" });
     }
   });
+
+  // Post Routes
+  app.post(
+    "/pa/steamid/:steamId",
+    [authJwt.verifyToken],
+    steamid.createOrUpdate
+  );
+
+  // Delete Routes
+  app.delete("/pa/steamid/:steamId", [authJwt.verifyToken], steamid.delete);
 };

@@ -32,6 +32,7 @@ db.note = require("./note.model.js")(sequelize, Sequelize);
 db.favorite = require("./favorite.model.js")(sequelize, Sequelize);
 db.discordUser = require("./discord.user.model.js")(sequelize, Sequelize);
 db.discordGuild = require("./discord.guild.model.js")(sequelize, Sequelize);
+db.steamid = require("./steamid.model.js")(sequelize, Sequelize);
 
 /**
  * RELATIONS
