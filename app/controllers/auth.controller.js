@@ -2,29 +2,25 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
-
 const Op = db.Sequelize.Op;
-
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-
 exports.signup = (req, res) => {
-  // Save User to Database
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: bcrypt.hashSync(req.body.password, 8),
   })
-    .then(user => {
+    .then((user) => {
       if (req.body.roles) {
         Role.findAll({
           where: {
             name: {
-              [Op.or]: req.body.roles
-            }
-          }
-        }).then(roles => {
+              [Op.or]: req.body.roles,
+            },
+          },
+        }).then((roles) => {
           user.setRoles(roles).then(() => {
             res.send({ message: "User registered successfully!" });
           });
@@ -36,7 +32,7 @@ exports.signup = (req, res) => {
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 };
@@ -44,10 +40,10 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     where: {
-      username: req.body.username
-    }
+      username: req.body.username,
+    },
   })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
@@ -60,16 +56,16 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Invalid Password!",
         });
       }
 
       var token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400 // 24 hours
+        expiresIn: 86400, // 24 hours
       });
 
       var authorities = [];
-      user.getRoles().then(roles => {
+      user.getRoles().then((roles) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
@@ -80,15 +76,14 @@ exports.signin = (req, res) => {
           avatar_url: user.avatar_url,
           discordId: user.discordId,
           roles: authorities,
-          accessToken: token
+          accessToken: token,
         });
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 };
-
 
 exports.password = (req, res) => {
   const userID = req.params.userId;
@@ -99,10 +94,10 @@ exports.password = (req, res) => {
 
   User.findOne({
     where: {
-      id: userID
-    }
+      id: userID,
+    },
   })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return res.status(404).send({ message: "User ID Not found." });
       }
@@ -112,29 +107,31 @@ exports.password = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Invalid Password!",
         });
       }
 
       const hashedPassword = bcrypt.hashSync(passwordNew, 8);
 
-      User.update({ password: hashedPassword }, {
-        where: {
-          id: userID
+      User.update(
+        { password: hashedPassword },
+        {
+          where: {
+            id: userID,
+          },
         }
-      })
+      )
         .then(() => {
           res.status(200).send({ message: "Password updated successfully!" });
         })
-        .catch(err => {
+        .catch((err) => {
           res.status(500).send({ message: err.message });
         });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 };
-
 
 exports.profile = (req, res) => {
   const userID = req.params.userId;
@@ -151,10 +148,10 @@ exports.profile = (req, res) => {
   User.findOne({
     where: {
       email: email,
-      id: { [Op.not]: userID } // Exclude the current user's ID from the query
-    }
+      id: { [Op.not]: userID }, // Exclude the current user's ID from the query
+    },
   })
-    .then(existingUser => {
+    .then((existingUser) => {
       if (existingUser) {
         return res.status(400).send({ message: "Email is already taken." });
       }
@@ -162,10 +159,10 @@ exports.profile = (req, res) => {
       // Update the user's profile
       User.findOne({
         where: {
-          id: userID
-        }
+          id: userID,
+        },
       })
-        .then(user => {
+        .then((user) => {
           if (!user) {
             return res.status(404).send({ message: "User ID Not found." });
           }
@@ -174,22 +171,24 @@ exports.profile = (req, res) => {
             { email: email, avatar_url: avatar_url, discordId: discordId },
             {
               where: {
-                id: userID
-              }
+                id: userID,
+              },
             }
           )
             .then(() => {
-              res.status(200).send({ message: "Profile updated successfully!" });
+              res
+                .status(200)
+                .send({ message: "Profile updated successfully!" });
             })
-            .catch(err => {
+            .catch((err) => {
               res.status(500).send({ message: err.message });
             });
         })
-        .catch(err => {
+        .catch((err) => {
           res.status(500).send({ message: err.message });
         });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 };

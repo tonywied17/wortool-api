@@ -1,27 +1,16 @@
 const db = require("../models");
 const Score = db.score;
-const Op = db.Sequelize.Op;
-
 
 exports.findAll = (req, res) => {
-
   Score.findAll({
-    order: [
-      ["score", "DESC"],
-    ],
+    order: [["score", "DESC"]],
   })
-    .then(data => {
+    .then((data) => {
       res.send(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving items."
+        message: err.message || "Some error occurred while retrieving items.",
       });
     });
 };
-
-
-
-
-

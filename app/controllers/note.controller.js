@@ -1,8 +1,6 @@
-const db = require('../models');
+const db = require("../models");
 const Note = db.note;
-const Op = db.Sequelize.Op;
 
-// Find notes for a specific user and map
 exports.findNotesByUserAndMap = (req, res) => {
   const userId = req.params.userId;
   const mapId = req.params.mapId;
@@ -10,68 +8,64 @@ exports.findNotesByUserAndMap = (req, res) => {
   Note.findAll({
     where: {
       userId: userId,
-      mapId: mapId
-    }
+      mapId: mapId,
+    },
   })
-    .then(notes => {
-      console.log('notes: ' + notes);
+    .then((notes) => {
+      console.log("notes: " + notes);
       res.send(notes);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving notes.'
+        message: err.message || "Some error occurred while retrieving notes.",
       });
     });
 };
 
-// Create or update a note for a specific user and map
+
 exports.createOrUpdateNote = (req, res) => {
   const userId = req.params.userId;
   const mapId = req.params.mapId;
   const noteText = req.body.note;
-  
-  console.log('userId: ' + userId);
-  console.log('mapId: ' + mapId);
-  console.log('noteText: ' + noteText);
+
   Note.findOne({
     where: {
       userId: userId,
-      mapId: mapId
-    }
+      mapId: mapId,
+    },
   })
-    .then(note => {
+    .then((note) => {
       if (note) {
-        // Note exists, update it
         note.note = noteText;
-        note.save()
-          .then(updatedNote => {
+        note
+          .save()
+          .then((updatedNote) => {
             res.send(updatedNote);
           })
-          .catch(err => {
+          .catch((err) => {
             res.status(500).send({
-              message: 'Failed to update the note.'
+              message: "Failed to update the note.",
             });
           });
       } else {
-        // Note doesn't exist, create it
         Note.create({
           userId: userId,
           mapId: mapId,
-          note: noteText
+          note: noteText,
         })
-          .then(createdNote => {
+          .then((createdNote) => {
             res.send(createdNote);
           })
-          .catch(err => {
+          .catch((err) => {
             res.status(500).send({
-              message: 'Failed to create the note.'
+              message: "Failed to create the note.",
             });
           });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message: 'Some error occurred while retrieving notes.'
+        message: "Some error occurred while retrieving notes.",
       });
     });
 };

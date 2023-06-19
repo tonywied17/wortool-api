@@ -10,11 +10,20 @@ module.exports = function (app) {
     next();
   });
 
+  /**
+   * ROUTES
+   */
+
+  // Get Routes
+
+  // Post Routes
+  app.post("/pa/auth/signin", controller.signin);
+
   app.post(
     "/pa/auth/signup",
     [
       verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted
+      verifySignUp.checkRolesExisted,
     ],
     controller.signup
   );
@@ -31,5 +40,5 @@ module.exports = function (app) {
     controller.profile
   );
 
-  app.post("/pa/auth/signin", controller.signin);
+  // Delete Routes
 };

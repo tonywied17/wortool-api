@@ -1,6 +1,5 @@
 const db = require('../models');
 const Favorite = db.favorite;
-const Op = db.Sequelize.Op;
 
 // Find favorites for a specific user and map
 exports.findFavoritesByUserAndMap = (req, res) => {

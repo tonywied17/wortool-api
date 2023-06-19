@@ -1,9 +1,5 @@
 const db = require("../models");
 const Gallery = db.gallery;
-const Op = db.Sequelize.Op;
-
-
-
 
 // Retrieve all gallery items from the database.
 exports.findAll = (req, res) => {

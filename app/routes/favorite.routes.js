@@ -10,15 +10,40 @@ module.exports = function (app) {
     next();
   });
 
+  /**
+   * ROUTES
+   */
 
-  app.get("/pa/favorites/user/:userId/map/:mapId", [authJwt.verifyToken], favoriteController.findFavoritesByUserAndMap);
+  // Get Routes
+  app.get(
+    "/pa/favorites/user/:userId/map/:mapId",
+    [authJwt.verifyToken],
+    favoriteController.findFavoritesByUserAndMap
+  );
 
-  app.post("/pa/favorites/user/:userId/map/:mapId", [authJwt.verifyToken], favoriteController.createOrUpdateFavorite);
+  app.get(
+    "/pa/favorites/user/:userId",
+    [authJwt.verifyToken],
+    favoriteController.findFavoritesByUser
+  );
 
-  app.get("/pa/favorites/user/:userId", [authJwt.verifyToken], favoriteController.findFavoritesByUser);
+  app.get(
+    "/pa/favorites/map/:mapId",
+    [authJwt.verifyToken],
+    favoriteController.findFavoritesByMap
+  );
 
-  app.get("/pa/favorites/map/:mapId", [authJwt.verifyToken], favoriteController.findFavoritesByMap);
+  // Post Routes
+  app.post(
+    "/pa/favorites/user/:userId/map/:mapId",
+    [authJwt.verifyToken],
+    favoriteController.createOrUpdateFavorite
+  );
 
-  app.delete("/pa/favorites/user/:userId/map/:mapId", [authJwt.verifyToken], favoriteController.deleteFavorite);
-
+  // Delete Routes
+  app.delete(
+    "/pa/favorites/user/:userId/map/:mapId",
+    [authJwt.verifyToken],
+    favoriteController.deleteFavorite
+  );
 };

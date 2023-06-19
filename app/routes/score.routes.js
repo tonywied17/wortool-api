@@ -1,12 +1,17 @@
-module.exports = app => {
-    const score = require("../controllers/score.controller.js");
-  
-    var router = require("express").Router();
-  
-    // Retrieve all score items
-    router.get("/", score.findAll);
-  
+module.exports = (app) => {
+  const score = require("../controllers/score.controller.js");
+  var router = require("express").Router();
 
-    app.use('/pa/score', router);
-  };
-  
+  /**
+   * ROUTES
+   */
+
+  // Get Routes
+  router.get("/", score.findAll);
+
+  // Post Routes
+
+  // Delete Routes
+
+  app.use("/pa/score", router);
+};

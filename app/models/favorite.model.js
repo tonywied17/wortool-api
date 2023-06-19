@@ -1,31 +1,29 @@
 module.exports = (sequelize, Sequelize) => {
-    const Favorite = sequelize.define("favorites", {
-      route: {
-        type: Sequelize.STRING,
-      }, 
-      type: {
-        type: Sequelize.STRING,
-      },
-      mapId: {
-        type: Sequelize.INTEGER,
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-      },
+  const Favorite = sequelize.define("favorites", {
+    route: {
+      type: Sequelize.STRING,
+    },
+    type: {
+      type: Sequelize.STRING,
+    },
+    mapId: {
+      type: Sequelize.INTEGER,
+    },
+    userId: {
+      type: Sequelize.INTEGER,
+    },
+  });
+
+  Favorite.associate = (models) => {
+    Favorite.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
     });
-  
-    // Define associations
-    Favorite.associate = (models) => {
-      Favorite.belongsTo(models.User, {
-        foreignKey: 'userId',
-        onDelete: 'CASCADE'
-      });
     Favorite.belongsTo(models.Map, {
-        foreignKey: 'mapId',
-        onDelete: 'CASCADE'
-      });
-    };
-  
-    return Favorite;
+      foreignKey: "mapId",
+      onDelete: "CASCADE",
+    });
   };
-  
+
+  return Favorite;
+};

@@ -2,6 +2,7 @@ const { authJwt } = require("../middleware");
 const noteController = require("../controllers/note.controller");
 
 module.exports = function (app) {
+  // CORS
   app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
@@ -10,21 +11,23 @@ module.exports = function (app) {
     next();
   });
 
-  // app.get(
-  //   "/pa/notes/map/:id",
-  //   [authJwt.verifyToken],
-  //   noteController.findNotesByUserAndMap
-  // );
+  /**
+   * ROUTES
+   */
 
-  app.get("/pa/notes/map/:userId/:mapId", [authJwt.verifyToken], noteController.findNotesByUserAndMap);
+  // Get Routes
+  app.get(
+    "/pa/notes/map/:userId/:mapId",
+    [authJwt.verifyToken],
+    noteController.findNotesByUserAndMap
+  );
 
-  // app.post(
-  //   "/pa/notes/map/:id",
-  //   [authJwt.verifyToken],
-  //   noteController.createOrUpdateNote
-  // );
+  // Post Routes
+  app.post(
+    "/pa/notes/map/:userId/:mapId",
+    [authJwt.verifyToken],
+    noteController.createOrUpdateNote
+  );
 
-  app.post("/pa/notes/map/:userId/:mapId", [authJwt.verifyToken], noteController.createOrUpdateNote);
-
-  
+  // Delete Routes
 };

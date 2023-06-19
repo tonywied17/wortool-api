@@ -1,8 +1,8 @@
-
+const { authJwt } = require("../middleware");
 const weapon = require("../controllers/weapon.controller");
 
 module.exports = function (app) {
-  const { authJwt } = require("../middleware");
+  // CORS
   app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
@@ -11,20 +11,25 @@ module.exports = function (app) {
     next();
   });
 
+  /**
+   * ROUTES
+   */
 
-  app.delete("/pa/weapons/weapon/:weaponId", [authJwt.verifyToken, authJwt.isAdmin], weapon.deleteWeapon);
+  // Get Routes
+  app.get("/pa/weapons/", weapon.findAll);
+  app.get("/pa/weapons/:id", weapon.findOne);
 
-  app.post("/pa/weapons/weapon/:weaponId", [authJwt.verifyToken, authJwt.isAdmin], weapon.createOrUpdateWeapon);
-
-
-  app.get(
-    "/pa/weapons/",
-    weapon.findAll
+  // Post Routes
+  app.post(
+    "/pa/weapons/weapon/:weaponId",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    weapon.createOrUpdateWeapon
   );
 
-  app.get(
-    "/pa/weapons/:id",
-    weapon.findOne
+  // Delete Routes
+  app.delete(
+    "/pa/weapons/weapon/:weaponId",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    weapon.deleteWeapon
   );
-
-}
+};
