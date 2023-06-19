@@ -75,6 +75,7 @@ exports.signin = (req, res) => {
           email: user.email,
           avatar_url: user.avatar_url,
           discordId: user.discordId,
+          regimentId: user.regimentId,
           roles: authorities,
           accessToken: token,
         });
@@ -138,11 +139,13 @@ exports.profile = (req, res) => {
   const email = req.body.email;
   const avatar_url = req.body.avatar_url;
   const discordId = req.body.discordId;
+  const regimentId = req.body.regimentId;
 
   console.log("userID: " + userID);
   console.log("email: " + email);
   console.log("avatar_url: " + avatar_url);
   console.log("discordId: " + discordId);
+  console.log("regimentId: " + regimentId);
 
   // Check if the email is already taken by another user
   User.findOne({
@@ -168,7 +171,7 @@ exports.profile = (req, res) => {
           }
 
           User.update(
-            { email: email, avatar_url: avatar_url, discordId: discordId },
+            { email: email, avatar_url: avatar_url, discordId: discordId, regimentId: regimentId },
             {
               where: {
                 id: userID,

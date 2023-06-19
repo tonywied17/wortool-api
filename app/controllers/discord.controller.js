@@ -182,43 +182,43 @@ exports.auth = async function (req, res) {
       await DiscordUser.create(user);
     }
 
-    const guildsResponse = await axios.get(
-      "https://discord.com/api/users/@me/guilds",
-      {
-        headers: {
-          authorization: `${token_type} ${access_token}`,
-        },
-      }
-    );
+    // const guildsResponse = await axios.get(
+    //   "https://discord.com/api/users/@me/guilds",
+    //   {
+    //     headers: {
+    //       authorization: `${token_type} ${access_token}`,
+    //     },
+    //   }
+    // );
 
-    const guilds = guildsResponse.data.map((guild) => ({
-      name: guild.name,
-      guildId: guild.id,
-      discordId: userDataResponse.data.id,
-      userId: state,
-      icon: guild.icon
-        ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
-        : null,
-    }));
+    // const guilds = guildsResponse.data.map((guild) => ({
+    //   name: guild.name,
+    //   guildId: guild.id,
+    //   discordId: userDataResponse.data.id,
+    //   userId: state,
+    //   icon: guild.icon
+    //     ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
+    //     : null,
+    // }));
 
-    for (const guildData of guilds) {
-      const existingGuild = await DiscordGuild.findOne({
-        where: {
-          guildId: guildData.guildId,
-        },
-      });
+    // for (const guildData of guilds) {
+    //   const existingGuild = await DiscordGuild.findOne({
+    //     where: {
+    //       guildId: guildData.guildId,
+    //     },
+    //   });
 
-      if (existingGuild) {
-        await existingGuild.update(guildData);
-      } else {
-        await DiscordGuild.create(guildData);
-      }
-    }
+    //   if (existingGuild) {
+    //     await existingGuild.update(guildData);
+    //   } else {
+    //     await DiscordGuild.create(guildData);
+    //   }
+    // }
 
-    const result = {
-      user,
-      guilds,
-    };
+    // const result = {
+    //   user,
+    //   guilds,
+    // };
 
     const closeScript = `
       <script>
@@ -232,7 +232,7 @@ exports.auth = async function (req, res) {
     return res.send(`
       <html>
         <body>
-          <pre>${JSON.stringify({ result, closeScript }, null, 2)}</pre>
+          <pre>${JSON.stringify({ user, closeScript }, null, 2)}</pre>
           ${closeScript}
         </body>
       </html>

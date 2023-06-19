@@ -33,6 +33,7 @@ db.favorite = require("./favorite.model.js")(sequelize, Sequelize);
 db.discordUser = require("./discord.user.model.js")(sequelize, Sequelize);
 db.discordGuild = require("./discord.guild.model.js")(sequelize, Sequelize);
 db.steamid = require("./steamid.model.js")(sequelize, Sequelize);
+db.regiment = require("./regiment.model.js")(sequelize, Sequelize);
 
 /**
  * RELATIONS
@@ -49,6 +50,9 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId",
   constraints: false,
 });
+
+
+
 
 db.ROLES = ["user", "admin", "moderator"];
 

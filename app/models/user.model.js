@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
     discordId: {
       type: Sequelize.STRING,
     },
+    regimentId: {
+      type: Sequelize.INTEGER,
+    },
   });
 
   User.associate = (models) => {
@@ -22,20 +25,22 @@ module.exports = (sequelize, Sequelize) => {
       foreignKey: "userId",
       onDelete: "CASCADE",
     });
-  };
 
-  User.associate = (models) => {
     User.hasMany(models.Favorite, {
       foreignKey: "userId",
       onDelete: "CASCADE",
     });
-  };
 
-  User.associate = (models) => {
     User.hasOne(models.DiscordUser, {
       foreignKey: "userId",
       onDelete: "CASCADE",
     });
+
+    User.hasOne(models.Regiment, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+
   };
 
   return User;
