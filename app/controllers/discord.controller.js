@@ -2,13 +2,77 @@ const {
   Client,
   GatewayIntentBits,
   TextChannel,
+  WebhookClient
 } = require("discord.js");
 const axios = require("axios");
 const db = require("../models");
 const User = db.user;
+const Regiment = db.regiment;
 const DiscordUser = db.discordUser;
 const DiscordGuild = db.discordGuild;
 require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+
+
+
+exports.createWebhook = async (req, res) => {
+  try {
+    const guildId = req.params.guildId;
+    const channelId = req.params.channelId;
+
+    const client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+      ],
+    });
+
+    await client.login(process.env.DISCORD_TOKEN);
+
+    client.on('ready', async () => {
+      try {
+        const guild = await client.guilds.fetch(guildId);
+        const channel = guild.channels.cache.get(channelId);
+        console.log('Guild ID:', guildId);
+        console.log('Guild Name:', guild.name);
+        console.log('Channel Name:', channel.name);
+
+        const webhook = await channel.createWebhook({
+          name: 'Server Info',
+          avatar: 'https://app.paarmy.com/assets/icon.png',
+        });
+
+        console.log('Webhook created:');
+        console.log(`ID: ${webhook.id}`);
+        const webhookURL = `https://discord.com/api/webhooks/${webhook.id}/${webhook.token}`;
+        console.log(`URL: ${webhookURL}`);
+
+        // Update the Regiment model with the webhookURL and webhook_channel
+        await Regiment.update(
+          { 
+            webhook: webhookURL,
+            webhook_channel: channel.name
+          },
+          { where: { guild_id: guildId } }
+        );
+
+        res.json({ webhook: webhookURL });
+
+        client.destroy();
+      } catch (error) {
+        console.error('Error creating webhook:', error);
+        res.status(500).json({ error: 'Failed to create webhook.' });
+        client.destroy();
+      }
+    });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ error: 'Failed to login.' });
+  }
+};
+
+
 
 exports.findOneGuild = (req, res) => {
   const id = req.params.id;
@@ -24,14 +88,66 @@ exports.findOneGuild = (req, res) => {
 
   client.login(process.env.DISCORD_TOKEN);
 
-  client.on("ready", () => {
+  client.on('ready', () => {
     const guild = client.guilds.cache.get(id);
 
     res.json({ guild: guild });
 
     client.destroy();
   });
+}
+
+
+
+exports.findGuildChannels = (req, res) => {
+  const id = req.params.id;
+
+  const client = new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildMessageReactions,
+    ],
+  });
+
+  client.login(process.env.DISCORD_TOKEN);
+
+
+
+  client.on("ready", async () => {
+    try {
+      const discordServer = await client.guilds.fetch(id);
+
+      console.log("Guild ID:", discordServer.id);
+      console.log("Guild Name:", discordServer.name);
+
+      const channels = discordServer.channels.cache;
+
+      console.log("Channel Count:", channels.size);
+
+      const channelData = channels.map(channel => ({
+        id: channel.id,
+        name: channel.name,
+        type: channel.type
+      }));
+
+      console.log("Channel Data:", channelData);
+
+      res.json({ channels: channelData });
+
+      client.destroy();
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to fetch guild channels." });
+    }
+  });
+
+
+
 };
+
+
 
 exports.findOne = async (req, res) => {
   try {
@@ -108,6 +224,80 @@ exports.sendOneMsg = (req, res) => {
     }, 10000);
   });
 };
+
+
+exports.findOneUser = (req, res) => {
+  const userId = req.params.userId;
+  const guildId = req.params.guildId;
+
+  const client = new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildMessageReactions,
+      GatewayIntentBits.DirectMessages,
+      GatewayIntentBits.DirectMessageReactions,
+      GatewayIntentBits.DirectMessageTyping,
+      GatewayIntentBits.GuildMessageTyping,
+      GatewayIntentBits.GuildVoiceStates,
+      GatewayIntentBits.GuildPresences,
+      GatewayIntentBits.GuildEmojisAndStickers,
+      GatewayIntentBits.GuildIntegrations,
+    ],
+  });
+
+  client.login(process.env.DISCORD_TOKEN);
+
+  client.on('ready', () => {
+    const guild = client.guilds.cache.get(guildId);
+    const guildMember = guild.members.cache.get(userId);
+
+    if (guildMember) {
+      const roles = guildMember.roles.cache
+        .filter(role => role.name !== '@everyone')
+        .reduce((result, role) => {
+          result[role.name] = role.id;
+          return result;
+        }, {});
+      const discordUsername = guildMember.user.username;
+      const userAvatarUrl = guildMember.user.avatarURL() || 'No avatar available.';
+      const serverNickname = guildMember.nickname || 'No server nickname.';
+      const joinedTimestamp = guildMember.joinedTimestamp;
+      const joinedDate = new Date(joinedTimestamp);
+      const formattedDate = joinedDate.toLocaleString();
+
+      res.json({
+        USER_SPECIFIC: {
+          DISCORD_USERNAME: discordUsername,
+          DISCORD_AVATAR: userAvatarUrl,
+        },
+        GUILD_SPECIFIC: {
+          GUILD_ID: guildId,
+          GUILD_NAME: guild.name,
+          GUILD_JOIN_DATE: formattedDate,
+          GUILD_ROLES: roles,
+          GUILD_NICKNAME: serverNickname,
+        },
+        API_SPECIFIC: {
+          GUILD_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get`,
+          GUILD_USER_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`,
+        }
+      });
+
+    } else {
+      res.send('Invalid user or user not found.');
+    }
+
+    setTimeout(() => {
+      client.destroy();
+    }, 10000);
+  });
+
+}
+
+
+
 
 /**
  * DISCORD OAUTH2 FLOW

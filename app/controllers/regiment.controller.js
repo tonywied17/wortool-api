@@ -43,6 +43,7 @@ exports.findUsersByRegimentId = async (req, res) => {
       where: {
         regimentId: regimentId,
       },
+      attributes: { exclude: ['password'] },
     });
 
     return res.status(200).json(users);
@@ -51,4 +52,28 @@ exports.findUsersByRegimentId = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+exports.update = async (req, res) => {
+  const id = req.params.regimentId;
+
+  console.log(req.body)
+
+  try {
+    const regiment = await Regiment.findByPk(id);
+
+    if (!regiment) {
+      return res.status(404).json({ error: "Regiment not found" });
+    }
+
+    const updatedRegiment = await regiment.update(req.body);
+
+    return res.status(200).json(updatedRegiment);
+  } catch (error) {
+    console.error("Error updating regiment:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+
 

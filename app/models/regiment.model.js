@@ -17,6 +17,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     website: {
       type: Sequelize.STRING,
+    },
+    webhook: {
+      type: Sequelize.STRING,
+    },
+    webhook_channel: {
+      type: Sequelize.STRING,
     }
   });
 

@@ -33,6 +33,9 @@ module.exports = function (app) {
   );
 
   // Post Routes
-
+  app.put(
+    "/pa/regiments/:regimentId/update",
+    regimentController.update
+  );
   // Delete Routes
 };
