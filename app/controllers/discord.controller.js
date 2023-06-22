@@ -432,3 +432,39 @@ exports.auth = async function (req, res) {
     return res.send("Some error occurred!");
   }
 };
+
+
+
+exports.deleteOneUser = async (req, res) => {
+  let user;
+
+  try {
+    const userId = req.params.userId;
+
+    const discordUser = await DiscordUser.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+
+    if (!discordUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await discordUser.destroy();
+
+
+    const user = await User.findOne({
+      where: { id: userId },
+    });
+
+    user.discordId = null;
+
+    await user.save();
+
+    return res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.log("Error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}

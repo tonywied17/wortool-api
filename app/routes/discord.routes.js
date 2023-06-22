@@ -30,6 +30,11 @@ module.exports = function (app) {
   app.get("/pa/discord/guild/:guildId/channel/:channelId/webhook", discordController.createWebhook);
 
 
+  // Delete Routes
+  app.delete(
+    "/pa/discord/user/:userId/remove",
+    discordController.deleteOneUser
+  )
 
   // OAUTH2 Routes
   app.get('/pa/discord/auth/', discordController.auth);

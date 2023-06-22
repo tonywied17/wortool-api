@@ -159,6 +159,7 @@ exports.profile = (req, res) => {
         return res.status(400).send({ message: "Email is already taken." });
       }
 
+      
       // Update the user's profile
       User.findOne({
         where: {
@@ -170,18 +171,31 @@ exports.profile = (req, res) => {
             return res.status(404).send({ message: "User ID Not found." });
           }
 
-          User.update(
-            { email: email, avatar_url: avatar_url, discordId: discordId, regimentId: regimentId },
-            {
-              where: {
-                id: userID,
-              },
-            }
-          )
+          const updateFields = {};
+
+          if (email) {
+            updateFields.email = email;
+          }
+
+          if (avatar_url) {
+            updateFields.avatar_url = avatar_url;
+          }
+
+          if (discordId) {
+            updateFields.discordId = discordId;
+          }
+
+          if (regimentId) {
+            updateFields.regimentId = regimentId;
+          }
+
+          User.update(updateFields, {
+            where: {
+              id: userID,
+            },
+          })
             .then(() => {
-              res
-                .status(200)
-                .send({ message: "Profile updated successfully!" });
+              res.status(200).send({ message: "Profile updated successfully!" });
             })
             .catch((err) => {
               res.status(500).send({ message: err.message });

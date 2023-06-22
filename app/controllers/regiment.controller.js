@@ -77,3 +77,21 @@ exports.update = async (req, res) => {
 
 
 
+exports.removeUsersRegiment = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const updatedUser = await user.update({ regimentId: null });
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}

@@ -38,4 +38,9 @@ module.exports = function (app) {
     regimentController.update
   );
   // Delete Routes
+
+  app.delete(
+    "/pa/regiments/:userId/remove",
+    regimentController.removeUsersRegiment
+  );
 };
