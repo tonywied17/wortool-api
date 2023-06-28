@@ -22,7 +22,7 @@ module.exports = function (app) {
   app.post("/pa/vet/user/", [authJwt.verifyToken], controller.userBoard);
   app.post(
     "/pa/vet/mod/",
-    [authJwt.verifyToken, authJwt.isModerator],
+    [authJwt.isModerator],
     controller.moderatorBoard
   )
   app.post(

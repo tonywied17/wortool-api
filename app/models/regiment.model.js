@@ -23,6 +23,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     webhook_channel: {
       type: Sequelize.STRING,
+    },
+    ownerId: {
+      type: Sequelize.STRING,
+    },
+    side: {
+      type: Sequelize.STRING,
     }
   });
 

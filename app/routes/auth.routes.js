@@ -40,5 +40,15 @@ module.exports = function (app) {
     controller.profile
   );
 
+  app.put(
+    "/pa/auth/:userId/setModerator",
+    controller.setModerator
+  );
+
+  app.put(
+    "/pa/auth/:userId/removeModerator",
+    controller.removeModerator
+  );
+
   // Delete Routes
 };

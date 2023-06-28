@@ -35,8 +35,14 @@ module.exports = function (app) {
   // Post Routes
   app.put(
     "/pa/regiments/:regimentId/update",
+    [authJwt.verifyRegiment],
     regimentController.update
   );
+
+  app.post(
+    "/pa/regiments/create",
+    regimentController.createRegiment
+  )
   // Delete Routes
 
   app.delete(

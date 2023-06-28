@@ -24,14 +24,14 @@ verifyToken = (req, res, next) => {
 
     if (req.params.userId && decoded.id == req.params.userId) {
       console.log("PARAMS: " + req.params.userId + " " + decoded.id);
-      req.userId = decoded.id;
+      req.body.userId = decoded.id;
       next();
       return; 
     }
 
     if (req.body.userId && decoded.id == req.body.userId) {
       console.log("BODY: " + req.body.userId + " " + decoded.id);
-      req.userId = decoded.id;
+      req.body.userId = decoded.id;
       next();
       return; 
     }
@@ -43,7 +43,7 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then((user) => {
+  User.findByPk(req.body.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "admin") {
@@ -61,24 +61,80 @@ isAdmin = (req, res, next) => {
 };
 
 isModerator = (req, res, next) => {
-  User.findByPk(req.userId).then((user) => {
-    user.getRoles().then((roles) => {
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "moderator") {
-          next();
-          return;
-        }
-      }
 
-      res.status(403).send({
-        message: "Require Moderator Role!",
+ 
+
+  console.log("isModerator 1");
+  let token = req.headers["x-access-token"];
+
+  if (!token) {
+    return res.status(403).send({
+      message: "No token provided!",
+    });
+  }
+
+  console.log("isModerator 2");
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        message: "Unauthorized!",
+      });
+    }
+
+    console.log(decoded.regimentId + " " + req.body.regimentId);
+    console.log(decoded.id + " " + req.body.userId);
+
+    console.log("isModerator 3");
+
+    User.findByPk(req.body.userId).then((user) => {
+      user.getRoles().then((roles) => {
+        let isModerator = false;
+
+        for (let i = 0; i < roles.length; i++) {
+          if (roles[i].name === "moderator") {
+            isModerator = true;
+            break;
+          }
+        }
+
+        console.log("isModerator 4");
+
+        if (!isModerator) {
+          return res.status(403).send({
+            message: "Require Moderator Role!",
+          });
+        }
+
+        console.log("isModerator 5" + decoded.regimentId);
+
+
+        if (req.body.regimentId && decoded.regimentId == req.body.regimentId) {
+          console.log("Regiment ID: " + req.body.regimentId + " " + decoded.regimentId);
+          req.body.regimentId = decoded.regimentId;
+          next();
+        } else {
+          return res.status(401).send({
+            message: "Unauthorized!",
+          });
+        }
+      });
+    }).catch((err) => {
+      return res.status(500).send({
+        message: "Internal Server Error",
+        error: err,
       });
     });
   });
 };
 
+
+
+
+
+
 isModeratorOrAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then((user) => {
+  User.findByPk(req.body.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "moderator") {
@@ -99,10 +155,51 @@ isModeratorOrAdmin = (req, res, next) => {
   });
 };
 
+verifyRegiment = (req, res, next) => {
+  let token = req.headers["x-access-token"];
+
+  if (!token) {
+    return res.status(403).send({
+      message: "No token provided!",
+    });
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        message: "Unauthorized!",
+      });
+    }
+
+    console.log(decoded.regimentId + " " + req.params.regimentId);
+    console.log(decoded.regimentId + " " + req.body.regimentId);
+
+    if (req.params.regimentId && decoded.regimentId == req.params.regimentId) {
+      console.log("PARAMS: " + req.params.regimentId + " " + decoded.regimentId);
+      req.body.regimentId = decoded.regimentId;
+      next();
+      return;
+    }
+
+    if (req.body.regimentId && decoded.regimentId == req.body.regimentId) {
+      console.log("BODY: " + req.body.regimentId + " " + decoded.regimentId);
+      req.body.regimentId = decoded.regimentId;
+      next();
+      return;
+    }
+
+    return res.status(401).send({
+      message: "Unauthorized!",
+    });
+  });
+};
+
+
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
   isModerator: isModerator,
   isModeratorOrAdmin: isModeratorOrAdmin,
+  verifyRegiment: verifyRegiment,
 };
 module.exports = authJwt;

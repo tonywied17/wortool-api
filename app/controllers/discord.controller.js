@@ -40,7 +40,7 @@ exports.createWebhook = async (req, res) => {
 
         const webhook = await channel.createWebhook({
           name: 'Server Info',
-          avatar: 'https://app.paarmy.com/assets/icon.png',
+          avatar: 'https://app.paarmy.com/assets/boticon.png',
         });
 
         console.log('Webhook created:');
