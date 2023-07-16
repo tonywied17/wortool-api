@@ -4,7 +4,7 @@ const db = require("./app/models");
 const app = express();
 
 app.use(cors({
-  origin: ['https://paarmy.com', 'https://app.paarmy.com', 'https://www.paarmy.com', 'http://localhost:4200', 'https://paapp.tbz.wtf', 'https://discord.com', 'https://wortool.com'],
+  origin: ['https://paarmy.com', 'https://app.paarmy.com', 'https://www.paarmy.com', 'https://paapp.tbz.wtf', 'https://discord.com', 'https://wortool.com'],
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
 
@@ -39,6 +39,7 @@ require('./app/routes/favorite.routes')(app);
 require('./app/routes/discord.routes')(app);
 require('./app/routes/steam.routes')(app);
 require('./app/routes/regiment.routes')(app);
+require('./app/routes/wor.routes')(app);
 
 
 const PORT = process.env.PORT || 8083;
