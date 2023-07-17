@@ -19,6 +19,24 @@ module.exports = function (app) {
    */
 
   // Get Routes
+
+  //https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=8D14E72B2DBB6A1E04D9F9C3B4F2D550&steamids=76561198000469634
+  app.get("/pa/steamid/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const steamApiKey = process.env.STEAM_API_KEY;
+      const response = await axios.get(
+        `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamApiKey}&steamids=${id}`
+      );
+      res.json(response.data);
+    } catch (error) {
+      console.error("Error fetching Steam API:", error);
+      res.status(500).json({ error: "Failed to fetch data from Steam API" });
+    }
+  });
+
+
+
   app.get("/pa/steamids/", steamid.findAll);
   app.get("/pa/steamid/:id", steamid.findOne);
   app.get("/pa/steam/appdetails", async (req, res) => {

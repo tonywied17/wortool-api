@@ -1,6 +1,7 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
+const DiscordUser = db.discordUser;
 const Role = db.role;
 const Op = db.Sequelize.Op;
 let jwt = require("jsonwebtoken");
@@ -221,6 +222,40 @@ exports.profile = (req, res) => {
       if (existingUser) {
         return res.status(400).send({ message: "Email is already taken." });
       }
+
+      // Update the users discorduser object avatar url
+      DiscordUser.findOne({
+        where: {
+          userId: userID,
+        },
+      })
+
+        .then((discordUser) => {
+          if (!discordUser) {
+            return res.status(404).send({ message: "Discord User Not found." });
+          }
+
+          const updateFields = {};
+
+          if (avatar_url) {
+            updateFields.avatar_url = avatar_url;
+          }
+
+          DiscordUser.update(updateFields, {
+            where: {
+              userId: userID,
+            },
+          })
+            .then(() => {
+              res.status(200).send({ message: "Discord User updated successfully!" });
+            })
+            .catch((err) => {
+              res.status(500).send({ message: err.message });
+            });
+        })
+        .catch((err) => {
+          res.status(500).send({ message: err.message });
+        });
 
 
       // Update the user's profile
