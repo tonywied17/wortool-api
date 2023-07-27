@@ -1,5 +1,5 @@
-require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
-// require('dotenv').config();
+// require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+require('dotenv').config();
 
 module.exports = {
   HOST: process.env.DB_HOST,

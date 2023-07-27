@@ -3,6 +3,31 @@ const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 
+verifyDomainAndPath = (req, res, next) => {
+  const allowedDomains = [
+    "https://wortool.com/regiments",
+    "http://localhost:4200/regiments",
+    "https://app.paarmy.com/regiments",
+  ];
+
+  const requestedDomain = req.headers['x-requested-domain'];
+
+  console.log("Requesting from:", requestedDomain);
+
+  if (allowedDomains.includes(requestedDomain)) {
+    console.log("Domain approved:", requestedDomain);
+    next();
+  } else {
+    console.log("Unauthorized domain:", requestedDomain);
+    res.status(403).send({
+      message: "Unauthorized domain!",
+    });
+  }
+}
+
+
+
+
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
@@ -26,14 +51,14 @@ verifyToken = (req, res, next) => {
       console.log("PARAMS: " + req.params.userId + " " + decoded.id);
       req.body.userId = decoded.id;
       next();
-      return; 
+      return;
     }
 
     if (req.body.userId && decoded.id == req.body.userId) {
       console.log("BODY: " + req.body.userId + " " + decoded.id);
       req.body.userId = decoded.id;
       next();
-      return; 
+      return;
     }
 
     return res.status(401).send({
@@ -62,7 +87,7 @@ isAdmin = (req, res, next) => {
 
 isModerator = (req, res, next) => {
 
- 
+
 
   console.log("isModerator 1");
   let token = req.headers["x-access-token"];
@@ -201,5 +226,6 @@ const authJwt = {
   isModerator: isModerator,
   isModeratorOrAdmin: isModeratorOrAdmin,
   verifyRegiment: verifyRegiment,
+  verifyDomainAndPath: verifyDomainAndPath,
 };
 module.exports = authJwt;

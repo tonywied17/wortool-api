@@ -32,6 +32,17 @@ module.exports = function (app) {
     regimentController.findUsersByRegimentId
   );
 
+  app.get(
+    "/pa/regiments/:regimentId/gameids",
+    regimentController.findGameIdsByRegimentId
+  );
+
+  // find users regiment by game id
+  app.get(
+    "/pa/regiments/gameid/:gameId",
+    regimentController.findRegimentByGameId
+  );
+
   // Post Routes
   app.put(
     "/pa/regiments/:regimentId/update",
@@ -39,14 +50,34 @@ module.exports = function (app) {
     regimentController.update
   );
 
+  app.put(
+    "/pa/regiments/:regimentId/change",
+    [authJwt.verifyDomainAndPath],
+    regimentController.update
+  )
+
   app.post(
     "/pa/regiments/create",
     regimentController.createRegiment
   )
+
+  app.post(
+    "/pa/regiments/:regimentId/gameid",
+    regimentController.addGameId
+  )
+
   // Delete Routes
 
   app.delete(
     "/pa/regiments/:userId/remove",
     regimentController.removeUsersRegiment
   );
+
+
+  app.delete(
+    "/pa/regiments/:regimentId/gameid/:gameId",
+    regimentController.removeGameId
+  );
+
+  
 };

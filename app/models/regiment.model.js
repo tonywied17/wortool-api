@@ -32,5 +32,12 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
+  Regiment.associate = (models) => {
+    Regiment.hasMany(models.GameID, {
+      foreignKey: "regimentId",
+      onDelete: "CASCADE",
+    });
+  };
+
   return Regiment;
 };

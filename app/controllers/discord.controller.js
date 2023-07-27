@@ -307,8 +307,7 @@ exports.findOneUser = (req, res) => {
  */
 exports.auth = async function (req, res) {
   try {
-    const code = req.query.code;
-    const state = req.query.state;
+    const { code, state } = req.query;
     const params = new URLSearchParams();
     let user;
 
@@ -316,26 +315,17 @@ exports.auth = async function (req, res) {
     params.append("client_secret", process.env.CLIENT_SECRET);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append(
-      "redirect_uri",
-      `https://api.tonewebdesign.com/pa/discord/auth`
-    );
+    params.append("redirect_uri", `https://api.tonewebdesign.com/pa/discord/auth`);
     params.append("scope", "identify");
 
-    const response = await axios.post(
-      "https://discord.com/api/oauth2/token",
-      params
-    );
+    const response = await axios.post("https://discord.com/api/oauth2/token", params);
     const { access_token, token_type } = response.data;
 
-    const userDataResponse = await axios.get(
-      "https://discord.com/api/users/@me",
-      {
-        headers: {
-          authorization: `${token_type} ${access_token}`,
-        },
-      }
-    );
+    const userDataResponse = await axios.get("https://discord.com/api/users/@me", {
+      headers: {
+        authorization: `${token_type} ${access_token}`,
+      },
+    });
 
     user = {
       username: userDataResponse.data.username,
@@ -345,17 +335,8 @@ exports.auth = async function (req, res) {
       avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
     };
 
-    const existingUser = await User.findOne({
-      where: {
-        id: state,
-      },
-    });
-
-    const existingDiscordUser = await DiscordUser.findOne({
-      where: {
-        discordId: user.discordId,
-      },
-    });
+    const existingUser = await User.findOne({ where: { id: state } });
+    const existingDiscordUser = await DiscordUser.findOne({ where: { discordId: user.discordId } });
 
     if (existingDiscordUser) {
       return res.status(400).json({ error: "Discord ID already in use" });
@@ -372,43 +353,20 @@ exports.auth = async function (req, res) {
       await DiscordUser.create(user);
     }
 
-    // const guildsResponse = await axios.get(
-    //   "https://discord.com/api/users/@me/guilds",
-    //   {
-    //     headers: {
-    //       authorization: `${token_type} ${access_token}`,
-    //     },
-    //   }
-    // );
+    const regiment = await Regiment.findOne({ where: { ownerId: user.discordId } });
+    
+    if (regiment && existingUser) {
+      existingUser.regimentId = regiment.id;
 
-    // const guilds = guildsResponse.data.map((guild) => ({
-    //   name: guild.name,
-    //   guildId: guild.id,
-    //   discordId: userDataResponse.data.id,
-    //   userId: state,
-    //   icon: guild.icon
-    //     ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
-    //     : null,
-    // }));
+      let roles = await existingUser.getRoles();
+      const hasRole2 = roles.some(role => role.id === 2);
 
-    // for (const guildData of guilds) {
-    //   const existingGuild = await DiscordGuild.findOne({
-    //     where: {
-    //       guildId: guildData.guildId,
-    //     },
-    //   });
+      if (!hasRole2) {
+        roles.push(2);
+      }
 
-    //   if (existingGuild) {
-    //     await existingGuild.update(guildData);
-    //   } else {
-    //     await DiscordGuild.create(guildData);
-    //   }
-    // }
-
-    // const result = {
-    //   user,
-    //   guilds,
-    // };
+      await existingUser.setRoles(roles);
+    }
 
     const closeScript = `
       <script>
@@ -432,6 +390,7 @@ exports.auth = async function (req, res) {
     return res.send("Some error occurred!");
   }
 };
+
 
 
 
