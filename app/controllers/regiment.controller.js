@@ -203,7 +203,7 @@ exports.removeUsersRegiment = async (req, res) => {
 
 exports.addGameId = async (req, res) => {
   const regimentId = req.params.regimentId;
-  const { steamId, nickname } = req.body;
+  const { steamId, nickname = "Steam User" } = req.body;
 
   if (!steamId) {
     return res.status(400).json({ error: "Missing steamId in request body" });
@@ -285,8 +285,11 @@ exports.removeGameId = async (req, res) => {
   }
 }
 
+
+
 exports.findGameIdsByRegimentId = async (req, res) => {
   const regimentId = req.params.regimentId;
+  const steamApiKey = process.env.STEAM_API_KEY;
 
   try {
     const regiment = await Regiment.findByPk(regimentId);
@@ -299,7 +302,30 @@ exports.findGameIdsByRegimentId = async (req, res) => {
       where: { regimentId: regimentId },
     });
 
-    return res.status(200).json(gameIds);
+    const gameIdsWithUnbanCode = await Promise.all(gameIds.map(async gameId => {
+      const steamId = gameId.steamId;
+
+      let liveGameStats, liveSteamData;
+
+      try {
+        const gameStatsResponse = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=424030&key=${steamApiKey}&steamid=${steamId}`);
+        liveGameStats = gameStatsResponse.data.playerstats.stats;
+      } catch { }
+
+      try {
+        const response = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamApiKey}&steamids=${steamId}`);
+        liveSteamData = response.data.response.players[0];
+      } catch { }
+
+      return {
+        ...gameId.toJSON(),
+        unbanCode: `Unban.User.SteamID ${steamId}`,
+        ...(liveSteamData ? { liveSteamData } : {}),
+        ...(liveGameStats ? { liveGameStats } : {}),
+      };
+    }));
+
+    return res.status(200).json(gameIdsWithUnbanCode);
 
   } catch (error) {
     console.error("Error retrieving game IDs:", error);
@@ -307,8 +333,12 @@ exports.findGameIdsByRegimentId = async (req, res) => {
   }
 }
 
-exports.findRegimentByGameId = async (req, res) => {
-  const gameId = req.params.gameId;
+
+
+
+
+exports.findRegimentBySteamId = async (req, res) => {
+  const gameId = req.params.steamId;
   const steamApiKey = process.env.STEAM_API_KEY;
 
   try {
@@ -351,3 +381,52 @@ exports.findRegimentByGameId = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+exports.findGameIdsByGameId = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const gameId = req.params.gameId;
+  const steamApiKey = process.env.STEAM_API_KEY;
+  
+  try {
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({ error: "Regiment not found" });
+    }
+
+    // Find the GameId record where gameId matches the req.params.gameId
+    const gameIdRecord = await GameId.findOne({ where: { id: gameId } });
+
+    if (!gameIdRecord) {
+      return res.status(404).json({ error: "Game ID not found for the specified Regiment and Game ID" });
+    }
+
+    const steamId = gameIdRecord.steamId;
+
+    const gameStatsResponse = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=424030&key=${steamApiKey}&steamid=${steamId}`);
+    const liveGameStats = gameStatsResponse.data.playerstats.stats;
+
+    // Fetch player summary data from Steam API
+    const response = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamApiKey}&steamids=${steamId}`);
+    const liveSteamData = response.data.response.players[0];
+
+    const gameIdData = {
+      ...gameIdRecord.dataValues,
+      unbanCode: `Unban.User.SteamID ${steamId}`
+    };
+
+    const responseData = {
+      ...regiment.dataValues,
+      gameIdData,
+      liveSteamData,
+      liveGameStats,
+    };
+
+    return res.status(200).json(responseData);
+
+  } catch (error) {
+    console.error("Error retrieving game IDs:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}

@@ -37,10 +37,20 @@ module.exports = function (app) {
     regimentController.findGameIdsByRegimentId
   );
 
+  app.get(
+    "/pa/regiments/:regimentId/gameids",
+    regimentController.findGameIdsByRegimentId
+  );
+
   // find users regiment by game id
   app.get(
-    "/pa/regiments/gameid/:gameId",
-    regimentController.findRegimentByGameId
+    "/pa/regiments/gameid/:steamId",
+    regimentController.findRegimentBySteamId
+  );
+
+  app.get(
+    "/pa/regiments/:regimentId/gameids/:gameId",
+    regimentController.findGameIdsByGameId
   );
 
   // Post Routes
@@ -63,6 +73,7 @@ module.exports = function (app) {
 
   app.post(
     "/pa/regiments/:regimentId/gameid",
+    // [authJwt.verifyRegiment],
     regimentController.addGameId
   )
 
@@ -70,12 +81,14 @@ module.exports = function (app) {
 
   app.delete(
     "/pa/regiments/:userId/remove",
+    [authJwt.verifyRegiment],
     regimentController.removeUsersRegiment
   );
 
 
   app.delete(
     "/pa/regiments/:regimentId/gameid/:gameId",
+    [authJwt.verifyRegiment],
     regimentController.removeGameId
   );
 
