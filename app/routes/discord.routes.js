@@ -1,5 +1,21 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\discord.routes.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 4:22:00 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const discordController = require("../controllers/discord.controller");
 
+/**
+ *  Discord Routes
+ * @param {*} app 
+ */
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header(
@@ -9,36 +25,92 @@ module.exports = function (app) {
     next();
   });
 
-  // https://api.tonewebdesign.com/pa/discord/guild/681641606398607401/channels
+  // ! GET Routes //
+
+  /**
+   * Get All Guild Channels
+   * @route GET /pa/discord/guild/:id/channels
+   * @group Discord
+   * @returns {object} 200 - An object containing the channels for the guild
+   */
   app.get("/pa/discord/guild/:id/channels", discordController.findGuildChannels);
 
-  // https://api.tonewebdesign.com/pa/discord/users
+  /**
+   * Get All Guild Users
+   * @route GET /pa/discord/guild/:id/users
+   * @group Discord
+   * @returns {object} 200 - An object containing the users for the guild
+   */
   app.get("/pa/discord/users", discordController.findAll);
 
-  // https://api.tonewebdesign.com/pa/discord/user/11 (user id not discord pkey)
+  /**
+   * Get A Single User By ID
+   * @route GET /pa/discord/user/:userId
+   * @group Discord
+   * @returns {object} 200 - An object containing the user
+   */
   app.get("/pa/discord/user/:userId", discordController.findOne);
 
-  // https://api.tonewebdesign.com/pa/discord/guild/681641606398607401/user/281639399152943105/get
+  /**
+   * Get A Single User By ID and Guild ID
+   * @route GET /pa/discord/user/:userId
+   * @group Discord
+   * @returns {object} 200 - An object containing the user for the guild
+   */
   app.get("/pa/discord/guild/:guildId/user/:userId/get", discordController.findOneUser);
 
-  // https://api.tonewebdesign.com/pa/discord/guild/850786736756883496/channel/901993697888051200/msg/test/get
+  /**
+   * Message a Channel on Discord by Guild ID and Channel ID
+   * @route GET /pa/discord/guild/:guildId/channel/:channelId/msg
+   * @group Discord
+   */
   app.get("/pa/discord/guild/:guildId/channel/:channelId/msg/:msg/get", discordController.sendOneMsg);
   
-  // https://api.tonewebdesign.com/pa/discord/guild/681641606398607401/get
+  /**
+   * Get a Single Guild by ID
+   * @route GET /pa/discord/guild/:id/get
+   * @group Discord
+   * @returns {object} 200 - An object containing the guild
+   */
   app.get("/pa/discord/guild/:id/get", discordController.findOneGuild);
   
+
+  /**
+   * Get the Guild's Webhook by Guild ID and Channel ID
+   * @route GET /pa/discord/guild/:guildId/channel/:channelId/webhook
+   * @group Discord
+   * @returns {object} 200 - An object containing the guild's webhook
+   */
   app.get("/pa/discord/guild/:guildId/channel/:channelId/webhook", discordController.createWebhook);
 
 
-  // Delete Routes
+  // ! DELETE Routes //
+
+  /**
+   * Delete a Single User by ID
+   * @route DELETE /pa/discord/user/:userId/remove
+   * @group Discord
+   * @returns {object} 200 - An object containing the user
+   */
   app.delete(
     "/pa/discord/user/:userId/remove",
     discordController.deleteOneUser
   )
 
-  // OAUTH2 Routes
+  // ! OAUTH2 Routes //
+
+  /**
+   * Discord OAuth2
+   * @route GET /pa/discord/auth/
+   * @group Discord
+   */
   app.get('/pa/discord/auth/', discordController.auth);
   
+  /**
+   * Discord OAuth2 Callback
+   * @route GET /pa/discord/callback/
+   * @group Discord
+   */
   app.get('/pa/discord/', (req, res) => {
     const state = req.query.state;
   

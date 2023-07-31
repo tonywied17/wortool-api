@@ -1,6 +1,25 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\wor.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Saturday July 15th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:56:58 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require("../models");
 const Recap = db.recap;
 
+/**
+ * Retrieve all recaps from the database.
+ * This function is used to retrieve all recaps from the database.
+ * 
+ * @param {*} req - request
+ * @param {*} res - response containing the recaps
+ */
 exports.findAll = (req, res) => {
     Recap.findAll()
         .then((data) => {
@@ -14,6 +33,14 @@ exports.findAll = (req, res) => {
         });
 };
 
+/**
+ * Store a recap in the database.
+ * This function is used to store a recap in the database.
+ * ? This is being used to test post-game recap data from wor servers
+ * 
+ * @param {*} req - request
+ * @param {*} res - response containing the recap
+ */
 exports.storeRecap = (req, res) => {
     let jsonData = req.body;
     console.log(jsonData);

@@ -1,7 +1,27 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\verifySignup.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 4:00:32 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require("../models");
 const ROLES = db.ROLES;
 const User = db.user;
 
+/**
+ * Check Duplicate Username or Email
+ * This function is used to check duplicate username or email
+ * 
+ * @param {*} req
+ * @param {*} res - boolean based on moderator access
+ * @param {*} next
+ */
 checkDuplicateUsernameOrEmail = (req, res, next) => {
   User.findOne({
     where: {
@@ -31,6 +51,14 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
   });
 };
 
+/**
+ * Check Roles Existed
+ * This function is used to check roles existed
+ * 
+ * @param {*} req
+ * @param {*} res - boolean based on moderator access
+ * @param {*} next
+ */
 checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {
     for (let i = 0; i < req.body.roles.length; i++) {
@@ -46,6 +74,7 @@ checkRolesExisted = (req, res, next) => {
   next();
 };
 
+// Export the functions
 const verifySignUp = {
   checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
   checkRolesExisted: checkRolesExisted,

@@ -1,3 +1,15 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\steam.routes.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 4:38:35 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
 const axios = require("axios");
 const { authJwt } = require("../middleware");
@@ -14,13 +26,14 @@ module.exports = function (app) {
     next();
   });
 
+  // ! GET Routes //
+
   /**
-   * ROUTES
+   * Get All Steam Data By Steam ID
+   * @route GET /pa/steamid/:id
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
    */
-
-  // Get Routes
-
-  //https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=8D14E72B2DBB6A1E04D9F9C3B4F2D550&steamids=76561198000469634
   app.get("/pa/steamid/:id", async (req, res) => {
     try {
       const { id } = req.params;
@@ -37,12 +50,15 @@ module.exports = function (app) {
     }
   });
   
-  
-  
-  // VERBOSE GET ROUTE FOR STEAMID
+  /**
+   * Get All Verbose Steam Data By Steam ID
+   * @route GET /pa/steamid/:id/verbose
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
   app.get("/pa/steamid/:id/verbose", async (req, res) => {
     const id = req.params.id;
-    const appId = req.query.appId || 424030; // Use the provided appId or set a default value (424030)
+    const appId = req.query.appId || 424030;
   
     try {
       const steamApiKey = process.env.STEAM_API_KEY;
@@ -53,87 +69,65 @@ module.exports = function (app) {
   
       const responseData = {};
   
-      // Check if liveSteamData exists, then append it to responseData
       if (liveSteamData) {
         responseData.liveSteamData = liveSteamData;
       }
   
-      // Fetch player's game stats from Steam API (if available)
       try {
-        // Fetch data from the GetRecentlyPlayedGames endpoint and append it to responseData
         const recentPlayedResponse = await axios.get(
           `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?appid=${appId}&key=${steamApiKey}&steamid=${id}`
         );
-        const recentPlayedData = recentPlayedResponse.data; // Change this based on the actual structure of the response
-  
-        // Check if recentPlayedData exists, then append it to responseData
+        const recentPlayedData = recentPlayedResponse.data; 
+
         if (recentPlayedData) {
           responseData.recentPlayedGames = recentPlayedData;
         }
-      } catch (error) {
-        // If there is an error fetching recent played data, simply omit it from the responseData
-      }
+      } catch (error) {}
   
-      // Fetch additional data from the GetFriendList endpoint and append it to responseData
       try {
         const friendListResponse = await axios.get(
           `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${steamApiKey}&steamid=${id}&relationship=friend`
         );
-        const friendListData = friendListResponse.data; // Change this based on the actual structure of the response
+        const friendListData = friendListResponse.data;
   
-        // Check if friendListData exists, then append it to responseData
         if (friendListData) {
           responseData.friendListData = friendListData;
         }
-      } catch (error) {
-        // If there is an error fetching additional data, simply omit it from the responseData
-      }
+      } catch (error) {}
   
       try {
-        // Fetch data from the GetUserStatsForGame endpoint and append it to responseData
         const gameStatsResponse = await axios.get(
           `https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=${appId}&key=${steamApiKey}&steamid=${id}`
         );
         const liveGameStats = gameStatsResponse.data.playerstats.stats;
   
-        // Check if liveGameStats exists, then append it to responseData
         if (liveGameStats) {
           responseData.GameStats = liveGameStats;
         }
-      } catch (error) {
-        // If there is an error fetching game stats, simply omit liveGameStats from the responseData
-      }
+      } catch (error) {}
   
       try {
-        // Fetch data from the GetPlayerAchievements endpoint and append it to responseData
         const gameAchievementsResponse = await axios.get(
           `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${steamApiKey}&steamid=${id}`
         );
         const liveGameAchievements = gameAchievementsResponse.data;
-  
-        // Check if liveGameStats exists, then append it to responseData
+
         if (liveGameAchievements) {
           responseData.GameAchievements = liveGameAchievements;
         }
-      } catch (error) {
-        // If there is an error fetching game stats, simply omit liveGameStats from the responseData
-      }
+      } catch (error) {}
   
 
       try {
-        // Fetch data from the GetPlayerAchievements endpoint and append it to responseData
         const gameOwnedResponse = await axios.get(
           `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steamApiKey}&steamid=${id}&format=json`
         );
         const liveGameOwned = gameOwnedResponse.data;
-  
-        // Check if liveGameStats exists, then append it to responseData
+
         if (liveGameOwned) {
           responseData.GamesOwned = liveGameOwned;
         }
-      } catch (error) {
-        // If there is an error fetching game stats, simply omit liveGameStats from the responseData
-      }
+      } catch (error) {}
 
 
       res.json(responseData);
@@ -143,11 +137,20 @@ module.exports = function (app) {
     }
   });
   
-  
-
-
+  /**
+   * Get All Steam IDs
+   * @route GET /pa/steamids/
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
   app.get("/pa/steamids/", steamid.findAll);
 
+  /**
+   * Get Game Details of Steam App
+   * @route GET /pa/steam/appnews
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
   app.get("/pa/steam/appdetails", async (req, res) => {
     try {
       const { appid } = req.query;
@@ -162,6 +165,12 @@ module.exports = function (app) {
     }
   });
 
+  /**
+   * Get Game News of Steam App
+   * @route GET /pa/steam/appnews
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
   app.get("/pa/steam/appnews", async (req, res) => {
     try {
       const { appid } = req.query;
@@ -177,13 +186,27 @@ module.exports = function (app) {
     }
   });
 
-  // Post Routes
+  // ! Post Routes //
+
+  /**
+   * Create or Update Steam ID
+   * @route POST /pa/steamid/:steamId
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
   app.post(
     "/pa/steamid/:steamId",
     [authJwt.verifyToken],
     steamid.createOrUpdate
   );
 
-  // Delete Routes
+  // ! Delete Routes
+
+  /**
+   * Delete Steam ID
+   * @route DELETE /pa/steamid/:steamId
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
   app.delete("/pa/steamid/:steamId", [authJwt.verifyToken], steamid.delete);
 };

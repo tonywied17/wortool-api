@@ -1,6 +1,25 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\weapon.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:55:37 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require("../models");
 const Weapon = db.weapon;
 
+/**
+ * Retrieve all weapons from the database.
+ * This function is used to retrieve all weapons from the database.
+ * 
+ * @param {*} req - request
+ * @param {*} res - response containing the weapons
+ */
 exports.findAll = (req, res) => {
   Weapon.findAll()
     .then((data) => {
@@ -14,6 +33,13 @@ exports.findAll = (req, res) => {
     });
 };
 
+/**
+ * Retrieve a single weapon with id
+ * This function is used to retrieve a single weapon with id
+ * 
+ * @param {*} req - request containing the id
+ * @param {*} res - response containing the weapon
+ */
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -34,6 +60,13 @@ exports.findOne = (req, res) => {
     });
 };
 
+/**
+ * Create or Update a weapon
+ * This function is used to create or update a weapon
+ * 
+ * @param {*} req - request containing the weapon
+ * @param {*} res - response containing the weapon
+ */
 exports.createOrUpdateWeapon = (req, res) => {
   const weaponName = req.body.weapon;
   const weapon = {
@@ -99,6 +132,13 @@ exports.createOrUpdateWeapon = (req, res) => {
     });
 };
 
+/**
+ * Delete a weapon with the specified id in the request
+ * This function is used to delete a weapon with the specified id in the request
+ * 
+ * @param {*} req - request containing the id
+ * @param {*} res - response containing the weapon
+ */
 exports.deleteWeapon = (req, res) => {
   const id = req.params.weaponId;
   Weapon.destroy({

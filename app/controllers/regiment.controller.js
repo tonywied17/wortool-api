@@ -1,10 +1,29 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:50:03 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require("../models");
 const Regiment = db.regiment;
 const User = db.user;
 const GameId = db.gameid;
-const Schedule = db.schedule;
 const axios = require("axios");
 
+/**
+ * Retrieve all regiments from the database.
+ * This function is used to retrieve all regiments from the database.
+ * 
+ * @param {*} req - request
+ * @param {*} res - response containing the regiments
+ * @returns - regiments
+ */
 exports.findAll = async (req, res) => {
   try {
 
@@ -14,10 +33,20 @@ exports.findAll = async (req, res) => {
   } catch (error) {
     // Handle any errors
     console.error("Error retrieving regiments:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 };
 
+/**
+ * Retrieve a single regiment with an id.
+ * This function is used to retrieve a single regiment with an id.
+ * 
+ * @param {*} req - request containing the id
+ * @param {*} res - response containing the regiment
+ * @returns - regiment 
+ */
 exports.findOne = async (req, res) => {
   const id = req.params.regimentId;
 
@@ -25,17 +54,27 @@ exports.findOne = async (req, res) => {
     const regiment = await Regiment.findByPk(id);
 
     if (!regiment) {
-      return res.status(404).json({ error: "Regiment not found" });
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
     }
 
     return res.status(200).json(regiment);
   } catch (error) {
     console.error("Error retrieving regiment:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 };
 
-
+/**
+ * Retrieve a single regiment with an id.
+ * This function is used to retrieve a single regiment with an id.
+ * @param {*} req - request containing the id
+ * @param {*} res - response containing the regiment
+ * @returns - regiment
+ */
 exports.findUsersByRegimentId = async (req, res) => {
   const regimentId = req.params.regimentId;
 
@@ -44,7 +83,9 @@ exports.findUsersByRegimentId = async (req, res) => {
       where: {
         regimentId: regimentId,
       },
-      attributes: { exclude: ['password'] },
+      attributes: {
+        exclude: ['password']
+      },
     });
 
     const usersWithRoles = [];
@@ -72,12 +113,20 @@ exports.findUsersByRegimentId = async (req, res) => {
     return res.status(200).json(usersWithRoles);
   } catch (err) {
     console.error("Error retrieving regiment:", err);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 };
 
-
-
+/**
+ * Update a regiment by the id in the request
+ * This function is used to update a regiment by the id in the request
+ * 
+ * @param {*} req - request containing the id and body
+ * @param {*} res - response containing the updated regiment
+ * @returns - updated regiment
+ */
 exports.update = async (req, res) => {
   const id = req.params.regimentId;
 
@@ -87,7 +136,9 @@ exports.update = async (req, res) => {
     const regiment = await Regiment.findByPk(id);
 
     if (!regiment) {
-      return res.status(404).json({ error: "Regiment not found" });
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
     }
 
     const updatedRegiment = await regiment.update(req.body);
@@ -95,37 +146,55 @@ exports.update = async (req, res) => {
     return res.status(200).json(updatedRegiment);
   } catch (error) {
     console.error("Error updating regiment:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 }
 
-
+/**
+ * Create a new regiment via discord bot
+ * This function is used to create a new regiment
+ * 
+ * @param {*} req - request containing the body from a discord axios request
+ * @param {*} res - response
+ * @returns - message notifying the user that the regiment was created/updated successfully
+ */
 exports.createRegiment = async (req, res) => {
-  const { guildId, guildName, guildAvatar, guildInvite, ownerId, side } = req.body;
-
+  const {
+    guildId,
+    guildName,
+    guildAvatar,
+    guildInvite,
+    ownerId,
+    side
+  } = req.body;
   try {
-    let regiment = await Regiment.findOne({ where: { guild_id: guildId } });
+    let regiment = await Regiment.findOne({
+      where: {
+        guild_id: guildId
+      }
+    });
 
     if (regiment) {
-      // Guild ID already exists, check if the ownerId matches
       if (regiment.ownerId === ownerId) {
-        // ownerId matches, update the record
-        regiment = await Regiment.update(
-          {
-            regiment: guildName,
-            guild_avatar: guildAvatar,
-            invite_link: guildInvite,
-            ownerId: ownerId,
-            side: side,
-          },
-          { where: { guild_id: guildId } }
-        );
+        regiment = await Regiment.update({
+          regiment: guildName,
+          guild_avatar: guildAvatar,
+          invite_link: guildInvite,
+          ownerId: ownerId,
+          side: side,
+        }, {
+          where: {
+            guild_id: guildId
+          }
+        });
       } else {
-        // ownerId doesn't match, don't update
-        return res.status(400).json({ error: "Owner ID mismatch. You're not authorized to update this regiment." });
+        return res.status(400).json({
+          error: "Owner ID mismatch. You're not authorized to update this regiment."
+        });
       }
     } else {
-      // Guild ID doesn't exist, create a new record
       regiment = await Regiment.create({
         guild_id: guildId,
         regiment: guildName,
@@ -136,43 +205,56 @@ exports.createRegiment = async (req, res) => {
       });
     }
 
-    // Get the newly created/updated regiment's ID
     const regimentId = regiment.id;
-
-    // Find the user
-    const user = await User.findOne({ where: { discordId: ownerId } });
+    const user = await User.findOne({
+      where: {
+        discordId: ownerId
+      }
+    });
 
     if (user) {
-      // Update the user's regimentId column
-      await User.update({ regimentId: regimentId }, { where: { discordId: ownerId } });
+      await User.update({
+        regimentId: regimentId
+      }, {
+        where: {
+          discordId: ownerId
+        }
+      });
 
-      // Get the user's roles
       let roles = await user.getRoles();
-
-      // Check if role 2 is already present in the roles array
       const hasRole2 = roles.some(role => role.id === 2);
 
-      // Add role 2 to the updated roles if it's not already present
       if (!hasRole2) {
         roles.push(2);
       }
 
-      // Update the user's roles
       await user.setRoles(roles);
-
-      return res.status(200).json({ regimentId: regimentId, message: "User roles updated successfully!" });
+      return res.status(200).json({
+        regimentId: regimentId,
+        message: "User roles updated successfully!"
+      });
     }
 
-    return res.status(200).json({ regimentId: regimentId, message: "Regiment created/updated successfully!" });
+    return res.status(200).json({
+      regimentId: regimentId,
+      message: "Regiment created/updated successfully!"
+    });
   } catch (error) {
     console.error("Error creating/updating regiment:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 };
 
-
-
-
+/**
+ * Delete a regiment with the specified id in the request
+ * This function is used to delete a regiment with the specified id in the request
+ * 
+ * @param {*} req - request containing the id
+ * @param {*} res - response
+ * @returns - message notifying the user that the regiment was deleted successfully
+ */
 exports.removeUsersRegiment = async (req, res) => {
   const userId = req.params.userId;
 
@@ -180,7 +262,9 @@ exports.removeUsersRegiment = async (req, res) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({
+        error: "User not found"
+      });
     }
 
     user.getRoles().then(async (roles) => {
@@ -191,102 +275,157 @@ exports.removeUsersRegiment = async (req, res) => {
         await user.setRoles(updatedRoles);
       }
 
-      const updatedUser = await user.update({ regimentId: null });
+      const updatedUser = await user.update({
+        regimentId: null
+      });
       return res.status(200).json(updatedUser);
     });
   } catch (error) {
     console.error("Error updating user:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 };
 
-
+/**
+ * Add a game ID to a regiment
+ * This function is used to add a game ID to a regiment
+ * ? Note: GameID refers to a SteamID of an individual player -- This is because I use the SteamID model for registered users (naming conventions are hard).
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.addGameId = async (req, res) => {
   const regimentId = req.params.regimentId;
-  const { steamId, nickname = "Steam User" } = req.body;
+  const {
+    steamId,
+    nickname = "Steam User"
+  } = req.body;
 
   if (!steamId) {
-    return res.status(400).json({ error: "Missing steamId in request body" });
+    return res.status(400).json({
+      error: "Missing steamId in request body"
+    });
   }
 
   try {
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
-      return res.status(404).json({ error: "Regiment not found" });
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
     }
 
     const existingGameId = await GameId.findOne({
-      where: { steamId: steamId, nickname: nickname, regimentId: regimentId },
+      where: {
+        steamId: steamId,
+        nickname: nickname,
+        regimentId: regimentId
+      },
     });
 
     if (existingGameId) {
       existingGameId.steamId = steamId;
       existingGameId.nickname = nickname;
       existingGameId.regimentId = regimentId;
-      
+
       existingGameId
         .save()
         .then((updatedGameId) => {
-          res.status(200).json({ message: "Game ID already exists", gameId: updatedGameId });
+          res.status(200).json({
+            message: "Game ID already exists",
+            gameId: updatedGameId
+          });
         })
         .catch((err) => {
           console.error("Failed to update the game ID:", err);
-          return res.status(500).json({ error: "Failed to update the game ID." });
+          return res.status(500).json({
+            error: "Failed to update the game ID."
+          });
         });
     } else {
       GameId.create({
-        regimentId: regimentId,
-        nickname: nickname,
-        steamId: steamId,
-      })
+          regimentId: regimentId,
+          nickname: nickname,
+          steamId: steamId,
+        })
         .then((createdGameId) => {
-          res.status(200).json({ message: "Game ID created successfully", gameId: createdGameId });
+          res.status(200).json({
+            message: "Game ID created successfully",
+            gameId: createdGameId
+          });
         })
         .catch((err) => {
           console.error("Failed to create the game ID:", err);
-          return res.status(500).json({ error: "Failed to create the game ID." });
+          return res.status(500).json({
+            error: "Failed to create the game ID."
+          });
         });
     }
 
   } catch (error) {
     console.error("Error handling game ID:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 }
 
-
-
+/**
+ * Remove a game ID from a regiment
+ * This function is used to remove a game ID from a regiment
+ * 
+ * @param {*} req - request containing the regimentId and gameId
+ * @param {*} res - response
+ * @returns - message notifying the user that the game ID was deleted successfully
+ */
 exports.removeGameId = async (req, res) => {
   const regimentId = req.params.regimentId;
   const gameId = req.params.gameId;
-
 
   try {
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
-      return res.status(404).json({ error: "Regiment not found" });
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
     }
 
     const gameIdRecord = await GameId.findByPk(gameId);
 
     if (!gameIdRecord) {
-      return res.status(404).json({ error: "Game ID not found" });
+      return res.status(404).json({
+        error: "Game ID not found"
+      });
     }
 
     const deleted = await gameIdRecord.destroy();
 
-    return res.status(200).json({ message: "Game ID deleted successfully", deleted });
+    return res.status(200).json({
+      message: "Game ID deleted successfully",
+      deleted
+    });
 
   } catch (error) {
     console.error("Error deleting game ID:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 }
 
-
-
+/**
+ * Retrieve all game IDs for a regiment
+ * This function is used to retrieve all game IDs for a regiment
+ * 
+ * @param {*} req - request containing the regimentId
+ * @param {*} res - response
+ * @returns - game IDs
+ */
 exports.findGameIdsByRegimentId = async (req, res) => {
   const regimentId = req.params.regimentId;
   const steamApiKey = process.env.STEAM_API_KEY;
@@ -295,11 +434,15 @@ exports.findGameIdsByRegimentId = async (req, res) => {
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
-      return res.status(404).json({ error: "Regiment not found" });
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
     }
 
     const gameIds = await GameId.findAll({
-      where: { regimentId: regimentId },
+      where: {
+        regimentId: regimentId
+      },
     });
 
     const gameIdsWithUnbanCode = await Promise.all(gameIds.map(async gameId => {
@@ -310,18 +453,22 @@ exports.findGameIdsByRegimentId = async (req, res) => {
       try {
         const gameStatsResponse = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=424030&key=${steamApiKey}&steamid=${steamId}`);
         liveGameStats = gameStatsResponse.data.playerstats.stats;
-      } catch { }
+      } catch {}
 
       try {
         const response = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamApiKey}&steamids=${steamId}`);
         liveSteamData = response.data.response.players[0];
-      } catch { }
+      } catch {}
 
       return {
         ...gameId.toJSON(),
         unbanCode: `Unban.User.SteamID ${steamId}`,
-        ...(liveSteamData ? { liveSteamData } : {}),
-        ...(liveGameStats ? { liveGameStats } : {}),
+        ...(liveSteamData ? {
+          liveSteamData
+        } : {}),
+        ...(liveGameStats ? {
+          liveGameStats
+        } : {}),
       };
     }));
 
@@ -329,36 +476,49 @@ exports.findGameIdsByRegimentId = async (req, res) => {
 
   } catch (error) {
     console.error("Error retrieving game IDs:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 }
 
-
-
-
-
+/**
+ * Retrieve a single regiment with a STEAM Id.
+ * This function is used to retrieve a single regiment with a STEAM Id.
+ * 
+ * @param {*} req - request containing the STEAM Id
+ * @param {*} res - response containing the regiment
+ * @returns - regiment
+ */
 exports.findRegimentBySteamId = async (req, res) => {
   const gameId = req.params.steamId;
   const steamApiKey = process.env.STEAM_API_KEY;
 
   try {
-    const gameIdRecord = await GameId.findOne({ where: { steamId: gameId } });
+    const gameIdRecord = await GameId.findOne({
+      where: {
+        steamId: gameId
+      }
+    });
 
     if (!gameIdRecord) {
-      return res.status(404).json({ error: "Game ID not found" });
+      return res.status(404).json({
+        error: "Game ID not found"
+      });
     }
 
     const regimentId = gameIdRecord.regimentId;
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
-      return res.status(404).json({ error: "Regiment not found" });
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
     }
 
     const gameStatsResponse = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=424030&key=${steamApiKey}&steamid=${gameId}`);
     const liveGameStats = gameStatsResponse.data.playerstats.stats;
 
-    // fetch player summary data from Steam API
     const response = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamApiKey}&steamids=${gameId}`);
     const liveSteamData = response.data.response.players[0];
 
@@ -378,28 +538,44 @@ exports.findRegimentBySteamId = async (req, res) => {
 
   } catch (error) {
     console.error("Error retrieving regiment:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 };
 
-
+/**
+ * Retrieve a single regiment with a GAME Id.
+ * This function is used to retrieve a single regiment with a GAME Id.
+ * 
+ * @param {*} req - request containing the GAME Id
+ * @param {*} res - response containing the regiment
+ * @returns - regiment
+ */
 exports.findGameIdsByGameId = async (req, res) => {
   const regimentId = req.params.regimentId;
   const gameId = req.params.gameId;
   const steamApiKey = process.env.STEAM_API_KEY;
-  
+
   try {
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
-      return res.status(404).json({ error: "Regiment not found" });
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
     }
 
-    // Find the GameId record where gameId matches the req.params.gameId
-    const gameIdRecord = await GameId.findOne({ where: { id: gameId } });
+    const gameIdRecord = await GameId.findOne({
+      where: {
+        id: gameId
+      }
+    });
 
     if (!gameIdRecord) {
-      return res.status(404).json({ error: "Game ID not found for the specified Regiment and Game ID" });
+      return res.status(404).json({
+        error: "Game ID not found for the specified Regiment and Game ID"
+      });
     }
 
     const steamId = gameIdRecord.steamId;
@@ -407,7 +583,6 @@ exports.findGameIdsByGameId = async (req, res) => {
     const gameStatsResponse = await axios.get(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=424030&key=${steamApiKey}&steamid=${steamId}`);
     const liveGameStats = gameStatsResponse.data.playerstats.stats;
 
-    // Fetch player summary data from Steam API
     const response = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamApiKey}&steamids=${steamId}`);
     const liveSteamData = response.data.response.players[0];
 
@@ -427,6 +602,8 @@ exports.findGameIdsByGameId = async (req, res) => {
 
   } catch (error) {
     console.error("Error retrieving game IDs:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 }

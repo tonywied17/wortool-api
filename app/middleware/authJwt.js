@@ -1,8 +1,28 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\authJwt.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:59:37 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 
+/**
+ * Verify Domain and Path
+ * This function is used to verify the domain and path
+ *
+ * @param {*} req - request
+ * @param {*} res - boolean based on moderator access
+ * @param {*} next
+ */
 verifyDomainAndPath = (req, res, next) => {
   const allowedDomains = [
     "https://wortool.com/regiments",
@@ -10,7 +30,7 @@ verifyDomainAndPath = (req, res, next) => {
     "https://app.paarmy.com/regiments",
   ];
 
-  const requestedDomain = req.headers['x-requested-domain'];
+  const requestedDomain = req.headers["x-requested-domain"];
 
   console.log("Requesting from:", requestedDomain);
 
@@ -23,11 +43,16 @@ verifyDomainAndPath = (req, res, next) => {
       message: "Unauthorized domain!",
     });
   }
-}
+};
 
-
-
-
+/**
+ * Verify Token
+ * This function is used to verify the token
+ *
+ * @param {*} req - request
+ * @param {*} res - boolean based on moderator access
+ * @param {*} next
+ */
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
@@ -85,11 +110,15 @@ isAdmin = (req, res, next) => {
   });
 };
 
+/**
+ * Verify Moderator
+ * This function is used to verify the moderator
+ * 
+ * @param {*} req - request
+ * @param {*} res - boolean based on moderator access
+ * @param {*} next
+ */
 isModerator = (req, res, next) => {
-
-
-
-  console.log("isModerator 1");
   let token = req.headers["x-access-token"];
 
   if (!token) {
@@ -97,8 +126,6 @@ isModerator = (req, res, next) => {
       message: "No token provided!",
     });
   }
-
-  console.log("isModerator 2");
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
@@ -110,54 +137,57 @@ isModerator = (req, res, next) => {
     console.log(decoded.regimentId + " " + req.body.regimentId);
     console.log(decoded.id + " " + req.body.userId);
 
-    console.log("isModerator 3");
+    User.findByPk(req.body.userId)
+      .then((user) => {
+        user.getRoles().then((roles) => {
+          let isModerator = false;
 
-    User.findByPk(req.body.userId).then((user) => {
-      user.getRoles().then((roles) => {
-        let isModerator = false;
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "moderator") {
-            isModerator = true;
-            break;
+          for (let i = 0; i < roles.length; i++) {
+            if (roles[i].name === "moderator") {
+              isModerator = true;
+              break;
+            }
           }
-        }
 
-        console.log("isModerator 4");
+          if (!isModerator) {
+            return res.status(403).send({
+              message: "Require Moderator Role!",
+            });
+          }
 
-        if (!isModerator) {
-          return res.status(403).send({
-            message: "Require Moderator Role!",
-          });
-        }
-
-        console.log("isModerator 5" + decoded.regimentId);
-
-
-        if (req.body.regimentId && decoded.regimentId == req.body.regimentId) {
-          console.log("Regiment ID: " + req.body.regimentId + " " + decoded.regimentId);
-          req.body.regimentId = decoded.regimentId;
-          next();
-        } else {
-          return res.status(401).send({
-            message: "Unauthorized!",
-          });
-        }
+          if (
+            req.body.regimentId &&
+            decoded.regimentId == req.body.regimentId
+          ) {
+            console.log(
+              "Regiment ID: " + req.body.regimentId + " " + decoded.regimentId
+            );
+            req.body.regimentId = decoded.regimentId;
+            next();
+          } else {
+            return res.status(401).send({
+              message: "Unauthorized!",
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        return res.status(500).send({
+          message: "Internal Server Error",
+          error: err,
+        });
       });
-    }).catch((err) => {
-      return res.status(500).send({
-        message: "Internal Server Error",
-        error: err,
-      });
-    });
   });
 };
 
-
-
-
-
-
+/**
+ * Verify Moderator or Admin
+ * This function is used to verify the moderator or admin
+ * 
+ * @param {*} req - request
+ * @param {*} res - boolean based on moderator or admin access
+ * @param {*} next
+ */
 isModeratorOrAdmin = (req, res, next) => {
   User.findByPk(req.body.userId).then((user) => {
     user.getRoles().then((roles) => {
@@ -200,7 +230,9 @@ verifyRegiment = (req, res, next) => {
     console.log(decoded.regimentId + " " + req.body.regimentId);
 
     if (req.params.regimentId && decoded.regimentId == req.params.regimentId) {
-      console.log("PARAMS: " + req.params.regimentId + " " + decoded.regimentId);
+      console.log(
+        "PARAMS: " + req.params.regimentId + " " + decoded.regimentId
+      );
       req.body.regimentId = decoded.regimentId;
       next();
       return;
@@ -219,7 +251,7 @@ verifyRegiment = (req, res, next) => {
   });
 };
 
-
+// Export the authJwt object
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,

@@ -1,3 +1,23 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\discord.user.model.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 4:02:15 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
+/**
+ * Discord User Model
+ * This model represents the Discord User Table in the database.
+ * 
+ * @param {*} sequelize 
+ * @param {*} Sequelize 
+ * @returns - Discord User Model
+ */
 module.exports = (sequelize, Sequelize) => {
   const DiscordUser = sequelize.define(
     "DiscordUser",
@@ -17,6 +37,10 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
+  /**
+   * Associate Discord User with Discord Guild and User
+   * @param {*} models
+   */
   DiscordUser.associate = (models) => {
     DiscordUser.belongsToMany(models.DiscordGuild, {
       through: "UserGuild",

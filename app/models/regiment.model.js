@@ -1,3 +1,23 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\regiment.model.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 4:06:41 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
+/**
+ * Regiment Model
+ * This model represents the Regiment Table in the database.
+ * 
+ * @param {*} sequelize 
+ * @param {*} Sequelize 
+ * @returns - Regiment
+ */
 module.exports = (sequelize, Sequelize) => {
   const Regiment = sequelize.define("regiments", {
     regiment: {
@@ -32,6 +52,10 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
+  /**
+   * Associate Regiment with GameID
+   * @param {*} models 
+   */
   Regiment.associate = (models) => {
     Regiment.hasMany(models.GameID, {
       foreignKey: "regimentId",

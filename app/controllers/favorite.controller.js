@@ -1,17 +1,35 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\favorite.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:30:59 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require('../models');
 const Favorite = db.favorite;
 
-// Find favorites for a specific user and map
+/**
+ * Find all favorites for a specific user and map
+ * This function is used to determine if a user has favorited a map
+ * 
+ * @param {*} req - request containing the userId and mapId
+ * @param {*} res - response containing the favorites
+ */
 exports.findFavoritesByUserAndMap = (req, res) => {
     const userId = req.params.userId;
     const mapId = req.params.mapId;
 
     Favorite.findAll({
-        where: {
-            userId: userId,
-            mapId: mapId
-        }
-    })
+            where: {
+                userId: userId,
+                mapId: mapId
+            }
+        })
         .then(favorites => {
             console.log('favorites: ' + favorites);
             res.send(favorites);
@@ -23,7 +41,13 @@ exports.findFavoritesByUserAndMap = (req, res) => {
         });
 }
 
-// Create or update a favorite for a specific user and map
+/**
+ * Create or update a favorite
+ * This function is used to create or update a favorite
+ * 
+ * @param {*} req - request containing the userId, mapId, and type
+ * @param {*} res - response containing the favorite
+ */
 exports.createOrUpdateFavorite = (req, res) => {
     const route = req.body.route;
     const userId = req.params.userId;
@@ -35,15 +59,14 @@ exports.createOrUpdateFavorite = (req, res) => {
     console.log('type: ' + type);
 
     Favorite.findOne({
-        where: {
-            userId: userId,
-            mapId: mapId
-        }
-    })
+            where: {
+                userId: userId,
+                mapId: mapId
+            }
+        })
         .then(favorite => {
             if (favorite) {
                 console.log('existing favorite: ' + favorite);
-                // Favorite exists, update it
                 favorite.favorite = type;
                 favorite.save()
                     .then(updatedFavorite => {
@@ -55,13 +78,12 @@ exports.createOrUpdateFavorite = (req, res) => {
                         });
                     });
             } else {
-                // Favorite doesn't exist, create it
                 Favorite.create({
-                    route: route,
-                    userId: userId,
-                    mapId: mapId,
-                    type: type
-                })
+                        route: route,
+                        userId: userId,
+                        mapId: mapId,
+                        type: type
+                    })
                     .then(newFavorite => {
                         res.send(newFavorite);
                     })
@@ -79,15 +101,21 @@ exports.createOrUpdateFavorite = (req, res) => {
         });
 }
 
-// Find favorites for a specific user
+/**
+ * Find all favorites for a specific user
+ * This function is used to determine if a user has favorited a map
+ * 
+ * @param {*} req - request containing the userId
+ * @param {*} res - response containing the favorites
+ */
 exports.findFavoritesByUser = (req, res) => {
     const userId = req.params.userId;
 
     Favorite.findAll({
-        where: {
-            userId: userId
-        }
-    })
+            where: {
+                userId: userId
+            }
+        })
         .then(favorites => {
             console.log('favorites: ' + favorites);
             res.send(favorites);
@@ -99,17 +127,22 @@ exports.findFavoritesByUser = (req, res) => {
         });
 }
 
-
-// Find favorites for a specific map
+/**
+ * Find all favorites for a specific map
+ * This function is used to determine if a map has been favorited
+ * 
+ * @param {*} req - request containing the mapId
+ * @param {*} res - response containing the favorites
+ */
 exports.findFavoritesByMap = (req, res) => {
     const mapId = req.params.mapId;
 
     Favorite.findAll({
-        where: {
-            mapId: mapId,
-            type: 'map'
-        }
-    })
+            where: {
+                mapId: mapId,
+                type: 'map'
+            }
+        })
         .then(favorites => {
             console.log('favorites: ' + favorites);
             res.send(favorites);
@@ -121,18 +154,23 @@ exports.findFavoritesByMap = (req, res) => {
         });
 }
 
-
-// Delete a favorite for a specific user and map
+/**
+ * Delete a favorite
+ * This function is used to delete a favorite
+ * 
+ * @param {*} req - request containing the userId and mapId
+ * @param {*} res - response containing the message
+ */
 exports.deleteFavorite = (req, res) => {
     const userId = req.params.userId;
     const mapId = req.params.mapId;
 
     Favorite.destroy({
-        where: {
-            userId: userId,
-            mapId: mapId
-        }
-    })
+            where: {
+                userId: userId,
+                mapId: mapId
+            }
+        })
         .then(num => {
             if (num == 1) {
                 res.send({

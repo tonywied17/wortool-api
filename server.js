@@ -3,6 +3,10 @@ const cors = require("cors");
 const db = require("./app/models");
 const app = express();
 
+/**
+ *   Cross Origin Resource Sharing
+ * ! Domain Whitelist
+ */
 app.use(cors({
   origin: ['https://paarmy.com', 'https://app.paarmy.com', 'https://www.paarmy.com', 'http://localhost:4200', 'https://paapp.tbz.wtf', 'https://discord.com', 'https://wortool.com'],
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
@@ -14,17 +18,13 @@ app.set('json spaces', 2)
 
 db.sequelize.sync();
 
+// Main API Route
 app.get("/pa", (req, res) => {
   res.json({ message: "Pennsylvania Army API." });
 });
 
 
-/**
- * ROUTES
- * 
- * REST API ROUTES
- * 
- */
+// Application Routes
 require("./app/routes/map.routes")(app);
 require("./app/routes/gallery.routes")(app);
 require("./app/routes/eu.routes")(app);

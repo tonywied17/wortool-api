@@ -1,6 +1,24 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\note.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:41:50 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require("../models");
 const Note = db.note;
 
+/**
+ * Find all notes for a specific user and map
+ * This function is used to retrieve all notes for a specific user and map
+ * @param {*} req - request containing the userId and mapId
+ * @param {*} res - response containing the notes
+ */
 exports.findNotesByUserAndMap = (req, res) => {
   const userId = req.params.userId;
   const mapId = req.params.mapId;
@@ -22,7 +40,13 @@ exports.findNotesByUserAndMap = (req, res) => {
     });
 };
 
-
+/**
+ * Create or update a note
+ * This function is used to create or update a note
+ * 
+ * @param {*} req - request containing the userId, mapId, and note
+ * @param {*} res - response containing the note
+ */
 exports.createOrUpdateNote = (req, res) => {
   const userId = req.params.userId;
   const mapId = req.params.mapId;

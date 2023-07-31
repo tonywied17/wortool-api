@@ -1,6 +1,25 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\steamid.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:51:46 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require("../models");
 const SteamID = db.steamid;
 
+/**
+ * Retrieve all SteamIDs from the database.
+ * This function is used to retrieve all SteamIDs from the database.
+ * 
+ * @param {*} req - request
+ * @param {*} res - response containing the SteamIDs
+ */
 exports.findAll = (req, res) => {
   SteamID.findAll()
     .then((steamids) => {
@@ -13,6 +32,13 @@ exports.findAll = (req, res) => {
     });
 };
 
+/**
+ * Retrieve a single SteamID with an id.
+ * This function is used to retrieve a single SteamID with an id.
+ * 
+ * @param {*} req - request containing the id
+ * @param {*} res - response containing the SteamID
+ */
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -27,6 +53,13 @@ exports.findOne = (req, res) => {
     });
 };
 
+/**
+ * Create or Update a SteamID by the id in the request
+ * This function is used to create or update a SteamID by the id in the request
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.createOrUpdate = (req, res) => {
   const steamId = req.params.steamId;
   const name = req.body.name;
@@ -54,6 +87,13 @@ exports.createOrUpdate = (req, res) => {
     });
 };
 
+/**
+ * Delete a SteamID with the specified id in the request
+ * This function is used to delete a SteamID with the specified id in the request
+ * 
+ * @param {*} req - request containing the id
+ * @param {*} res - response containing the message
+ */
 exports.delete = (req, res) => {
   const steamId = req.params.steamId;
 

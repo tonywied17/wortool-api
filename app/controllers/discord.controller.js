@@ -1,19 +1,37 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\discord.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:35:18 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const {
   Client,
   GatewayIntentBits,
   TextChannel,
-  WebhookClient
 } = require("discord.js");
 const axios = require("axios");
 const db = require("../models");
 const User = db.user;
 const Regiment = db.regiment;
 const DiscordUser = db.discordUser;
-const DiscordGuild = db.discordGuild;
-require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+require("dotenv").config({
+  path: "/home/tonewebdesign/envs/pa/.env"
+});
 
 
-
+/**
+ * Create a webhook for a specific guild and channel
+ * This function will create a webhook for a specific guild and channel
+ * 
+ * @param {*} req - request containing the guildId and channelId
+ * @param {*} res - response containing the webhook
+ */
 exports.createWebhook = async (req, res) => {
   try {
     const guildId = req.params.guildId;
@@ -49,31 +67,44 @@ exports.createWebhook = async (req, res) => {
         console.log(`URL: ${webhookURL}`);
 
         // Update the Regiment model with the webhookURL and webhook_channel
-        await Regiment.update(
-          { 
-            webhook: webhookURL,
-            webhook_channel: channel.name
-          },
-          { where: { guild_id: guildId } }
-        );
+        await Regiment.update({
+          webhook: webhookURL,
+          webhook_channel: channel.name
+        }, {
+          where: {
+            guild_id: guildId
+          }
+        });
 
-        res.json({ webhook: webhookURL });
+        res.json({
+          webhook: webhookURL
+        });
 
         client.destroy();
       } catch (error) {
         console.error('Error creating webhook:', error);
-        res.status(500).json({ error: 'Failed to create webhook.' });
+        res.status(500).json({
+          error: 'Failed to create webhook.'
+        });
         client.destroy();
       }
     });
   } catch (error) {
     console.error('Error logging in:', error);
-    res.status(500).json({ error: 'Failed to login.' });
+    res.status(500).json({
+      error: 'Failed to login.'
+    });
   }
 };
 
 
-
+/**
+ * Find a single guild
+ * This function will find a single guild based on the request id
+ * 
+ * @param {*} req - request containing the guildId
+ * @param {*} res - response containing the guild record
+ */
 exports.findOneGuild = (req, res) => {
   const id = req.params.id;
 
@@ -91,14 +122,21 @@ exports.findOneGuild = (req, res) => {
   client.on('ready', () => {
     const guild = client.guilds.cache.get(id);
 
-    res.json({ guild: guild });
+    res.json({
+      guild: guild
+    });
 
     client.destroy();
   });
 }
 
-
-
+/**
+ * Find all guild channels
+ * This function will find all guild channels based on the request id
+ * 
+ * @param {*} req - request containing the guildId
+ * @param {*} res - response containing the guild channels
+ */
 exports.findGuildChannels = (req, res) => {
   const id = req.params.id;
 
@@ -112,9 +150,6 @@ exports.findGuildChannels = (req, res) => {
   });
 
   client.login(process.env.DISCORD_TOKEN);
-
-
-
   client.on("ready", async () => {
     try {
       const discordServer = await client.guilds.fetch(id);
@@ -134,12 +169,16 @@ exports.findGuildChannels = (req, res) => {
 
       console.log("Channel Data:", channelData);
 
-      res.json({ channels: channelData });
+      res.json({
+        channels: channelData
+      });
 
       client.destroy();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Failed to fetch guild channels." });
+      res.status(500).json({
+        error: "Failed to fetch guild channels."
+      });
     }
   });
 
@@ -147,8 +186,12 @@ exports.findGuildChannels = (req, res) => {
 
 };
 
-
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.findOne = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -160,13 +203,17 @@ exports.findOne = async (req, res) => {
     });
 
     if (!discordUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        message: "User not found"
+      });
     }
 
     return res.json(discordUser);
   } catch (error) {
     console.log("Error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      message: "Internal server error"
+    });
   }
 };
 
@@ -177,7 +224,9 @@ exports.findAll = async (req, res) => {
     return res.json(discordUsers);
   } catch (error) {
     console.log("Error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      message: "Internal server error"
+    });
   }
 };
 
@@ -307,7 +356,10 @@ exports.findOneUser = (req, res) => {
  */
 exports.auth = async function (req, res) {
   try {
-    const { code, state } = req.query;
+    const {
+      code,
+      state
+    } = req.query;
     const params = new URLSearchParams();
     let user;
 
@@ -319,7 +371,10 @@ exports.auth = async function (req, res) {
     params.append("scope", "identify");
 
     const response = await axios.post("https://discord.com/api/oauth2/token", params);
-    const { access_token, token_type } = response.data;
+    const {
+      access_token,
+      token_type
+    } = response.data;
 
     const userDataResponse = await axios.get("https://discord.com/api/users/@me", {
       headers: {
@@ -335,11 +390,21 @@ exports.auth = async function (req, res) {
       avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
     };
 
-    const existingUser = await User.findOne({ where: { id: state } });
-    const existingDiscordUser = await DiscordUser.findOne({ where: { discordId: user.discordId } });
+    const existingUser = await User.findOne({
+      where: {
+        id: state
+      }
+    });
+    const existingDiscordUser = await DiscordUser.findOne({
+      where: {
+        discordId: user.discordId
+      }
+    });
 
     if (existingDiscordUser) {
-      return res.status(400).json({ error: "Discord ID already in use" });
+      return res.status(400).json({
+        error: "Discord ID already in use"
+      });
     }
 
     if (existingUser) {
@@ -353,8 +418,12 @@ exports.auth = async function (req, res) {
       await DiscordUser.create(user);
     }
 
-    const regiment = await Regiment.findOne({ where: { ownerId: user.discordId } });
-    
+    const regiment = await Regiment.findOne({
+      where: {
+        ownerId: user.discordId
+      }
+    });
+
     if (regiment && existingUser) {
       existingUser.regimentId = regiment.id;
 
@@ -407,23 +476,31 @@ exports.deleteOneUser = async (req, res) => {
     });
 
     if (!discordUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        message: "User not found"
+      });
     }
 
     await discordUser.destroy();
 
 
     const user = await User.findOne({
-      where: { id: userId },
+      where: {
+        id: userId
+      },
     });
 
     user.discordId = null;
 
     await user.save();
 
-    return res.json({ message: "User deleted successfully" });
+    return res.json({
+      message: "User deleted successfully"
+    });
   } catch (error) {
     console.log("Error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      message: "Internal server error"
+    });
   }
 }

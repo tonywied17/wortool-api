@@ -1,3 +1,15 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\index.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 4:04:33 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const config = require("../config/db.config.js");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
@@ -18,6 +30,7 @@ db.sequelize = sequelize;
 
 /**
  * MODELS
+ * This is where we import all of our models.
  */
 db.maps = require("./map.model.js")(sequelize, Sequelize);
 db.gallery = require("./gallery.model.js")(sequelize, Sequelize);
@@ -39,7 +52,8 @@ db.gameid = require("./gameid.model.js")(sequelize, Sequelize);
 
 
 /**
- * RELATIONS
+ * ASSOCIATIONS
+ * This is where we define our user and role associations because this is how we originally did it and haven't updated it yet.
  */
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -53,8 +67,6 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId",
   constraints: false,
 });
-
-
 
 
 db.ROLES = ["user", "admin", "moderator"];

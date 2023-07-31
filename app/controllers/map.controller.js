@@ -1,7 +1,26 @@
+/*
+ * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\map.controller.js
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Created Date: Tuesday June 27th 2023
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Mon July 31st 2023 3:40:24 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2023 Tone Web Design, Molex
+ */
+
 const db = require("../models");
 const Map = db.maps;
 const axios = require("axios");
 
+/**
+ * Retrieve all maps from the database.
+ * This function is used to retrieve all maps from the database.
+ * 
+ * @param {*} req - request
+ * @param {*} res - response containing the maps
+ */
 exports.findAll = (req, res) => {
   Map.findAll()
     .then(async (data) => {
@@ -15,6 +34,13 @@ exports.findAll = (req, res) => {
     });
 };
 
+/**
+ * Retrieve a single map with an id.
+ * This function is used to retrieve a single map with an id.
+ * 
+ * @param {*} req - request containing the id
+ * @param {*} res - response containing the map
+ */
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -54,7 +80,13 @@ exports.findOne = (req, res) => {
     });
 };
 
-//get big map object - was just for testing purposes.
+/**
+ * Retrieve all maps from the database.
+ * This function is used to retrieve all maps from the database.
+ * 
+ * @param {*} req - request
+ * @param {*} res - response containing the maps
+ */
 exports.findAllBig = (req, res) => {
   Map.findAll()
     .then(async (data) => {
