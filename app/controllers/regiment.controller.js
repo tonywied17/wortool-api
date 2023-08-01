@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:50:03 
+ * Last Modified: Tue August 1st 2023 11:48:47 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -14,6 +14,7 @@ const db = require("../models");
 const Regiment = db.regiment;
 const User = db.user;
 const GameId = db.gameid;
+const RegSchedule = db.regschedule;
 const axios = require("axios");
 
 /**
@@ -602,6 +603,186 @@ exports.findGameIdsByGameId = async (req, res) => {
 
   } catch (error) {
     console.error("Error retrieving game IDs:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Retrieve a schedule for a certain day
+ * This function is used to retrieve a schedule for a certain day.
+ * @param {*} req - request containing the regimentId and day
+ * @param {*} res - response
+ * @returns - schedule
+ */
+exports.findScheduleByDay = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const day = req.params.day;
+
+  try{
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findAll({
+      where: {
+        regimentId: regimentId,
+        day: day
+      },
+    });
+
+    return res.status(200).json(schedule);
+
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Retrieve all schedules for a regiment
+ * This function is used to retrieve all schedules for a regiment
+ * @param {*} req - request containing the regimentId
+ * @param {*} res - response
+ * @returns - schedules
+ */
+exports.findSchedulesByRegimentId = async (req, res) => {
+  const regimentId = req.params.regimentId;
+
+  try{
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findAll({
+      where: {
+        regimentId: regimentId,
+      },
+    });
+
+    return res.status(200).json(schedule);
+
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Create a schedule for a regiment
+ * This function is used to create a schedule for a regiment
+ * @param {*} req - request containing the regimentId and body
+ * @param {*} res - response
+ * @returns - message notifying the user that the schedule was created successfully
+ */
+exports.createSchedule = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const {
+    day,
+    time,
+    event_type,
+    event_name
+  } = req.body;
+
+  if (!day) {
+    return res.status(400).json({
+      error: "Missing day in request body"
+    });
+  }
+
+  if (!time) {
+    return res.status(400).json({
+      error: "Missing time in request body"
+    });
+  }
+
+  try {
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    RegSchedule.create({
+        regimentId: regimentId,
+        day: day,
+        time: time,
+        event_type: event_type,
+        event_name: event_name,
+      })
+      .then((createdSchedule) => {
+        res.status(200).json({
+          message: "Schedule created successfully",
+          schedule: createdSchedule
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to create the schedule:", err);
+        return res.status(500).json({
+          error: "Failed to create the schedule."
+        });
+      });
+
+  } catch (error) {
+    console.error("Error handling schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Delete a schedule from a regiment
+ * This function is used to delete a schedule from a regiment
+ * @param {*} req - request containing the regimentId and scheduleId
+ * @param {*} res - response
+ * @returns - message notifying the user that the schedule was deleted successfully
+ */
+exports.removeSchedule = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const scheduleId = req.params.scheduleId;
+
+  try {
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findByPk(scheduleId);
+
+    if (!schedule) {
+      return res.status(404).json({
+        error: "Schedule not found"
+      });
+    }
+
+    const deleted = await schedule.destroy();
+
+    return res.status(200).json({
+      message: "Schedule deleted successfully",
+      deleted
+    });
+
+  } catch (error) {
+    console.error("Error deleting schedule:", error);
     return res.status(500).json({
       error: "Internal Server Error"
     });
