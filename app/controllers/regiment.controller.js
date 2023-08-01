@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:41:12 
+ * Last Modified: Tue August 1st 2023 11:48:47 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -740,6 +740,49 @@ exports.createSchedule = async (req, res) => {
 
   } catch (error) {
     console.error("Error handling schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Delete a schedule from a regiment
+ * This function is used to delete a schedule from a regiment
+ * @param {*} req - request containing the regimentId and scheduleId
+ * @param {*} res - response
+ * @returns - message notifying the user that the schedule was deleted successfully
+ */
+exports.removeSchedule = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const scheduleId = req.params.scheduleId;
+
+  try {
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findByPk(scheduleId);
+
+    if (!schedule) {
+      return res.status(404).json({
+        error: "Schedule not found"
+      });
+    }
+
+    const deleted = await schedule.destroy();
+
+    return res.status(200).json({
+      message: "Schedule deleted successfully",
+      deleted
+    });
+
+  } catch (error) {
+    console.error("Error deleting schedule:", error);
     return res.status(500).json({
       error: "Internal Server Error"
     });
