@@ -4,13 +4,15 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:34:45 
+ * Last Modified: Tue August 1st 2023 11:27:53 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
 
-const { authJwt } = require("../middleware");
+const {
+  authJwt
+} = require("../middleware");
 const regimentController = require("../controllers/regiment.controller");
 
 /**
@@ -96,6 +98,29 @@ module.exports = function (app) {
     regimentController.findGameIdsByGameId
   );
 
+  /**
+   * Get Regiment Schedule By Regiment ID
+   * @route GET /pa/regiments/:regimentId/schedules
+   * @group Regiments
+   * @returns {object} 200 - An object containing the regiment schedule
+   */
+  app.get(
+    "/pa/regiments/:regimentId/schedules/:day",
+    regimentController.findScheduleByDay
+  );
+
+  /**
+   * Get Regiment Schedule By Regiment ID
+   * @route GET /pa/regiments/:regimentId/schedules
+   * @group Regiments
+   * @returns {object} 200 - An object containing the regiment schedule
+   */
+  app.get(
+    "/pa/regiments/:regimentId/schedules",
+    regimentController.findScheduleByRegimentId
+  );
+
+
   // ! Post Routes //
 
   /**
@@ -120,7 +145,7 @@ module.exports = function (app) {
     "/pa/regiments/:regimentId/change",
     [authJwt.verifyDomainAndPath],
     regimentController.update
-  )
+  );
 
   /**
    * Create Regiment
@@ -131,7 +156,7 @@ module.exports = function (app) {
   app.post(
     "/pa/regiments/create",
     regimentController.createRegiment
-  )
+  );
 
   /**
    * Add User Game ID to Regiment
@@ -143,8 +168,21 @@ module.exports = function (app) {
     "/pa/regiments/:regimentId/gameid",
     // [authJwt.verifyRegiment],
     regimentController.addGameId
-  )
+  );
 
+  /**
+   * Create Regiment Schedule
+   * @route POST /pa/regiments/:regimentId/schedules
+   * @group Regiments
+   * @returns {object} 200 - An object containing the regiment
+   */
+  app.post(
+    "/pa/regiments/:regimentId/schedules",
+    [authJwt.verifyRegiment],
+    regimentController.createSchedule
+  );
+
+  
   // ! Delete Routes //
 
   /**
