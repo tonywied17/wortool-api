@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:22:00 
+ * Last Modified: Tue August 1st 2023 10:48:14 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -110,6 +110,7 @@ module.exports = function (app) {
    * Discord OAuth2 Callback
    * @route GET /pa/discord/callback/
    * @group Discord
+   * @param state - The state parameter that was passed to the OAuth URL
    */
   app.get('/pa/discord/', (req, res) => {
     const state = req.query.state;

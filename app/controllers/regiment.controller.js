@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:50:03 
+ * Last Modified: Tue August 1st 2023 11:34:58 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -14,6 +14,7 @@ const db = require("../models");
 const Regiment = db.regiment;
 const User = db.user;
 const GameId = db.gameid;
+const RegSchedule = db.regschedule;
 const axios = require("axios");
 
 /**
@@ -602,6 +603,65 @@ exports.findGameIdsByGameId = async (req, res) => {
 
   } catch (error) {
     console.error("Error retrieving game IDs:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+
+exports.findScheduleByDay = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const day = req.params.day;
+
+  try{
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findAll({
+      where: {
+        regimentId: regimentId,
+        day: day
+      },
+    });
+
+    return res.status(200).json(schedule);
+
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+exports.findSchedulesByRegimentId = async (req, res) => {
+  const regimentId = req.params.regimentId;
+
+  try{
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findAll({
+      where: {
+        regimentId: regimentId,
+      },
+    });
+
+    return res.status(200).json(schedule);
+
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
     return res.status(500).json({
       error: "Internal Server Error"
     });

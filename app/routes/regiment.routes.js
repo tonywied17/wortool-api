@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:27:53 
+ * Last Modified: Tue August 1st 2023 11:35:03 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -117,7 +117,7 @@ module.exports = function (app) {
    */
   app.get(
     "/pa/regiments/:regimentId/schedules",
-    regimentController.findScheduleByRegimentId
+    regimentController.findSchedulesByRegimentId
   );
 
 
