@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:34:58 
+ * Last Modified: Tue August 1st 2023 11:37:52 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -609,7 +609,13 @@ exports.findGameIdsByGameId = async (req, res) => {
   }
 }
 
-
+/**
+ * Retrieve a schedule for a certain day
+ * This function is used to retrieve a schedule for a certain day.
+ * @param {*} req - request containing the regimentId and day
+ * @param {*} res - response
+ * @returns - schedule
+ */
 exports.findScheduleByDay = async (req, res) => {
   const regimentId = req.params.regimentId;
   const day = req.params.day;
@@ -640,6 +646,13 @@ exports.findScheduleByDay = async (req, res) => {
   }
 }
 
+/**
+ * Retrieve all schedules for a regiment
+ * This function is used to retrieve all schedules for a regiment
+ * @param {*} req - request containing the regimentId
+ * @param {*} res - response
+ * @returns - schedules
+ */
 exports.findSchedulesByRegimentId = async (req, res) => {
   const regimentId = req.params.regimentId;
 
