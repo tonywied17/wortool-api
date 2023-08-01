@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:42:52 
+ * Last Modified: Tue August 1st 2023 11:46:47 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -223,4 +223,18 @@ module.exports = function (app) {
     [authJwt.verifyRegiment],
     regimentController.removeGameId
   );
+
+  /**
+   * Delete Regiment Schedule
+   * @route DELETE /pa/regiments/:regimentId/schedules/:scheduleId
+   * @group Regiments
+   * @security JWT verifyRegiment
+   * @returns {object} 200 - An object containing the regiment
+   */
+  app.delete(
+    "/pa/regiments/:regimentId/schedules/:scheduleId",
+    [authJwt.verifyRegiment],
+    regimentController.removeSchedule
+  );
+
 };
