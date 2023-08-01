@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:35:03 
+ * Last Modified: Tue August 1st 2023 11:42:52 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -174,12 +174,26 @@ module.exports = function (app) {
    * Create Regiment Schedule
    * @route POST /pa/regiments/:regimentId/schedules
    * @group Regiments
+   * @security JWT verifyRegiment
    * @returns {object} 200 - An object containing the regiment
    */
   app.post(
     "/pa/regiments/:regimentId/schedules",
     [authJwt.verifyRegiment],
     regimentController.createSchedule
+  );
+
+  /**
+   * Update Regiment Schedule
+   * @route PUT /pa/regiments/:regimentId/schedules/:scheduleId
+   * @group Regiments
+   * @security JWT verifyRegiment
+   * @returns {object} 200 - An object containing the regiment
+   */
+  app.put(
+    "/pa/regiments/:regimentId/schedules/:scheduleId",
+    [authJwt.verifyRegiment],
+    regimentController.updateSchedule
   );
 
   
@@ -189,6 +203,7 @@ module.exports = function (app) {
    * Delete Regiment
    * @route DELETE /pa/regiments/:regimentId/delete
    * @group Regiments
+   * @security JWT verifyRegiment
    * @returns {object} 200 - An object containing the regiment
    */
   app.delete(

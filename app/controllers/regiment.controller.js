@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:37:52 
+ * Last Modified: Tue August 1st 2023 11:41:12 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -675,6 +675,71 @@ exports.findSchedulesByRegimentId = async (req, res) => {
 
   } catch (error) {
     console.error("Error retrieving schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Create a schedule for a regiment
+ * This function is used to create a schedule for a regiment
+ * @param {*} req - request containing the regimentId and body
+ * @param {*} res - response
+ * @returns - message notifying the user that the schedule was created successfully
+ */
+exports.createSchedule = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const {
+    day,
+    time,
+    event_type,
+    event_name
+  } = req.body;
+
+  if (!day) {
+    return res.status(400).json({
+      error: "Missing day in request body"
+    });
+  }
+
+  if (!time) {
+    return res.status(400).json({
+      error: "Missing time in request body"
+    });
+  }
+
+  try {
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    RegSchedule.create({
+        regimentId: regimentId,
+        day: day,
+        time: time,
+        event_type: event_type,
+        event_name: event_name,
+      })
+      .then((createdSchedule) => {
+        res.status(200).json({
+          message: "Schedule created successfully",
+          schedule: createdSchedule
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to create the schedule:", err);
+        return res.status(500).json({
+          error: "Failed to create the schedule."
+        });
+      });
+
+  } catch (error) {
+    console.error("Error handling schedule:", error);
     return res.status(500).json({
       error: "Internal Server Error"
     });
