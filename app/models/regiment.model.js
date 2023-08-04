@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:06:41 
+ * Last Modified: Fri August 4th 2023 4:32:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -49,7 +49,11 @@ module.exports = (sequelize, Sequelize) => {
     },
     side: {
       type: Sequelize.STRING,
-    }
+    },
+    memberCount: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
   });
 
   /**

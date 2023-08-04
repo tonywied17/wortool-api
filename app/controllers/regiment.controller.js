@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:48:47 
+ * Last Modified: Fri August 4th 2023 4:33:05 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -168,7 +168,8 @@ exports.createRegiment = async (req, res) => {
     guildAvatar,
     guildInvite,
     ownerId,
-    side
+    side,
+    memberCount
   } = req.body;
   try {
     let regiment = await Regiment.findOne({
@@ -185,6 +186,7 @@ exports.createRegiment = async (req, res) => {
           invite_link: guildInvite,
           ownerId: ownerId,
           side: side,
+          memberCount: memberCount,
         }, {
           where: {
             guild_id: guildId
@@ -203,6 +205,7 @@ exports.createRegiment = async (req, res) => {
         invite_link: guildInvite,
         ownerId: ownerId,
         side: side,
+        memberCount: memberCount,
       });
     }
 
@@ -247,6 +250,46 @@ exports.createRegiment = async (req, res) => {
     });
   }
 };
+
+/**
+ * Update memberCount for regiment guild
+ * This function is used to update the memberCount for a regiment guild
+ * @param {*} req - request containing the guildId and body
+ * @param {*} res - response containing the updated regiment
+ * @returns - updated regiment
+ */
+exports.updateMemberCount = async (req, res) => {
+  const guildId = req.params.guildId;
+  const {
+    memberCount
+  } = req.body;
+
+  try {
+    const regiment = await Regiment.findOne({
+      where: {
+        guild_id: guildId
+      }
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const updatedRegiment = await regiment.update({
+      memberCount: memberCount
+    });
+
+    return res.status(200).json(updatedRegiment);
+  } catch (error) {
+    console.error("Error updating regiment:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
 
 /**
  * Delete a regiment with the specified id in the request
