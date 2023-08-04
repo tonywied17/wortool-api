@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:46:47 
+ * Last Modified: Fri August 4th 2023 4:30:46 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -159,6 +159,15 @@ module.exports = function (app) {
   );
 
   /**
+   * Update memberCount for regiment guild
+   * 
+   */
+  app.post(
+    "/pa/regiments/:guildId/membercount",
+    regimentController.updateMemberCount
+  );
+
+  /**
    * Add User Game ID to Regiment
    * @route POST /pa/regiments/:regimentId/gameid
    * @group Regiments
@@ -190,11 +199,11 @@ module.exports = function (app) {
    * @security JWT verifyRegiment
    * @returns {object} 200 - An object containing the regiment
    */
-  app.put(
-    "/pa/regiments/:regimentId/schedules/:scheduleId",
-    [authJwt.verifyRegiment],
-    regimentController.updateSchedule
-  );
+  // app.put(
+  //   "/pa/regiments/:regimentId/schedules/:scheduleId",
+  //   [authJwt.verifyRegiment],
+  //   regimentController.updateSchedule
+  // );
 
   
   // ! Delete Routes //

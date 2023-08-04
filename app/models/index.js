@@ -49,7 +49,7 @@ db.steamid = require("./steamid.model.js")(sequelize, Sequelize);
 db.regiment = require("./regiment.model.js")(sequelize, Sequelize);
 db.recap = require("./wor.recap.model.js")(sequelize, Sequelize);
 db.gameid = require("./gameid.model.js")(sequelize, Sequelize);
-db.regSchedule = require("./regschedule.model.js")(sequelize, Sequelize);
+db.regSchedule = require("./regiment.schedule.model.js")(sequelize, Sequelize);
 
 
 /**
