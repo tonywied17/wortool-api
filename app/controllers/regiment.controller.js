@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp07407\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri August 4th 2023 4:33:05 
+ * Last Modified: Sat August 5th 2023 9:50:36 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -14,7 +14,7 @@ const db = require("../models");
 const Regiment = db.regiment;
 const User = db.user;
 const GameId = db.gameid;
-const RegSchedule = db.regschedule;
+const RegSchedule = db.regSchedule;
 const axios = require("axios");
 
 /**
@@ -661,7 +661,7 @@ exports.findGameIdsByGameId = async (req, res) => {
  */
 exports.findScheduleByDay = async (req, res) => {
   const regimentId = req.params.regimentId;
-  const day = req.params.day;
+  const day = req.body.day;
 
   try{
     const regiment = await Regiment.findByPk(regimentId);
@@ -725,6 +725,86 @@ exports.findSchedulesByRegimentId = async (req, res) => {
 }
 
 /**
+ * Retrieve a schedule for a certain region
+ * This function is used to retrieve a schedule for a certain region.
+ * @param {*} req - request containing the regimentId and region
+ * @param {*} res - response
+ * @returns - schedule
+ */
+exports.findRegimentByRegionTz = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const region = req.body.region;
+
+  try{
+    const regiment = await Regiment.findOne({
+      where: {
+        id: regimentId,
+      },
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findAll({
+      where: {
+        region_tz: region,
+      },
+    });
+
+    return res.status(200).json(schedule);
+
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Retrieve a schedule by regiment id and schedule name
+ * This function is used to retrieve a schedule by regiment id and schedule name
+ * @param {*} req - request containing the regimentId and schedule_name
+ * @param {*} res - response
+ * @returns - schedule
+ */
+exports.findRegimentByScheduleName = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  const schedule_name = req.body.schedule_name;
+
+  try{
+    const regiment = await Regiment.findOne({
+      where: {
+        id: regimentId,
+      },
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const schedule = await RegSchedule.findAll({
+      where: {
+        schedule_name: schedule_name,
+      },
+    });
+
+    return res.status(200).json(schedule);
+
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
  * Create a schedule for a regiment
  * This function is used to create a schedule for a regiment
  * @param {*} req - request containing the regimentId and body
@@ -734,6 +814,8 @@ exports.findSchedulesByRegimentId = async (req, res) => {
 exports.createSchedule = async (req, res) => {
   const regimentId = req.params.regimentId;
   const {
+    schedule_name,
+    region,
     day,
     time,
     event_type,
@@ -762,6 +844,8 @@ exports.createSchedule = async (req, res) => {
     }
 
     RegSchedule.create({
+        schedule_name: schedule_name,
+        region_tz: region,
         regimentId: regimentId,
         day: day,
         time: time,
@@ -826,6 +910,46 @@ exports.removeSchedule = async (req, res) => {
 
   } catch (error) {
     console.error("Error deleting schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+// update discord avatar OR guild name
+exports.updateDiscord = async (req, res) => {
+  const {
+    guildId,
+    guildName,
+    guildAvatar
+  } = req.body;
+
+  try {
+    const regiment = await Regiment.findOne({
+      where: {
+        guild_id: guildId
+      }
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    if (guildName) {
+      regiment.regiment = guildName;
+    }
+
+    if (guildAvatar) {
+      regiment.guild_avatar = guildAvatar;
+    }
+
+    const updatedRegiment = await regiment.save();
+
+    return res.status(200).json(updatedRegiment);
+  } catch (error) {
+    console.error("Error updating regiment:", error);
     return res.status(500).json({
       error: "Internal Server Error"
     });

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp04595\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:38:18 
+ * Last Modified: Sat August 5th 2023 1:11:51 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -73,11 +73,11 @@ exports.signup = (req, res) => {
  * @param {*} res - response message notifying if the user was set as a moderator
  */
 exports.setModerator = (req, res) => {
-  const userID = req.params.userId;
+  const memberId = req.params.memberId;
 
   User.findOne({
       where: {
-        id: userID,
+        id: memberId,
       },
     })
     .then((user) => {
@@ -115,7 +115,7 @@ exports.setModerator = (req, res) => {
  * @param {*} res - response message notifying if the user was removed as a moderator
  */
 exports.removeModerator = (req, res) => {
-  const userID = req.params.userId;
+  const userID = req.params.memberId;
 
   User.findOne({
       where: {

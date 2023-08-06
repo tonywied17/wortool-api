@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp07519\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri August 4th 2023 4:30:46 
+ * Last Modified: Sat August 5th 2023 9:52:07 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -105,7 +105,7 @@ module.exports = function (app) {
    * @returns {object} 200 - An object containing the regiment schedule
    */
   app.get(
-    "/pa/regiments/:regimentId/schedules/:day",
+    "/pa/regiments/:regimentId/schedules/day/",
     regimentController.findScheduleByDay
   );
 
@@ -118,6 +118,23 @@ module.exports = function (app) {
   app.get(
     "/pa/regiments/:regimentId/schedules",
     regimentController.findSchedulesByRegimentId
+  );
+
+  /**
+   * Get Regiment Schedule By Regiment ID and Region
+   * @route GET /pa/regiments/:regimentId/schedules/region
+   * @group Regiments
+   * @returns {object} 200 - An object containing the regiment schedule
+   */
+  app.get(
+    "/pa/regiments/:regimentId/schedules/region",
+    regimentController.findRegimentByRegionTz
+  );
+
+  //Get regiment schedule by regiment id and schedule_name
+  app.get(
+    "/pa/regiments/:regimentId/schedules/name",
+    regimentController.findRegimentByScheduleName
   );
 
 
@@ -205,6 +222,11 @@ module.exports = function (app) {
   //   regimentController.updateSchedule
   // );
 
+  //update discord avatar and servername
+  app.put(
+    "/pa/regiments/updateDiscord",
+    regimentController.updateDiscord
+  );
   
   // ! Delete Routes //
 

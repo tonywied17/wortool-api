@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\auth.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp04663\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:16:06 
+ * Last Modified: Sat August 5th 2023 1:11:20 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -88,7 +88,7 @@ module.exports = function (app) {
    * @security JWT
    */
   app.put(
-    "/pa/auth/:userId/setModerator",
+    "/pa/auth/:memberId/setModerator",
     [authJwt.verifyToken],
     controller.setModerator
   );
@@ -101,7 +101,7 @@ module.exports = function (app) {
    * @security JWT
    */
   app.put(
-    "/pa/auth/:userId/removeModerator",
+    "/pa/auth/:memberId/removeModerator",
     [authJwt.verifyToken],
     controller.removeModerator
   );
