@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 5th 2023 2:22:10 
+ * Last Modified: Sat August 5th 2023 9:50:36 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -918,8 +918,8 @@ exports.removeSchedule = async (req, res) => {
 
 // update discord avatar OR guild name
 exports.updateDiscord = async (req, res) => {
-  const guildId = req.params.guildId;
   const {
+    guildId,
     guildName,
     guildAvatar
   } = req.body;

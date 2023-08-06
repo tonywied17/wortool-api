@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 5th 2023 2:19:37 
+ * Last Modified: Sat August 5th 2023 9:52:07 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -224,7 +224,7 @@ module.exports = function (app) {
 
   //update discord avatar and servername
   app.put(
-    "/pa/regiments/:guildId/discord/update",
+    "/pa/regiments/updateDiscord",
     regimentController.updateDiscord
   );
   
