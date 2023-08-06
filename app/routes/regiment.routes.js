@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 5th 2023 9:52:07 
+ * Last Modified: Sun August 6th 2023 12:58:41 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -239,7 +239,6 @@ module.exports = function (app) {
    */
   app.delete(
     "/pa/regiments/:userId/remove",
-    [authJwt.verifyRegiment],
     regimentController.removeUsersRegiment
   );
 
