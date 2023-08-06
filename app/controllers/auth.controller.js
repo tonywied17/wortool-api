@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp04595\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 5th 2023 1:11:51 
+ * Last Modified: Sun August 6th 2023 12:54:33 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -293,60 +293,48 @@ exports.profile = (req, res) => {
   console.log("regimentId: " + regimentId);
 
   User.findOne({
+    where: {
+      email: email,
+      id: {
+        [Op.not]: userID
+      },
+    },
+  })
+  .then((existingUser) => {
+    if (existingUser) {
+      return res.status(400).send({
+        message: "Email is already taken."
+      });
+    }
+
+    // Look for DiscordUser but don't return an error if not found
+    DiscordUser.findOne({
       where: {
-        email: email,
-        id: {
-          [Op.not]: userID
-        },
+        userId: userID,
       },
     })
-    .then((existingUser) => {
-      if (existingUser) {
-        return res.status(400).send({
-          message: "Email is already taken."
-        });
-      }
+    .then((discordUser) => {
+      if (discordUser) {
+        // Only perform update if DiscordUser is found
+        const updateFields = {};
 
-      DiscordUser.findOne({
+        if (avatar_url) {
+          updateFields.avatar_url = avatar_url;
+        }
+
+        DiscordUser.update(updateFields, {
           where: {
             userId: userID,
           },
         })
-
-        .then((discordUser) => {
-          if (!discordUser) {
-            return res.status(404).send({
-              message: "Discord User Not found."
-            });
-          }
-
-          const updateFields = {};
-
-          if (avatar_url) {
-            updateFields.avatar_url = avatar_url;
-          }
-
-          DiscordUser.update(updateFields, {
-              where: {
-                userId: userID,
-              },
-            })
-            .then(() => {
-              res.status(200).send({
-                message: "Discord User updated successfully!"
-              });
-            })
-            .catch((err) => {
-              res.status(500).send({
-                message: err.message
-              });
-            });
-        })
         .catch((err) => {
-          res.status(500).send({
-            message: err.message
-          });
+          console.error("Error updating DiscordUser:", err.message);
         });
+      }
+    })
+    .catch((err) => {
+      console.error("Error looking for DiscordUser:", err.message);
+    });
 
 
       User.findOne({
