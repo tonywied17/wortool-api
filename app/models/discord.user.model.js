@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:02:15 
+ * Last Modified: Sat August 12th 2023 12:07:29 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -36,22 +36,6 @@ module.exports = (sequelize, Sequelize) => {
       freezeTableName: true,
     }
   );
-
-  /**
-   * Associate Discord User with Discord Guild and User
-   * @param {*} models
-   */
-  DiscordUser.associate = (models) => {
-    DiscordUser.belongsToMany(models.DiscordGuild, {
-      through: "UserGuild",
-      foreignKey: "discordId",
-      otherKey: "guildId",
-    });
-    DiscordUser.belongsTo(models.User, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-  };
 
   return DiscordUser;
 };

@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue August 1st 2023 11:33:43 
+ * Last Modified: Sat August 12th 2023 12:07:43 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -44,7 +44,7 @@ db.weapon = require("./weapon.model.js")(sequelize, Sequelize);
 db.note = require("./note.model.js")(sequelize, Sequelize);
 db.favorite = require("./favorite.model.js")(sequelize, Sequelize);
 db.discordUser = require("./discord.user.model.js")(sequelize, Sequelize);
-// db.discordGuild = require("./discord.guild.model.js")(sequelize, Sequelize);
+db.discordGuild = require("./discord.guild.model.js")(sequelize, Sequelize);
 db.steamid = require("./steamid.model.js")(sequelize, Sequelize);
 db.regiment = require("./regiment.model.js")(sequelize, Sequelize);
 db.recap = require("./wor.recap.model.js")(sequelize, Sequelize);

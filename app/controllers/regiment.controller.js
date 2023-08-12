@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp07407\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 5th 2023 9:50:36 
+ * Last Modified: Sat August 12th 2023 1:33:43 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,6 +12,7 @@
 
 const db = require("../models");
 const Regiment = db.regiment;
+const DiscordGuild = db.discordGuild;
 const User = db.user;
 const GameId = db.gameid;
 const RegSchedule = db.regSchedule;
@@ -169,8 +170,13 @@ exports.createRegiment = async (req, res) => {
     guildInvite,
     ownerId,
     side,
-    memberCount
+    memberCount,
+    members,
+    prefix
   } = req.body;
+
+  console.log(members)
+
   try {
     let regiment = await Regiment.findOne({
       where: {
@@ -180,7 +186,7 @@ exports.createRegiment = async (req, res) => {
 
     if (regiment) {
       if (regiment.ownerId === ownerId) {
-        regiment = await Regiment.update({
+        await Regiment.update({
           regiment: guildName,
           guild_avatar: guildAvatar,
           invite_link: guildInvite,
@@ -192,6 +198,7 @@ exports.createRegiment = async (req, res) => {
             guild_id: guildId
           }
         });
+        regiment = await Regiment.findOne({ where: { guild_id: guildId } }); // Retrieve the updated regiment
       } else {
         return res.status(400).json({
           error: "Owner ID mismatch. You're not authorized to update this regiment."
@@ -210,6 +217,36 @@ exports.createRegiment = async (req, res) => {
     }
 
     const regimentId = regiment.id;
+
+    const guild = await DiscordGuild.findOne({
+      where: {
+        regimentId: regimentId
+      }
+    });
+    
+    if (!guild) {
+      await DiscordGuild.create({
+        name: guildName,
+        guildId: guildId,
+        regimentId: regimentId,
+        icon: guildAvatar,
+        prefix: prefix,
+      });
+    } else {
+      await DiscordGuild.update({
+        name: guildName,
+        guildId: guildId,
+        regimentId: regimentId,
+        icon: guildAvatar,
+        prefix: prefix,
+      }, {
+        where: {
+          regimentId: regimentId
+        }
+      });
+    }
+
+
     const user = await User.findOne({
       where: {
         discordId: ownerId
@@ -231,8 +268,9 @@ exports.createRegiment = async (req, res) => {
       if (!hasRole2) {
         roles.push(2);
       }
-
+      
       await user.setRoles(roles);
+
       return res.status(200).json({
         regimentId: regimentId,
         message: "User roles updated successfully!"
@@ -250,6 +288,63 @@ exports.createRegiment = async (req, res) => {
     });
   }
 };
+
+exports.findDiscordGuild = async (req, res) => {
+  const guildId = req.params.guildId;
+
+  try {
+    const guild = await DiscordGuild.findOne({
+      where: {
+        guildId: guildId
+      }
+    });
+
+    if (!guild) {
+      return res.status(404).json({
+        error: "Discord Guild not found"
+      });
+    }
+
+    return res.status(200).json(guild);
+
+  } catch (error) {
+    console.error("Error retrieving discord guild:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+exports.updatePrefix = async (req, res) => {
+  const guildId = req.params.guildId;
+  const prefix = req.body.prefix;
+
+  try {
+    const guild = await DiscordGuild.findOne({
+      where: {
+        guildId: guildId
+      }
+    });
+
+    if (!guild) {
+      return res.status(404).json({
+        error: "Discord Guild not found"
+      });
+    }
+    
+    const updatedGuild = await guild.update({
+      prefix: prefix
+    });
+
+    return res.status(200).json(updatedGuild);
+
+  } catch (error) {
+    console.error("Error updating prefix:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
 
 /**
  * Update memberCount for regiment guild
