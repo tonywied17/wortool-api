@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\discord.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp31793\home\tonewebdesign\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:35:18 
+ * Last Modified: Fri August 11th 2023 9:56:31 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -390,6 +390,7 @@ exports.auth = async function (req, res) {
       avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
     };
 
+
     const existingUser = await User.findOne({
       where: {
         id: state
@@ -409,6 +410,7 @@ exports.auth = async function (req, res) {
 
     if (existingUser) {
       existingUser.discordId = userDataResponse.data.id;
+      existingUser.avatar_url = `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`;
       await existingUser.save();
     }
 
