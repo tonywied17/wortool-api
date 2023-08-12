@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp07519\public_html\api.tonewebdesign.com\pa-api\app\routes
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sun August 6th 2023 12:58:41 
+ * Last Modified: Sat August 12th 2023 1:05:27 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -137,6 +137,11 @@ module.exports = function (app) {
     regimentController.findRegimentByScheduleName
   );
 
+  app.get(
+    "/pa/regiments/g/:guildId/discordGuild",
+    regimentController.findDiscordGuild
+  );
+
 
   // ! Post Routes //
 
@@ -228,6 +233,11 @@ module.exports = function (app) {
     regimentController.updateDiscord
   );
   
+  //Upate regiment discord guilds prefix column
+  app.put(
+    "/pa/regiments/g/:guildId/updatePrefix",
+    regimentController.updatePrefix
+  );
   // ! Delete Routes //
 
   /**

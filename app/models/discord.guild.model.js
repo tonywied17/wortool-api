@@ -4,7 +4,7 @@
  * Created Date: Sunday July 30th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:01:39 
+ * Last Modified: Sat August 12th 2023 12:10:50 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -23,9 +23,9 @@ module.exports = (sequelize, Sequelize) => {
     "DiscordGuild", {
       name: Sequelize.STRING,
       guildId: Sequelize.STRING,
-      discordId: Sequelize.STRING,
-      userId: Sequelize.STRING,
+      regimentId: Sequelize.STRING,
       icon: Sequelize.STRING,
+      prefix: Sequelize.STRING,
     }, {
       freezeTableName: true,
       collate: "utf8mb4_unicode_ci",
@@ -38,11 +38,6 @@ module.exports = (sequelize, Sequelize) => {
    * @param {*} models 
    */
   DiscordGuild.associate = (models) => {
-    DiscordGuild.belongsToMany(models.DiscordUser, {
-      through: "UserGuild",
-      foreignKey: "guildId",
-      otherKey: "discordId",
-    });
     DiscordGuild.belongsTo(models.User, {
       foreignKey: "userId",
       onDelete: "CASCADE",
@@ -51,3 +46,6 @@ module.exports = (sequelize, Sequelize) => {
 
   return DiscordGuild;
 };
+
+
+
