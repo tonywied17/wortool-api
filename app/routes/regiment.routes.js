@@ -4,14 +4,15 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 12th 2023 1:05:27 
+ * Last Modified: Wed October 11th 2023 4:21:48 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
 
 const {
-  authJwt
+  authJwt,
+  bearerCheck
 } = require("../middleware");
 const regimentController = require("../controllers/regiment.controller");
 
@@ -177,6 +178,7 @@ module.exports = function (app) {
    */
   app.post(
     "/pa/regiments/create",
+    bearerCheck,
     regimentController.createRegiment
   );
 
@@ -186,6 +188,7 @@ module.exports = function (app) {
    */
   app.post(
     "/pa/regiments/:guildId/membercount",
+    bearerCheck,
     regimentController.updateMemberCount
   );
 
@@ -230,6 +233,7 @@ module.exports = function (app) {
   //update discord avatar and servername
   app.put(
     "/pa/regiments/updateDiscord",
+    bearerCheck,
     regimentController.updateDiscord
   );
   

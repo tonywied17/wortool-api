@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:59:43 
+ * Last Modified: Wed October 11th 2023 3:57:26 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,8 +12,10 @@
 
 const authJwt = require("./authJwt");
 const verifySignUp = require("./verifySignup");
+const bearerCheck = require("./bearer");
 
 module.exports = {
   authJwt,
   verifySignUp,
+  bearerCheck
 };
