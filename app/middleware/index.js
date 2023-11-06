@@ -12,10 +12,8 @@
 
 const authJwt = require("./authJwt");
 const verifySignUp = require("./verifySignup");
-const bearerCheck = require("./bearer");
 
 module.exports = {
   authJwt,
-  verifySignUp,
-  bearerCheck
+  verifySignUp
 };

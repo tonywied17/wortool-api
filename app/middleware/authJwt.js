@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\authJwt.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp48503\public_html\api.tonewebdesign.com\pa-api\app\middleware
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:59:37 
+ * Last Modified: Thu October 12th 2023 7:10:02 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
-
+require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
 /**
  * Verify Domain and Path
  * This function is used to verify the domain and path
@@ -210,6 +210,25 @@ isModeratorOrAdmin = (req, res, next) => {
   });
 };
 
+checkBearerToken = (req, res, next) => {
+  const authorizationHeader = req.headers['authorization'];
+
+  if (!authorizationHeader) {
+    return res.status(401).json({ message: 'Unauthorized. Bearer token missing.' });
+  }
+
+  const token = authorizationHeader.replace('Bearer ', '');
+
+  if (token !== process.env.AUTH_SECRET) {
+    return res.status(403).json({ message: 'Forbidden. Invalid Bearer token.' });
+  }
+
+  console.log(token + " = " + process.env.AUTH_SECRET + " TOKEN MATCHED!!!!!!!!!!!!!!!!")
+  // If the token is valid, you can proceed to the controller
+  next();
+  return;
+};
+
 verifyRegiment = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
@@ -259,5 +278,6 @@ const authJwt = {
   isModeratorOrAdmin: isModeratorOrAdmin,
   verifyRegiment: verifyRegiment,
   verifyDomainAndPath: verifyDomainAndPath,
+  checkBearerToken: checkBearerToken
 };
 module.exports = authJwt;

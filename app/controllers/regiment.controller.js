@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp07435\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 12th 2023 1:33:43 
+ * Last Modified: Mon November 6th 2023 7:41:51 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -783,6 +783,65 @@ exports.findScheduleByDay = async (req, res) => {
     });
   }
 }
+
+
+/**
+ * Retrieve a schedule for a certain day
+ * This function is used to retrieve a schedule for a certain day.
+ * @param {*} req - request containing the regimentId and day
+ * @param {*} res - response
+ * @returns - schedule
+ */
+exports.findScheduleByDayGuildId = async (req, res) => {
+  const guildId = req.params.guildId;
+  const today = req.body.day;
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowName = tomorrow.toLocaleString('en-US', {
+    weekday: 'long',
+  });
+
+  try {
+    const regiment = await Regiment.findOne({
+      where: {
+        guild_id: guildId
+      }
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    // Fetch schedules for both today and tomorrow
+    const todaySchedule = await RegSchedule.findAll({
+      where: {
+        regimentId: regiment.id,
+        day: today
+      }
+    });
+
+    const tomorrowSchedule = await RegSchedule.findAll({
+      where: {
+        regimentId: regiment.id,
+        day: tomorrowName
+      }
+    });
+
+    const combinedSchedule = todaySchedule.concat(tomorrowSchedule);
+
+    return res.status(200).json(combinedSchedule);
+
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
 
 /**
  * Retrieve all schedules for a regiment
