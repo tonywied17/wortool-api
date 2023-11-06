@@ -23,4 +23,4 @@ const checkBearerToken = (req, res, next) => {
   const authJwt = {
     checkBearerToken: checkBearerToken,
   };
-  module.exports = authJwt;
+  module.exports = checkBearerToken;

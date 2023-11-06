@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp09983\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed October 11th 2023 4:21:48 
+ * Last Modified: Mon November 6th 2023 7:23:58 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,7 +12,6 @@
 
 const {
   authJwt,
-  bearerCheck
 } = require("../middleware");
 const regimentController = require("../controllers/regiment.controller");
 
@@ -110,6 +109,17 @@ module.exports = function (app) {
     regimentController.findScheduleByDay
   );
 
+    /**
+   * Get Regiment Schedule By Guild ID
+   * @route GET /pa/regiments/:guildId/schedules
+   * @group Regiments
+   * @returns {object} 200 - An object containing the regiment schedule
+   */
+    app.post(
+      "/pa/regiments/discord/:guildId/schedules/day/",
+      regimentController.findScheduleByDayGuildId
+    );
+
   /**
    * Get Regiment Schedule By Regiment ID
    * @route GET /pa/regiments/:regimentId/schedules
@@ -178,7 +188,7 @@ module.exports = function (app) {
    */
   app.post(
     "/pa/regiments/create",
-    bearerCheck,
+    [authJwt.checkBearerToken],
     regimentController.createRegiment
   );
 
@@ -188,7 +198,7 @@ module.exports = function (app) {
    */
   app.post(
     "/pa/regiments/:guildId/membercount",
-    bearerCheck,
+    [authJwt.checkBearerToken],
     regimentController.updateMemberCount
   );
 
@@ -233,7 +243,7 @@ module.exports = function (app) {
   //update discord avatar and servername
   app.put(
     "/pa/regiments/updateDiscord",
-    bearerCheck,
+    [authJwt.checkBearerToken],
     regimentController.updateDiscord
   );
   
