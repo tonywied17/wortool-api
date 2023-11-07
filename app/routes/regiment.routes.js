@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon November 6th 2023 7:23:58 
+ * Last Modified: Tue November 7th 2023 12:24:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -290,5 +290,26 @@ module.exports = function (app) {
     [authJwt.verifyRegiment],
     regimentController.removeSchedule
   );
+
+  //uploading
+  app.post(
+    "/pa/regiments/:regimentId/upload",
+    regimentController.upload
+  );
+
+  app.get(
+    "/pa/regiments/:regimentId/files",
+    regimentController.getListFiles
+  );
+  app.get(
+    "/pa/regiments/:regimentId/files/:name",
+    regimentController.download
+  );
+
+  app.delete(
+    "/pa/regiments/:regimentId/files/:name",
+    regimentController.remove
+  );
+
 
 };
