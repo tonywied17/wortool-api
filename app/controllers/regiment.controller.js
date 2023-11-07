@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon November 6th 2023 7:41:51 
+ * Last Modified: Tue November 7th 2023 2:38:11 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -17,6 +17,10 @@ const User = db.user;
 const GameId = db.gameid;
 const RegSchedule = db.regSchedule;
 const axios = require("axios");
+const uploadFile = require("../middleware/upload");
+const path = require("path");
+const __basedir = path.resolve();
+const fs = require("fs");
 
 /**
  * Retrieve all regiments from the database.
@@ -1109,3 +1113,105 @@ exports.updateDiscord = async (req, res) => {
     });
   }
 }
+
+
+exports.upload = async (req, res) => {
+
+  try {
+    await uploadFile(req, res);
+
+    if (req.file == undefined) {
+      return res.status(400).send({ message: "Please upload a file!" });
+    }
+
+    res.status(200).send({
+      message: "Uploaded the file successfully: " + req.file.originalname,
+    });
+  } catch (err) {
+    console.log(err);
+
+    if (err.code == "LIMIT_FILE_SIZE") {
+      return res.status(500).send({
+        message: "File size cannot be larger than 2MB!",
+      });
+    }
+
+    res.status(500).send({
+      message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+    });
+  }
+}
+
+
+
+exports.getListFiles = (req, res) => {
+  const baseUrl = `https://api.tonewebdesign.com/pa/regiments/${req.params.regimentId}/files/`;
+  const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
+
+  fs.readdir(directoryPath, function (err, files) {
+    if (err) {
+      // Handle the error, but instead of sending a 500 error, send an empty array.
+      res.status(200).send([]);
+    } else {
+      let fileInfos = [];
+
+      files.forEach((file) => {
+        fileInfos.push({
+          name: file,
+          url: baseUrl + file,
+        });
+      });
+
+      res.status(200).send(fileInfos);
+    }
+  });
+};
+
+
+exports.download = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
+
+  res.download(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not download the file. " + err,
+      });
+    }
+  });
+};
+
+
+exports.remove = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
+
+  fs.unlink(directoryPath + fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not delete the file. " + err,
+      });
+    }
+
+    res.status(200).send({
+      message: "File is deleted.",
+    });
+  });
+};
+
+exports.removeSync = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
+
+  try {
+    fs.unlinkSync(directoryPath + fileName);
+
+    res.status(200).send({
+      message: "File is deleted.",
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: "Could not delete the file. " + err,
+    });
+  }
+};
