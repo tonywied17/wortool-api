@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp09983\public_html\api.tonewebdesign.com\pa-api\app\routes
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp47747\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue November 7th 2023 12:24:25 
+ * Last Modified: Sun November 12th 2023 2:16:43 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -297,18 +297,39 @@ module.exports = function (app) {
     regimentController.upload
   );
 
+  app.post(
+    "/pa/regiments/:regimentId/upload/cover",
+    regimentController.uploadCover
+  );
+
   app.get(
     "/pa/regiments/:regimentId/files",
     regimentController.getListFiles
   );
+
+  app.get(
+    "/pa/regiments/:regimentId/files/cover",
+    regimentController.getCoverPhoto
+  );
+
   app.get(
     "/pa/regiments/:regimentId/files/:name",
     regimentController.download
   );
 
+  app.get(
+    "/pa/regiments/:regimentId/files/cover/:name",
+    regimentController.downloadCover
+  );
+
   app.delete(
     "/pa/regiments/:regimentId/files/:name",
     regimentController.remove
+  );
+
+  app.delete(
+    "/pa/regiments/:regimentId/files/cover/:name",
+    regimentController.removeCover
   );
 
 
