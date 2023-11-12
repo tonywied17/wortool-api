@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp07435\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue November 7th 2023 2:38:11 
+ * Last Modified: Sun November 12th 2023 2:58:59 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -17,7 +17,9 @@ const User = db.user;
 const GameId = db.gameid;
 const RegSchedule = db.regSchedule;
 const axios = require("axios");
-const uploadFile = require("../middleware/upload");
+const uploadFile = require("../middleware/upload").uploadFileMiddleware;
+const uploadCover = require("../middleware/upload").uploadCoverMiddleware;
+
 const path = require("path");
 const __basedir = path.resolve();
 const fs = require("fs");
@@ -1132,7 +1134,7 @@ exports.upload = async (req, res) => {
 
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
-        message: "File size cannot be larger than 2MB!",
+        message: "File size cannot be larger than 10MB!",
       });
     }
 
@@ -1143,14 +1145,77 @@ exports.upload = async (req, res) => {
 }
 
 
-
 exports.getListFiles = (req, res) => {
   const baseUrl = `https://api.tonewebdesign.com/pa/regiments/${req.params.regimentId}/files/`;
-  const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
+  const directoryPath = path.join(__basedir, `resources/${req.params.regimentId}/static/assets/uploads/`);
 
   fs.readdir(directoryPath, function (err, files) {
     if (err) {
-      // Handle the error, but instead of sending a 500 error, send an empty array.
+      res.status(200).send([]);
+    } else {
+      let fileInfos = [];
+
+      files.forEach((file) => {
+        const filePath = path.join(directoryPath, file);
+
+        if (!fs.statSync(filePath).isDirectory() && path.dirname(file) !== 'cover') {
+          fileInfos.push({
+            name: file,
+            url: baseUrl + file,
+          });
+        }
+      });
+
+      res.status(200).send(fileInfos);
+    }
+  });
+};
+
+exports.uploadCover = async (req, res) => {
+  const regimentId = req.params.regimentId;
+  try {
+    await uploadCover(req, res);
+
+    if (req.file == undefined) {
+      return res.status(400).send({ message: "Please upload a file!" });
+    }
+
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found",
+      });
+    }
+
+    const coverUrl = `https://api.tonewebdesign.com/pa/regiments/${req.params.regimentId}/files/cover/${req.file.filename}`;
+
+    const updatedRegiment = await regiment.update({
+      cover_photo: coverUrl,
+    });
+
+    return res.status(200).json(updatedRegiment);
+  } catch (err) {
+    console.log(err);
+
+    if (err.code == "LIMIT_FILE_SIZE") {
+      return res.status(500).send({
+        message: "File size cannot be larger than 10MB!",
+      });
+    }
+
+    return res.status(500).send({
+      message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+    });
+  }
+};
+
+exports.getCoverPhoto = (req, res) => {
+  const baseUrl = `https://api.tonewebdesign.com/pa/regiments/${req.params.regimentId}/files/cover/`;
+  const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
+
+  fs.readdir(directoryPath, function (err, files) {
+    if (err) {
       res.status(200).send([]);
     } else {
       let fileInfos = [];
@@ -1167,7 +1232,6 @@ exports.getListFiles = (req, res) => {
   });
 };
 
-
 exports.download = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
@@ -1181,6 +1245,18 @@ exports.download = (req, res) => {
   });
 };
 
+exports.downloadCover = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
+
+  res.download(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not download the file. " + err,
+      });
+    }
+  });
+};
 
 exports.remove = (req, res) => {
   const fileName = req.params.name;
@@ -1198,6 +1274,47 @@ exports.remove = (req, res) => {
     });
   });
 };
+
+exports.removeCover = async (req, res) => {
+  try {
+    const fileName = req.params.name;
+    const regimentId = req.params.regimentId;
+    const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
+    const regiment = await Regiment.findByPk(regimentId);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found",
+      });
+    }
+
+    const coverUrl = null;
+
+    const updatedRegiment = await regiment.update({
+      cover_photo: coverUrl,
+    });
+
+    res.status(200).json(updatedRegiment);
+
+    fs.unlink(directoryPath + fileName, (err) => {
+      if (err) {
+        console.error("Error deleting the file:", err);
+        res.status(500).send({
+          message: "Could not delete the file. " + err,
+        });
+      } else {
+        console.log("File is deleted.");
+      }
+    });
+  } catch (error) {
+    console.error("Error in removeCover:", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+
 
 exports.removeSync = (req, res) => {
   const fileName = req.params.name;

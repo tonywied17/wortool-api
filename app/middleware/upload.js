@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
       `resources/${req.params.regimentId}/static/assets/uploads`
     );
 
-    // Ensure the dynamic upload folder exists, creating it if necessary
     if (!fs.existsSync(uploadFolder)) {
       fs.mkdirSync(uploadFolder, { recursive: true });
     }
@@ -25,20 +24,60 @@ const storage = multer.diskStorage({
   },
 });
 
+const cover_storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadFolder = path.join(
+      __basedir,
+      `resources/${req.params.regimentId}/static/assets/uploads/cover`
+    );
+
+    if (fs.existsSync(uploadFolder)) {
+      fs.readdirSync(uploadFolder).forEach((file) => {
+        const filePath = path.join(uploadFolder, file);
+        fs.unlinkSync(filePath);
+      });
+    } else {
+      fs.mkdirSync(uploadFolder, { recursive: true });
+    }
+
+    cb(null, uploadFolder);
+  },
+  filename: (req, file, cb) => {
+    console.log(file.originalname);
+    cb(null, file.originalname);
+  },
+});
+
+
 const uploadFile = multer({
   storage: storage,
   limits: { fileSize: maxSize },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) {
-      // It's an image file, you can proceed with the upload.
       cb(null, true);
     } else {
-      // It's not an image file, reject the upload with an error.
       cb(new Error("File must be an image."));
     }
   }
 }).single("file");
 
+const uploadCover = multer({
+  storage: cover_storage,
+  limits: { fileSize: maxSize },
+  fileFilter: (req, file, cb) => {
+    // process images
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("File must be an image."));
+    }
+  }
+}).single("file");
 
 const uploadFileMiddleware = util.promisify(uploadFile);
-module.exports = uploadFileMiddleware;
+const uploadCoverMiddleware = util.promisify(uploadCover);
+
+module.exports = {
+  uploadFileMiddleware: uploadFileMiddleware,
+  uploadCoverMiddleware: uploadCoverMiddleware,
+};
