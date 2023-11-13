@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\steamid.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp33989\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:51:46 
+ * Last Modified: Sun November 12th 2023 7:38:14 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,7 +12,7 @@
 
 const db = require("../models");
 const SteamID = db.steamid;
-
+require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
 /**
  * Retrieve all SteamIDs from the database.
  * This function is used to retrieve all SteamIDs from the database.
@@ -117,3 +117,4 @@ exports.delete = (req, res) => {
       });
     });
 };
+

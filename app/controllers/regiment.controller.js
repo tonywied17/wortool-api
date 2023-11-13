@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp58226\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sun November 12th 2023 2:58:59 
+ * Last Modified: Sun November 12th 2023 2:34:23 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -1180,6 +1180,7 @@ exports.uploadCover = async (req, res) => {
       return res.status(400).send({ message: "Please upload a file!" });
     }
 
+    // Update regiment cover model
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
@@ -1194,7 +1195,7 @@ exports.uploadCover = async (req, res) => {
       cover_photo: coverUrl,
     });
 
-    return res.status(200).json(updatedRegiment);
+    return res.status(200).json(updatedRegiment); // Send the updated regiment as a response
   } catch (err) {
     console.log(err);
 
@@ -1280,6 +1281,8 @@ exports.removeCover = async (req, res) => {
     const fileName = req.params.name;
     const regimentId = req.params.regimentId;
     const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
+
+    // Update regiment cover model
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
@@ -1294,8 +1297,10 @@ exports.removeCover = async (req, res) => {
       cover_photo: coverUrl,
     });
 
+    // Send the response before attempting to delete the file
     res.status(200).json(updatedRegiment);
 
+    // Delete the file
     fs.unlink(directoryPath + fileName, (err) => {
       if (err) {
         console.error("Error deleting the file:", err);
