@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\steam.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp59244\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:38:35 
+ * Last Modified: Sun November 12th 2023 9:26:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -49,7 +49,7 @@ module.exports = function (app) {
       res.status(500).json({ error: "Failed to fetch data from Steam API" });
     }
   });
-  
+
   /**
    * Get All Verbose Steam Data By Steam ID
    * @route GET /pa/steamid/:id/verbose
@@ -59,53 +59,53 @@ module.exports = function (app) {
   app.get("/pa/steamid/:id/verbose", async (req, res) => {
     const id = req.params.id;
     const appId = req.query.appId || 424030;
-  
+
     try {
       const steamApiKey = process.env.STEAM_API_KEY;
       const response = await axios.get(
         `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamApiKey}&steamids=${id}`
       );
       const liveSteamData = response.data.response.players[0];
-  
+
       const responseData = {};
-  
+
       if (liveSteamData) {
         responseData.liveSteamData = liveSteamData;
       }
-  
+
       try {
         const recentPlayedResponse = await axios.get(
           `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?appid=${appId}&key=${steamApiKey}&steamid=${id}`
         );
-        const recentPlayedData = recentPlayedResponse.data; 
+        const recentPlayedData = recentPlayedResponse.data;
 
         if (recentPlayedData) {
           responseData.recentPlayedGames = recentPlayedData;
         }
-      } catch (error) {}
-  
+      } catch (error) { }
+
       try {
         const friendListResponse = await axios.get(
           `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${steamApiKey}&steamid=${id}&relationship=friend`
         );
         const friendListData = friendListResponse.data;
-  
+
         if (friendListData) {
           responseData.friendListData = friendListData;
         }
-      } catch (error) {}
-  
+      } catch (error) { }
+
       try {
         const gameStatsResponse = await axios.get(
           `https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=${appId}&key=${steamApiKey}&steamid=${id}`
         );
         const liveGameStats = gameStatsResponse.data.playerstats.stats;
-  
+
         if (liveGameStats) {
           responseData.GameStats = liveGameStats;
         }
-      } catch (error) {}
-  
+      } catch (error) { }
+
       try {
         const gameAchievementsResponse = await axios.get(
           `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${steamApiKey}&steamid=${id}`
@@ -115,8 +115,8 @@ module.exports = function (app) {
         if (liveGameAchievements) {
           responseData.GameAchievements = liveGameAchievements;
         }
-      } catch (error) {}
-  
+      } catch (error) { }
+
 
       try {
         const gameOwnedResponse = await axios.get(
@@ -127,7 +127,7 @@ module.exports = function (app) {
         if (liveGameOwned) {
           responseData.GamesOwned = liveGameOwned;
         }
-      } catch (error) {}
+      } catch (error) { }
 
 
       res.json(responseData);
@@ -136,7 +136,7 @@ module.exports = function (app) {
       res.status(500).json({ error: "Failed to fetch data from Steam API" });
     }
   });
-  
+
   /**
    * Get All Steam IDs
    * @route GET /pa/steamids/
@@ -199,6 +199,60 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     steamid.createOrUpdate
   );
+
+  app.post('/pa/getSteamId', async (req, res) => {
+    const { profileUrl } = req.body;
+    const steamApiKey = process.env.STEAM_API_KEY;
+
+    if (!profileUrl) {
+        return res.status(400).json({ error: 'Profile URL is required' });
+    }
+
+    const steamIdMatch = profileUrl.match(/\/id\/([^/]+)|\/profiles\/(\d+)/);
+    if (!steamIdMatch) {
+        return res.status(400).json({ error: 'Invalid Steam profile URL' });
+    }
+
+    const vanityName = steamIdMatch[1];
+    const steamId = steamIdMatch[2];
+
+    console.log('Extracted Steam ID or Vanity Name:', vanityName || steamId);
+
+    try {
+        let resolvedSteamId64;
+
+        if (vanityName) {
+            const resolveResponse = await axios.get(`https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${steamApiKey}&vanityurl=${vanityName}`);
+            const resolveData = resolveResponse.data;
+
+            if (resolveData.response && resolveData.response.success === 1) {
+                resolvedSteamId64 = BigInt(resolveData.response.steamid);
+            } else {
+                return res.status(400).json({ error: 'Error fetching Steam ID. Please check the URL or try again later.' });
+            }
+        } else if (steamId) {
+            // If it's a profile URL with a numeric ID
+            resolvedSteamId64 = BigInt(steamId);
+        }
+
+        const steamIdY = resolvedSteamId64 % 2n;
+        const steamIdZ = (resolvedSteamId64 >> 1n) % (1n << 31n);
+        const steamIdUniverse = (resolvedSteamId64 >> 32n) & 0xFFn;
+
+        return res.json({
+            steamId: `STEAM_${steamIdUniverse}:${steamIdY}:${steamIdZ}`,
+            steamId3: `[U:1:${steamIdZ * 2n + steamIdY}]`,
+            steamId64: resolvedSteamId64.toString(),
+            profile: `https://steamcommunity.com/profiles/${resolvedSteamId64}`
+        });
+    } catch (error) {
+        console.error('Error fetching data from Steam API:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
 
   // ! Delete Routes
 
