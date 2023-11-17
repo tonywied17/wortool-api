@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp41186\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sun August 6th 2023 12:54:33 
+ * Last Modified: Thu November 16th 2023 7:24:42 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -16,10 +16,13 @@ const User = db.user;
 const DiscordUser = db.discordUser;
 const Role = db.role;
 const Op = db.Sequelize.Op;
+const Sequelize = db.sequelize;
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
+const nodemailer = require('nodemailer');
+const { randomBytes } = require('node:crypto');
 
-
+require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
 /**
  * Create and Save a new User
  * This function is used to create a new user in the database.
@@ -29,10 +32,10 @@ let bcrypt = require("bcryptjs");
  */
 exports.signup = (req, res) => {
   User.create({
-      username: req.body.username.toLowerCase(),
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 8),
-    })
+    username: req.body.username.toLowerCase(),
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8),
+  })
     .then((user) => {
       if (req.body.roles) {
         Role.findAll({
@@ -76,10 +79,10 @@ exports.setModerator = (req, res) => {
   const memberId = req.params.memberId;
 
   User.findOne({
-      where: {
-        id: memberId,
-      },
-    })
+    where: {
+      id: memberId,
+    },
+  })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
@@ -89,7 +92,7 @@ exports.setModerator = (req, res) => {
 
       user.getRoles().then((roles) => {
         const hasRole2 = roles.some(role => role.id === 2);
-        
+
         if (!hasRole2) {
           roles.push(2);
         }
@@ -118,10 +121,10 @@ exports.removeModerator = (req, res) => {
   const userID = req.params.memberId;
 
   User.findOne({
-      where: {
-        id: userID,
-      },
-    })
+    where: {
+      id: userID,
+    },
+  })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
@@ -148,6 +151,136 @@ exports.removeModerator = (req, res) => {
 };
 
 /**
+ * Forgot Login
+ */
+exports.forgot = async (req, res) => {
+  const email = req.body.email;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "No user is registered with that email address.",
+      });
+    }
+
+    const resetToken = randomBytes(20).toString('hex');
+
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000;
+
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+      sendmail: true,
+      path: '/usr/sbin/sendmail',
+    });
+
+    const resetUrl = `https://wortool.com/reset/${resetToken}`;
+
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Password Reset Request</title>
+    </head>
+    <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #1f2937; color: #88887b;">
+    
+      <div style="width: 100%; max-width: 600px; margin: 5px; padding: 1em; box-sizing: border-box;">
+    
+      <img src="https://wortool.com/app-icon-wortool.png" style="margin:auto;height:100px;width:auto;">
+        
+        <div style="background:#7d7e73;color: #1f2937;width:100%;max-width:600px;padding:0.5em;font-weight:700;font-size:15px;box-shadow: 5px 5px 10px #88887b;">Password Reset Request</div>
+    
+        <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important;">Hello ${user.username},</p>
+
+        <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important;">You are receiving this email because you (or someone else) have requested the reset of the password for your account.</p>
+    
+        <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important;">Please click on the following link, or paste this into your browser to complete the process:</p>
+    
+        <p style="margin-bottom: 20px;margin-left: 8px;"><a href="${resetUrl}" target="_blank" style="color: #88887b;">${resetUrl}</a></p>
+    
+        <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important">If you did not request this, please ignore this email, and your password will remain unchanged.</p>
+    
+       
+      </div>
+    
+    </body>
+    </html>
+    
+      `;
+
+    const mailOptions = {
+      from: 'accounts@wortool.com',
+      to: user.email,
+      subject: 'Password Reset Request',
+      html: htmlContent,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({
+      message: 'Password reset email sent. Check your email for instructions.',
+    });
+  } catch (error) {
+    console.error("Error during password reset:", error);
+    return res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+};
+
+/**
+ * Reset Login
+ */
+exports.reset = async (req, res) => {
+  const resetToken = req.params.token;
+  const newPassword = req.body.newPassword;
+  const today = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+  console.log('TODAY: ' + today)
+  console.log(resetToken + " : " + newPassword)
+  try {
+    const user = await User.findOne({
+      where: {
+        resetPasswordToken: resetToken,
+      }
+    });
+
+    if (!user || new Date(user.resetPasswordExpires) > new Date(new Date().getTime() + 60 * 60000)) {
+      return res.status(400).json({
+        error: 'Invalid or expired reset token.',
+      });
+    }
+
+    console.log('***USER: ' + user)
+
+    // Update the user's password and clear the reset token fields
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+
+    await user.save();
+
+    return res.status(200).json({
+      message: 'Password reset successful. You can now log in with your new password.',
+    });
+  } catch (error) {
+    console.error("Error during password reset:", error);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+    });
+  }
+}
+
+/**
  * Signin
  * This function is used to signin a user.
  * 
@@ -156,10 +289,10 @@ exports.removeModerator = (req, res) => {
  */
 exports.signin = (req, res) => {
   User.findOne({
-      where: {
-        username: req.body.username.toLowerCase(),
-      },
-    })
+    where: {
+      username: req.body.username.toLowerCase(),
+    },
+  })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
@@ -225,10 +358,10 @@ exports.password = (req, res) => {
   console.log("userID: " + userID);
 
   User.findOne({
-      where: {
-        id: userID,
-      },
-    })
+    where: {
+      id: userID,
+    },
+  })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
@@ -248,12 +381,12 @@ exports.password = (req, res) => {
       const hashedPassword = bcrypt.hashSync(passwordNew, 8);
 
       User.update({
-          password: hashedPassword
-        }, {
-          where: {
-            id: userID,
-          },
-        })
+        password: hashedPassword
+      }, {
+        where: {
+          id: userID,
+        },
+      })
         .then(() => {
           res.status(200).send({
             message: "Password updated successfully!"
@@ -300,48 +433,48 @@ exports.profile = (req, res) => {
       },
     },
   })
-  .then((existingUser) => {
-    if (existingUser) {
-      return res.status(400).send({
-        message: "Email is already taken."
-      });
-    }
-
-    // Look for DiscordUser but don't return an error if not found
-    DiscordUser.findOne({
-      where: {
-        userId: userID,
-      },
-    })
-    .then((discordUser) => {
-      if (discordUser) {
-        // Only perform update if DiscordUser is found
-        const updateFields = {};
-
-        if (avatar_url) {
-          updateFields.avatar_url = avatar_url;
-        }
-
-        DiscordUser.update(updateFields, {
-          where: {
-            userId: userID,
-          },
-        })
-        .catch((err) => {
-          console.error("Error updating DiscordUser:", err.message);
+    .then((existingUser) => {
+      if (existingUser) {
+        return res.status(400).send({
+          message: "Email is already taken."
         });
       }
-    })
-    .catch((err) => {
-      console.error("Error looking for DiscordUser:", err.message);
-    });
+
+      // Look for DiscordUser but don't return an error if not found
+      DiscordUser.findOne({
+        where: {
+          userId: userID,
+        },
+      })
+        .then((discordUser) => {
+          if (discordUser) {
+            // Only perform update if DiscordUser is found
+            const updateFields = {};
+
+            if (avatar_url) {
+              updateFields.avatar_url = avatar_url;
+            }
+
+            DiscordUser.update(updateFields, {
+              where: {
+                userId: userID,
+              },
+            })
+              .catch((err) => {
+                console.error("Error updating DiscordUser:", err.message);
+              });
+          }
+        })
+        .catch((err) => {
+          console.error("Error looking for DiscordUser:", err.message);
+        });
 
 
       User.findOne({
-          where: {
-            id: userID,
-          },
-        })
+        where: {
+          id: userID,
+        },
+      })
         .then((user) => {
           if (!user) {
             return res.status(404).send({
@@ -368,10 +501,10 @@ exports.profile = (req, res) => {
           }
 
           User.update(updateFields, {
-              where: {
-                id: userID,
-              },
-            })
+            where: {
+              id: userID,
+            },
+          })
             .then(() => {
               res.status(200).send({
                 message: "Profile updated successfully!"

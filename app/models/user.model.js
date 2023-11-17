@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:09:04 
+ * Last Modified: Thu November 16th 2023 2:12:16 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -37,6 +37,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     regimentId: {
       type: Sequelize.INTEGER,
+    },
+    resetPasswordToken: {
+      type: Sequelize.STRING,
+    },
+    resetPasswordExpires: {
+      type: Sequelize.DATE,
     },
   });
 

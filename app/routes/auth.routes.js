@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\auth.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp04663\public_html\api.tonewebdesign.com\pa-api\app\routes
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 5th 2023 1:11:20 
+ * Last Modified: Thu November 16th 2023 7:27:14 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -28,6 +28,17 @@ module.exports = function (app) {
 
 
   // ! POST Routes //
+
+
+  /**
+   * Forgot Login Post Route (Sendmail)
+   */
+  app.post("/pa/auth/forgot", controller.forgot);
+  
+  /**
+   * Token reset password
+   */
+  app.post('/pa/auth/reset/:token', controller.reset);
 
   /**
    * Signin Route
