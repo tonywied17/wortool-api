@@ -30,7 +30,7 @@ require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
  * @param {*} req - request containing the username, email, and password
  * @param {*} res - response containing the user
  */
-exports.signup = (req, res) => {
+exports.signup = async (req, res) => {
   User.create({
     username: req.body.username.toLowerCase(),
     email: req.body.email,
@@ -53,7 +53,56 @@ exports.signup = (req, res) => {
         });
       } else {
         // user role = 1
-        user.setRoles([1]).then(() => {
+        user.setRoles([1]).then(async () => {
+
+          const transporter = nodemailer.createTransport({
+            sendmail: true,
+            path: '/usr/sbin/sendmail',
+          });
+
+          const htmlContent = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Welcome to WoRTool!</title>
+          </head>
+          <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #1f2937; color: #88887b;">
+          
+            <div style="width: 100%; max-width: 600px; margin: 5px; padding: 1em; box-sizing: border-box;">
+          
+            <img src="https://wortool.com/app-icon-wortool.png" style="margin:auto;height:100px;width:auto;">
+              
+              <div style="background:#7d7e73;color: #1f2937;width:100%;max-width:600px;padding:0.5em;font-weight:700;font-size:15px;">Welcome to WoRTool!</div>
+          
+              <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important;">Hello ${req.body.username.toLowerCase()},</p>
+      
+              <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important;">Congratulations! Your WoRTool account has been successfully created.</p>
+          
+              <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important;">You can now log in and start exploring the features of WoRTool.</p>
+          
+              <p style="margin-bottom: 20px;margin-left: 8px;">Login to your account <a href="https://wortool.com/home" target="_blank" style="color: #88887b;">here</a>.</p>
+          
+              <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important">If you have any questions or need assistance, feel free to contact us at support@wortool.com.</p>
+          
+             
+            </div>
+          
+          </body>
+          </html>
+          
+            `;
+
+          const mailOptions = {
+            from: 'accounts@wortool.com',
+            to: user.email,
+            subject: 'Welcome to WoRTool!',
+            html: htmlContent,
+          };
+
+          await transporter.sendMail(mailOptions);
+
           res.send({
             message: "User registered successfully!"
           });
@@ -66,6 +115,7 @@ exports.signup = (req, res) => {
       });
     });
 };
+
 
 
 /**
@@ -197,7 +247,7 @@ exports.forgot = async (req, res) => {
     
       <img src="https://wortool.com/app-icon-wortool.png" style="margin:auto;height:100px;width:auto;">
         
-        <div style="background:#7d7e73;color: #1f2937;width:100%;max-width:600px;padding:0.5em;font-weight:700;font-size:15px;box-shadow: 5px 5px 10px #88887b;">Password Reset Request</div>
+        <div style="background:#7d7e73;color: #1f2937;width:100%;max-width:600px;padding:0.5em;font-weight:700;font-size:15px;">Password Reset Request</div>
     
         <p style="margin-bottom: 20px;margin-left: 8px;color: #e5e5e5 !important;">Hello ${user.username},</p>
 
