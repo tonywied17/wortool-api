@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\discord.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp31793\home\tonewebdesign\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp20171\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri August 11th 2023 9:56:31 
+ * Last Modified: Fri November 17th 2023 11:30:40 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -157,34 +157,33 @@ exports.findGuildChannels = (req, res) => {
       console.log("Guild ID:", discordServer.id);
       console.log("Guild Name:", discordServer.name);
 
-      const channels = discordServer.channels.cache;
+      const guild = client.guilds.cache.get(id);
 
-      console.log("Channel Count:", channels.size);
+      // Filter channels to include only text channels
+      // https://discord.com/developers/docs/resources/channel#channel-object-channel-types
+      const textChannels = guild.channels.cache.filter(channel => channel.type === 0);
 
-      const channelData = channels.map(channel => ({
+      const channelData = textChannels.map(channel => ({
         id: channel.id,
         name: channel.name,
-        type: channel.type
-      }));
-
-      console.log("Channel Data:", channelData);
+        type: channel.type,
+      })).sort((a, b) => a.name.localeCompare(b.name));
+      channelData.size = textChannels.size;
 
       res.json({
-        channels: channelData
+        channels: channelData,
       });
 
       client.destroy();
     } catch (error) {
       console.error(error);
       res.status(500).json({
-        error: "Failed to fetch guild channels."
+        error: "Failed to fetch guild text channels.",
       });
     }
   });
-
-
-
 };
+
 
 /**
  * 
@@ -272,6 +271,111 @@ exports.sendOneMsg = (req, res) => {
       client.destroy();
     }, 10000);
   });
+};
+
+exports.findDiscordGuildRoles = async (req, res) => {
+  try{
+    const guildId = req.params.guildId;
+
+    const client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessageTyping,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildIntegrations,
+      ],
+    });
+
+    await client.login(process.env.DISCORD_TOKEN);
+
+    client.on('ready', () => {
+      const guild = client.guilds.cache.get(guildId);
+
+      if (guild) {
+       
+        const rolesArray = guild.roles.cache.map(role => ({
+          id: role.id,
+          name: role.name,
+          color: role.color,
+          // permissions: role.permissions.toArray(),
+        }));
+    
+        res.json(rolesArray);
+
+
+      } else {
+        console.error('Guild not found');
+        res.status(404).json({ error: 'Guild not found' });
+      }
+    });
+
+  }catch (error){
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+exports.findDiscordUsersByGuildRole = async (req, res) => {
+  try {
+    const guildId = req.params.guildId;
+    const roleName = req.query.roleName;
+
+    const client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessageTyping,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildIntegrations,
+      ],
+    });
+
+    await client.login(process.env.DISCORD_TOKEN);
+
+    client.on('ready', () => {
+      const guild = client.guilds.cache.get(guildId);
+
+      if (guild) {
+        // Fetch the role by name
+        const role = guild.roles.cache.find(r => r.name === roleName);
+
+        if (role) {
+          const membersWithRole = role.members.map(member => ({
+            id: member.user.id,
+            username: member.user.username,
+            avatarURL: member.user.displayAvatarURL({ dynamic: true }),
+            nickname: member.nickname,
+          }));
+
+          res.json(membersWithRole);
+        } else {
+          console.error('Role not found');
+          res.status(404).json({ error: 'Role not found' });
+        }
+      } else {
+        console.error('Guild not found');
+        res.status(404).json({ error: 'Guild not found' });
+      }
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 

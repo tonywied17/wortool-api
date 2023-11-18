@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\discord.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp20362\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 12th 2023 12:09:59 
+ * Last Modified: Fri November 17th 2023 8:51:16 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -36,8 +36,19 @@ module.exports = function (app) {
   app.get("/pa/discord/guild/:id/channels", discordController.findGuildChannels);
 
   /**
-   * Get All Guild Users
-   * @route GET /pa/discord/guild/:id/users
+   * Get discord users by role in a guild
+   */
+  app.get("/pa/discord/guild/:guildId/roles/users", discordController.findDiscordUsersByGuildRole)
+
+  /**
+   * Get discord guilds list of roles
+   */
+  app.get("/pa/discord/guild/:guildId/roles", discordController.findDiscordGuildRoles)
+  
+
+  /**
+   * Get All Discord Synced Users
+   * @route GET /pa/users
    * @group Discord
    * @returns {object} 200 - An object containing the users for the guild
    */

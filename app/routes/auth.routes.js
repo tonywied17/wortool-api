@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\auth.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp14378\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu November 16th 2023 7:27:14 
+ * Last Modified: Thu November 16th 2023 4:16:46 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,6 +12,7 @@
 
 const { verifySignUp, authJwt } = require("../middleware");
 const controller = require("../controllers/auth.controller");
+const nodemailer = require('nodemailer');
 
 /**
  * Auth Routes
@@ -29,16 +30,11 @@ module.exports = function (app) {
 
   // ! POST Routes //
 
-
   /**
-   * Forgot Login Post Route (Sendmail)
+   * Forgot Login
    */
-  app.post("/pa/auth/forgot", controller.forgot);
-  
-  /**
-   * Token reset password
-   */
-  app.post('/pa/auth/reset/:token', controller.reset);
+app.post("/pa/auth/forgot", controller.forgot);
+app.post('/pa/auth/reset/:token', controller.reset);
 
   /**
    * Signin Route
