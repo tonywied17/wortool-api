@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri November 17th 2023 11:30:40 
+ * Last Modified: Fri November 17th 2023 8:57:15 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -43,6 +43,7 @@ exports.createWebhook = async (req, res) => {
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildWebhooks,
       ],
     });
 
