@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp47747\public_html\api.tonewebdesign.com\pa-api\app\routes
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp30839\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sun November 12th 2023 2:16:43 
+ * Last Modified: Tue November 21st 2023 11:32:24 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -176,7 +176,8 @@ module.exports = function (app) {
    */
   app.put(
     "/pa/regiments/:regimentId/change",
-    [authJwt.verifyDomainAndPath],
+    [authJwt.verifyDomainAndPath, authJwt.verifyRegiment],
+    
     regimentController.update
   );
 
@@ -294,11 +295,13 @@ module.exports = function (app) {
   //uploading
   app.post(
     "/pa/regiments/:regimentId/upload",
+    [authJwt.verifyRegiment],
     regimentController.upload
   );
 
   app.post(
     "/pa/regiments/:regimentId/upload/cover",
+    [authJwt.verifyRegiment],
     regimentController.uploadCover
   );
 
@@ -324,11 +327,13 @@ module.exports = function (app) {
 
   app.delete(
     "/pa/regiments/:regimentId/files/:name",
+    [authJwt.verifyRegiment],
     regimentController.remove
   );
 
   app.delete(
     "/pa/regiments/:regimentId/files/cover/:name",
+    [authJwt.verifyRegiment],
     regimentController.removeCover
   );
 
