@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp41186\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp48563\public_html\api.tonewebdesign.com\pa-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu November 16th 2023 7:24:42 
+ * Last Modified: Wed November 22nd 2023 1:51:11 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -346,34 +346,39 @@ exports.signin = (req, res) => {
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: "User Not found."
+          message: 'User Not found.',
         });
       }
 
-      let passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
+      let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!",
+          message: 'Invalid Password!',
         });
       }
 
-      let token = jwt.sign({
-        id: user.id,
-        regimentId: user.regimentId,
-      }, config.secret, {
-        expiresIn: 31536000, // 1 year
-      });
+      let token = jwt.sign(
+        {
+          id: user.id,
+          regimentId: user.regimentId,
+        },
+        config.secret,
+        {
+          expiresIn: 31536000, // 1 year
+        }
+      );
 
       let authorities = [];
       user.getRoles().then((roles) => {
         for (let i = 0; i < roles.length; i++) {
-          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+          authorities.push('ROLE_' + roles[i].name.toUpperCase());
         }
+
+        // Set the token as an HTTP-only cookie
+        res.cookie('token', token, { httpOnly: true, maxAge: 31536000000 }); // Max age in milliseconds (1 year)
+
         res.status(200).send({
           id: user.id,
           username: user.username,
@@ -388,10 +393,10 @@ exports.signin = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message
+        message: err.message,
       });
     });
-};
+  }
 
 /**
  * Update User Password

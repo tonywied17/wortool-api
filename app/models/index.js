@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 12th 2023 12:07:43 
+ * Last Modified: Sat November 18th 2023 11:12:41 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -50,6 +50,7 @@ db.regiment = require("./regiment.model.js")(sequelize, Sequelize);
 db.recap = require("./wor.recap.model.js")(sequelize, Sequelize);
 db.gameid = require("./gameid.model.js")(sequelize, Sequelize);
 db.regSchedule = require("./regiment.schedule.model.js")(sequelize, Sequelize);
+db.musterUser= require("./muster.user.model.js")(sequelize, Sequelize);
 
 
 /**
