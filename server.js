@@ -8,7 +8,7 @@ const app = express();
  * ! Domain Whitelist
  */
 app.use(cors({
-  origin: ['https://paarmy.com', 'https://app.paarmy.com', 'https://www.paarmy.com', 'http://localhost:4200', 'https://paapp.tbz.wtf', 'https://discord.com', 'https://wortool.com'],
+  origin: ['http://localhost:4200', 'https://discord.com', 'https://wortool.com'],
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
 
@@ -19,18 +19,13 @@ app.set('json spaces', 2)
 db.sequelize.sync();
 
 // Main API Route
-app.get("/pa", (req, res) => {
-  res.json({ message: "Pennsylvania Army API." });
+app.get("/wor", (req, res) => {
+  res.json({ message: "WoRTool Beta API." });
 });
 
 
 // Application Routes
 require("./app/routes/map.routes")(app);
-require("./app/routes/gallery.routes")(app);
-require("./app/routes/eu.routes")(app);
-require("./app/routes/us.routes")(app);
-require("./app/routes/score.routes")(app);
-require("./app/routes/muster.routes")(app);
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/weapon.routes')(app);
@@ -43,7 +38,7 @@ require('./app/routes/wor.routes')(app);
 require('./app/routes/muster.user.routes')(app);
 
 
-const PORT = process.env.PORT || 8083;
+const PORT = process.env.PORT || 8090;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

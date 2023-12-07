@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\regiment.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp05376\public_html\api.tonewebdesign.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat November 11th 2023 9:38:33 
+ * Last Modified: Wed December 6th 2023 8:51:04 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -19,7 +19,7 @@
  * @returns - Regiment
  */
 module.exports = (sequelize, Sequelize) => {
-  const Regiment = sequelize.define("regiments", {
+  const Regiment = sequelize.define("wor_Regiments", {
     regiment: {
       type: Sequelize.STRING,
     },
@@ -60,18 +60,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-  });
-
-  /**
-   * Associate Regiment with GameID
-   * @param {*} models 
-   */
-  Regiment.associate = (models) => {
-    Regiment.hasMany(models.GameID, {
-      foreignKey: "regimentId",
-      onDelete: "CASCADE",
-    });
-  };
+  },{
+    freezeTableName: true
+});
 
   return Regiment;
 };

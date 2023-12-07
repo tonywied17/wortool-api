@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\map.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp05366\public_html\api.tonewebdesign.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:06:12 
+ * Last Modified: Wed December 6th 2023 8:50:51 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -20,7 +20,7 @@
  */
 module.exports = (sequelize, Sequelize) => {
   const Map = sequelize.define(
-    "maps",
+    "wor_Maps",
     {
       map: Sequelize.STRING,
       image: Sequelize.STRING,
@@ -33,26 +33,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     {
       timestamps: false,
+      freezeTableName: true
     }
   );
 
-  /**
-   * Associate Map with Note and Favorite
-   * @param {*} models 
-   */
-  Map.associate = (models) => {
-    Map.hasMany(models.Note, {
-      foreignKey: "mapId",
-      onDelete: "CASCADE",
-    });
-  };
-
-  Map.associate = (models) => {
-    Map.hasMany(models.Favorite, {
-      foreignKey: "mapId",
-      onDelete: "CASCADE",
-    });
-  };
 
   return Map;
 };

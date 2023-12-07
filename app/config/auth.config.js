@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
 //require('dotenv').config()
 
 module.exports = {

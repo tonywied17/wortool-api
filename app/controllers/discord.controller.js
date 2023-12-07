@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\discord.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp20171\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri November 17th 2023 8:57:15 
+ * Last Modified: Wed December 6th 2023 3:10:28 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -20,9 +20,7 @@ const db = require("../models");
 const User = db.user;
 const Regiment = db.regiment;
 const DiscordUser = db.discordUser;
-require("dotenv").config({
-  path: "/home/tonewebdesign/envs/pa/.env"
-});
+require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
 
 
 /**

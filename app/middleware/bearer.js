@@ -1,7 +1,7 @@
 
 const db = require("../models");
 const User = db.user;
-require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+require("dotenv").config({ path: "/home/tonewebdesign/envs/wor/.env" });
 
 const checkBearerToken = (req, res, next) => {
     const authorizationHeader = req.headers['authorization'];
