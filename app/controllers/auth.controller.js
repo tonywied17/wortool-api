@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp48563\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed November 22nd 2023 1:51:11 
+ * Last Modified: Wed December 6th 2023 3:10:28 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -22,7 +22,7 @@ let bcrypt = require("bcryptjs");
 const nodemailer = require('nodemailer');
 const { randomBytes } = require('node:crypto');
 
-require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+require("dotenv").config({ path: "/home/tonewebdesign/envs/wor/.env" });
 /**
  * Create and Save a new User
  * This function is used to create a new user in the database.

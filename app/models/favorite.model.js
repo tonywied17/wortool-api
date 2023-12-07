@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\favorite.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp05388\public_html\api.tonewebdesign.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:02:59 
+ * Last Modified: Wed December 6th 2023 8:51:35 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -18,7 +18,7 @@
  * @returns 
  */
 module.exports = (sequelize, Sequelize) => {
-  const Favorite = sequelize.define("favorites", {
+  const Favorite = sequelize.define("wor_Favorites", {
     route: {
       type: Sequelize.STRING,
     },
@@ -31,22 +31,10 @@ module.exports = (sequelize, Sequelize) => {
     userId: {
       type: Sequelize.INTEGER,
     },
-  });
+  },{
+    freezeTableName: true
+});
 
-  /**
-   * Associate Favorite with User and Map
-   * @param {*} models 
-   */
-  Favorite.associate = (models) => {
-    Favorite.belongsTo(models.User, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    Favorite.belongsTo(models.Map, {
-      foreignKey: "mapId",
-      onDelete: "CASCADE",
-    });
-  };
 
   return Favorite;
 };

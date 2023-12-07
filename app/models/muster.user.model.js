@@ -6,7 +6,7 @@
  */
 module.exports = (sequelize, Sequelize) => {
     const MusterUser = sequelize.define(
-      "MusterUser",
+      "wor_MusterUser",
       {
         nickname: {
             type: Sequelize.STRING,
@@ -39,21 +39,7 @@ module.exports = (sequelize, Sequelize) => {
         timestamps: false,
       }
     );
-  
-    /**
-     * Associate GameID with Regiment
-     * @param {*} models 
-     */
-    MusterUser.associate = (models) => {
-        MusterUser.belongsTo(models.Regiment, {
-            foreignKey: "regimentId",
-            onDelete: "CASCADE",
-        });
 
-        models.Regiment.hasMany(MusterUser, {
-            foreignKey: "regimentId",
-        });
-    };
 
     return MusterUser;
   };

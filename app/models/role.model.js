@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\role.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp05136\public_html\api.tonewebdesign.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:06:53 
+ * Last Modified: Wed December 6th 2023 8:51:23 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -17,7 +17,7 @@
  * @returns - Role
  */
 module.exports = (sequelize, Sequelize) => {
-  const Role = sequelize.define("roles", {
+  const Role = sequelize.define("wor_Roles", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -25,7 +25,9 @@ module.exports = (sequelize, Sequelize) => {
     name: {
       type: Sequelize.STRING,
     },
-  });
+  },{
+    freezeTableName: true
+});
 
   return Role;
 };

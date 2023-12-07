@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\note.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp05996\public_html\api.tonewebdesign.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:06:02 
+ * Last Modified: Wed December 6th 2023 8:50:59 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -19,7 +19,7 @@
  * @returns 
  */
 module.exports = (sequelize, Sequelize) => {
-  const Note = sequelize.define("notes", {
+  const Note = sequelize.define("wor_Notes", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -38,21 +38,6 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
     },
   });
-
-  /**
-   * Associate Note with User and Map
-   * @param {*} models 
-   */
-  Note.associate = (models) => {
-    Note.belongsTo(models.User, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    Note.belongsTo(models.Map, {
-      foreignKey: "mapId",
-      onDelete: "CASCADE",
-    });
-  };
 
   return Note;
 };

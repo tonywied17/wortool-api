@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\authJwt.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp48503\public_html\api.tonewebdesign.com\pa-api\app\middleware
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu October 12th 2023 7:10:02 
+ * Last Modified: Wed December 6th 2023 3:10:28 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
-require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+require("dotenv").config({ path: "/home/tonewebdesign/envs/wor/.env" });
 /**
  * Verify Domain and Path
  * This function is used to verify the domain and path
