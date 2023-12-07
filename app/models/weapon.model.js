@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\weapon.model.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp05739\public_html\api.tonewebdesign.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 8:51:14 
+ * Last Modified: Mon July 31st 2023 4:09:18 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -20,7 +20,7 @@
  */
 module.exports = (sequelize, Sequelize) => {
   const Weapon = sequelize.define(
-    "wor_Weapons",
+    "weapons",
     {
       weapon: {
         type: Sequelize.STRING,

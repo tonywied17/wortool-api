@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\wor.recap.model.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp05053\public_html\api.tonewebdesign.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Sunday July 16th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 8:51:10 
+ * Last Modified: Mon July 31st 2023 4:09:31 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -20,7 +20,7 @@
  */
 module.exports = (sequelize, Sequelize) => {
   const recap = sequelize.define(
-    "wor_Recaps",
+    "wor_recap",
     {
       serverName: {
         type: Sequelize.STRING,

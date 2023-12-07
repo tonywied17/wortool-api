@@ -1,16 +1,20 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\steam.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp59244\public_html\api.tonewebdesign.com\pa-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 3:10:28 
+ * Last Modified: Sun November 12th 2023 9:26:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
-require("dotenv").config({ path: "/home/tonewebdesign/envs/wor/.env" });
+
+require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
 const axios = require("axios");
+const { authJwt } = require("../middleware");
+const steamid = require("../controllers/steamid.controller");
+
 
 module.exports = function (app) {
   // CORS
@@ -23,6 +27,7 @@ module.exports = function (app) {
   });
 
   // ! GET Routes //
+
   /**
    * Get All Steam Data By Steam ID
    * @route GET /pa/steamid/:id
@@ -133,6 +138,14 @@ module.exports = function (app) {
   });
 
   /**
+   * Get All Steam IDs
+   * @route GET /pa/steamids/
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
+  app.get("/pa/steamids/", steamid.findAll);
+
+  /**
    * Get Game Details of Steam App
    * @route GET /pa/steam/appnews
    * @group Steam
@@ -174,6 +187,19 @@ module.exports = function (app) {
   });
 
   // ! Post Routes //
+
+  /**
+   * Create or Update Steam ID
+   * @route POST /pa/steamid/:steamId
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
+  app.post(
+    "/pa/steamid/:steamId",
+    [authJwt.verifyToken],
+    steamid.createOrUpdate
+  );
+
   app.post('/pa/getSteamId', async (req, res) => {
     const { profileUrl } = req.body;
     const steamApiKey = process.env.STEAM_API_KEY;
@@ -225,4 +251,16 @@ module.exports = function (app) {
     }
 });
 
+
+
+
+  // ! Delete Routes
+
+  /**
+   * Delete Steam ID
+   * @route DELETE /pa/steamid/:steamId
+   * @group Steam
+   * @returns {object} 200 - An object containing the steam data
+   */
+  app.delete("/pa/steamid/:steamId", [authJwt.verifyToken], steamid.delete);
 };

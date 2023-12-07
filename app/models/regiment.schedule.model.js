@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\regschedule.model.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp05759\public_html\api.tonewebdesign.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Tuesday August 1st 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 8:51:27 
+ * Last Modified: Sat August 5th 2023 2:04:12 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -19,7 +19,7 @@
  * @returns 
  */
 module.exports = (sequelize, Sequelize) => {
-    const RegSchedule = sequelize.define("wor_RegSchedules", {
+    const RegSchedule = sequelize.define("RegSchedules", {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -53,9 +53,18 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true,
         },
-    },{
-        freezeTableName: true
     });
+
+    /**
+     * Associate Regiment Schedule with Regiment
+     * @param {*} models 
+     */
+    RegSchedule.associate = (models) => {
+        RegSchedule.belongsTo(models.Regiment, {
+            foreignKey: "regimentId",
+            onDelete: "CASCADE",
+        });
+    };
 
     return RegSchedule;
 };

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\gameid.model.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp05809\public_html\api.tonewebdesign.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Thursday July 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 8:51:31 
+ * Last Modified: Mon July 31st 2023 4:06:22 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -19,7 +19,7 @@
  * @returns 
  */
 module.exports = (sequelize, Sequelize) => {
-    const GameID = sequelize.define("wor_SteamUsers", {
+    const GameID = sequelize.define("gameids", {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -39,6 +39,16 @@ module.exports = (sequelize, Sequelize) => {
         },
     });
 
+    /**
+     * Associate GameID with Regiment
+     * @param {*} models 
+     */
+    GameID.associate = (models) => {
+        GameID.belongsTo(models.Regiment, {
+            foreignKey: "regimentId",
+            onDelete: "CASCADE",
+        });
+    };
 
     return GameID;
 };

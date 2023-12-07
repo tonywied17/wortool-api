@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\discord.guild.model.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp05501\public_html\api.tonewebdesign.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
  * Created Date: Sunday July 30th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 8:51:43 
+ * Last Modified: Sat August 12th 2023 12:10:50 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -20,10 +20,10 @@
  */
 module.exports = (sequelize, Sequelize) => {
   const DiscordGuild = sequelize.define(
-    "wor_DiscordGuild", {
+    "DiscordGuild", {
       name: Sequelize.STRING,
       guildId: Sequelize.STRING,
-      regimentId: Sequelize.INTEGER,
+      regimentId: Sequelize.STRING,
       icon: Sequelize.STRING,
       prefix: Sequelize.STRING,
     }, {
@@ -32,6 +32,17 @@ module.exports = (sequelize, Sequelize) => {
       charset: "utf8mb4",
     }
   );
+
+  /**
+   * Associate Discord Guild with Discord User and User
+   * @param {*} models 
+   */
+  DiscordGuild.associate = (models) => {
+    DiscordGuild.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+  };
 
   return DiscordGuild;
 };
