@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\index.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp12402\public_html\api.wortool.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:30:30 
+ * Last Modified: Fri December 8th 2023 12:13:14 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -67,7 +67,7 @@ db.User.belongsToMany(db.Role, {
 db.Regiment.hasOne(db.DiscordGuild, {
   foreignKey: "regimentId"
 })
-// db.DiscordGuild.belongsTo(db.Regiment)
+db.DiscordGuild.belongsTo(db.Regiment)
 
 
 // A Regiment can have many users
@@ -75,7 +75,7 @@ db.Regiment.hasMany(db.User, {
   foreignKey: "regimentId",
   onDelete: "CASCADE",
 });
-// db.User.belongsTo(db.Regiment);
+db.User.belongsTo(db.Regiment);
 
 
 // A User can have one discord account
@@ -83,7 +83,7 @@ db.User.hasOne(db.DiscordUser, {
   foreignKey: "userId",
   onDelete: "CASCADE",
 })
-// db.DiscordUser.belongsTo(db.User)
+db.DiscordUser.belongsTo(db.User)
 
 
 // A User can have many favorites
@@ -91,7 +91,7 @@ db.User.hasMany(db.Favorite, {
   foreignKey: "userId",
   onDelete: "CASCADE",
 });
-// db.Favorite.belongsTo(db.User);
+db.Favorite.belongsTo(db.User);
 
 
 // A Map can have many favorites
@@ -99,7 +99,7 @@ db.Maps.hasMany(db.Favorite, {
   foreignKey: "mapId",
   onDelete: "CASCADE",
 });
-// db.Favorite.belongsTo(db.Maps);
+db.Favorite.belongsTo(db.Maps);
 
 
 // A Regiment can have many steam stat users
@@ -107,33 +107,33 @@ db.Regiment.hasMany(db.SteamUser, {
   foreignKey: "regimentId",
   onDelete: "CASCADE",
 })
-// db.SteamUser.belongsTo(db.Regiment)
+db.SteamUser.belongsTo(db.Regiment)
 
 
 // A user can have many notes
 db.User.hasMany(db.Note, {
   foreignKey: "userId"
 })
-// db.Note.belongsTo(db.User)
+db.Note.belongsTo(db.User)
 
 
 // Maps can have many notes
 db.Maps.hasMany(db.Note, {
   foreignKey: "mapId"
 })
-// db.Note.belongsTo(db.Maps)
+db.Note.belongsTo(db.Maps)
 
 
 // A regiment can have many schedules
 db.Regiment.hasMany(db.RegSchedule, {
   foreignKey: "regimentId"
 })
-// db.RegSchedule.belongsTo(db.Regiment)
+db.RegSchedule.belongsTo(db.Regiment)
 
 db.Regiment.hasMany(db.MusterUser, {
   foreignKey: "regimentId"
 })
-// db.MusterUser.belongsTo(db.Regiment)
+db.MusterUser.belongsTo(db.Regiment)
 
 db.RoleS = ["user", "admin", "moderator"];
 

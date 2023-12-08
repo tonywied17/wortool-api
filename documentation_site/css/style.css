@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+    background-color: #191919;
+    color: rgb(212 212 212);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 52px;
+    max-width: 52px;
+    background: radial-gradient(ellipse at 10% 10%, #61254910, #74335a10);
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    overflow-y: auto;
+    width: 100%;
+    background: radial-gradient(ellipse at 40% 0%, #bf398910 0, transparent 75%), radial-gradient(ellipse at 60% 0%, #096bde10 0, transparent 75%);
+}
+
+.welcome {
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    padding-inline-start: 0 !important;
+    margin-block-start: 0 !important;
+    margin-block-end: 0 !important;
+}
+
+li {
+    margin-bottom: 10px;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(229 229 229);
+}
+
+.get-started-button {
+    padding: 10px 20px;
+    border: 3px solid transparent;
+    border-image: linear-gradient(to right, #ff8c00, #ff0080) 1;
+    border-radius: 8px;
+    color: rgb(229 229 229);
+    font-weight: 600;
+    font-size: 1.2em;
+    transition: border 0.3s ease;
+    border-image-slice: 1;
+}
+
+.get-started-button:hover {
+    border-image: linear-gradient(to left, #ff8c00, #ff0080) 1;
+}
+
+
+h2 {
+    color: rgb(245 245 245);
+}
+
+.section-link {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.section-link:hover {
+    background-color: #333;
+}
+
+.section-icon {
+    font-size: 1.5em;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-left: 45px;
+}
+
+.section-link:hover .tooltip {
+    display: block;
+}
+
+header{
+    text-align: right;
+}
+
+.logo {
+    font-size: 2em;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ff8c00, #ff0080);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: inline-block;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 200;
+    position: relative;
+}
+
+.logo::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2.22px;
+    border-radius: 100px;
+    background: linear-gradient(to right, #ff8c00a8, #ff0080a8);
+}
+
+code {
+    font-family: 'Roboto Mono', monospace;
+    background: linear-gradient(45deg, #00e676, #2979ff);
+    -webkit-background-clip: text;
+    color: transparent;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #212121;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #313131;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(87, 87, 87);
+}
+
+pre {
+    margin: 2em 5em;
+    background: radial-gradient(ellipse at 40% 0%, #bf398910 0, transparent 75%), radial-gradient(ellipse at 60% 0%, #096bde10 0, transparent 75%);
+    padding: 1em;
+    border-radius: 8px;
+    overflow: auto;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #abb2bf85;
+    backdrop-filter: blur(10px);
+}
+
+pre::-webkit-scrollbar {
+    height: 8px;
+}
+
+pre::-webkit-scrollbar-track {
+    background: #212121;
+    border-radius: 8px;
+    height: 8px;
+}
+
+pre::-webkit-scrollbar-thumb {
+    height: 3px;
+    background: linear-gradient(to right, #c57d247c, #85184e83);
+    border-radius: 8px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to left, #ff8c00, #ff0080);
+}
+
+.endpoint {
+    margin-bottom: 4em;
+    margin-left: 3em
+}
+
+/* Custom text selection colors */
+
+::selection {
+    background: #94366e2c;
+    color: rgb(245 245 245);
+}
+
+::-moz-selection {
+    background: #94366e2c;
+    color: rgb(245 245 245);
+}
+
