@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 7:13:06 
+ * Last Modified: Fri December 8th 2023 10:26:34 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -1146,7 +1146,7 @@ exports.upload = async (req, res) => {
 
 
 exports.getListFiles = (req, res) => {
-  const baseUrl = `https://api.wortool.com/worregiments/${req.params.regimentId}/files/`;
+  const baseUrl = `https://api.wortool.com/v2/regiments/${req.params.regimentId}/files/`;
   const directoryPath = path.join(__basedir, `resources/${req.params.regimentId}/static/assets/uploads/`);
 
   fs.readdir(directoryPath, function (err, files) {
@@ -1189,7 +1189,7 @@ exports.uploadCover = async (req, res) => {
       });
     }
 
-    const coverUrl = `https://api.wortool.com/worregiments/${req.params.regimentId}/files/cover/${req.file.filename}`;
+    const coverUrl = `https://api.wortool.com/v2/regiments/${req.params.regimentId}/files/cover/${req.file.filename}`;
 
     const updatedRegiment = await regiment.update({
       cover_photo: coverUrl,
@@ -1212,7 +1212,7 @@ exports.uploadCover = async (req, res) => {
 };
 
 exports.getCoverPhoto = (req, res) => {
-  const baseUrl = `https://api.wortool.com/worregiments/${req.params.regimentId}/files/cover/`;
+  const baseUrl = `https://api.wortool.com/v2/regiments/${req.params.regimentId}/files/cover/`;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
 
   fs.readdir(directoryPath, function (err, files) {

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\authJwt.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 6:39:29 
+ * Last Modified: Fri December 8th 2023 10:24:05 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -14,36 +14,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.User;
-require("dotenv").config({ path: "/home/tonewebdesign/envs/wor/.env" });
-/**
- * Verify Domain and Path
- * This function is used to verify the domain and path
- *
- * @param {*} req - request
- * @param {*} res - boolean based on moderator access
- * @param {*} next
- */
-verifyDomainAndPath = (req, res, next) => {
-  const allowedDomains = [
-    "https://wortool.com/regiments",
-    "http://localhost:4200/regiments",
-    "https://app.paarmy.com/regiments",
-  ];
-
-  const requestedDomain = req.headers["x-requested-domain"];
-
-  console.log("Requesting from:", requestedDomain);
-
-  if (allowedDomains.includes(requestedDomain)) {
-    console.log("Domain approved:", requestedDomain);
-    next();
-  } else {
-    console.log("Unauthorized domain:", requestedDomain);
-    res.status(403).send({
-      message: "Unauthorized domain!",
-    });
-  }
-};
+require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
 
 /**
  * Verify Token
@@ -277,7 +248,6 @@ const authJwt = {
   isModerator: isModerator,
   isModeratorOrAdmin: isModeratorOrAdmin,
   verifyRegiment: verifyRegiment,
-  verifyDomainAndPath: verifyDomainAndPath,
   checkBearerToken: checkBearerToken
 };
 module.exports = authJwt;
