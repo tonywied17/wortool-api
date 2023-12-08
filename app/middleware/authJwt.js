@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\authJwt.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 3:10:28 
+ * Last Modified: Thu December 7th 2023 6:39:29 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -13,7 +13,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
-const User = db.user;
+const User = db.User;
 require("dotenv").config({ path: "/home/tonewebdesign/envs/wor/.env" });
 /**
  * Verify Domain and Path
@@ -94,7 +94,7 @@ verifyToken = (req, res, next) => {
 
 isAdmin = (req, res, next) => {
   User.findByPk(req.body.userId).then((user) => {
-    user.getRoles().then((roles) => {
+    user.getWor_Roles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "admin") {
           next();
@@ -139,7 +139,7 @@ isModerator = (req, res, next) => {
 
     User.findByPk(req.body.userId)
       .then((user) => {
-        user.getRoles().then((roles) => {
+        user.getWor_Roles().then((roles) => {
           let isModerator = false;
 
           for (let i = 0; i < roles.length; i++) {
@@ -190,7 +190,7 @@ isModerator = (req, res, next) => {
  */
 isModeratorOrAdmin = (req, res, next) => {
   User.findByPk(req.body.userId).then((user) => {
-    user.getRoles().then((roles) => {
+    user.getWor_Roles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "moderator") {
           next();

@@ -1,6 +1,6 @@
 const db = require("../models");
-const MusterUser = db.musterUser;
-const Regiment = db.regiment
+const MusterUser = db.MusterUser;
+const Regiment = db.Regiment
 
 exports.findAll = (req, res) => {
     const regimentId = req.params.regimentId;

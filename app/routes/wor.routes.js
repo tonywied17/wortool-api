@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\wor.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Saturday July 15th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:43:26 
+ * Last Modified: Thu December 7th 2023 5:47:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -26,23 +26,23 @@ module.exports = function (app) {
 
   /**
    * Get All WOR Recaps
-   * @route GET /pa/wor/recaps
+   * @route GET /v2/wor/recaps
    * @group WOR
    * @returns {object} 200 - An object containing the WOR recaps
    */
-  app.get("/pa/wor/recaps", wor.findAll);
+  app.get("/v2/wor/recaps", wor.findAll);
 
   
   // ! POST Routes //
 
   /**
    * Create WOR Recap
-   * @route POST /pa/wor/recap
+   * @route POST /v2/wor/recap
    * @group WOR
    * @returns {object} 200 - An object containing the WOR recap
    */
   app.post(
-    "/pa/wor/server",
+    "/v2/wor/server",
     // [authJwt.verifyToken, authJwt.isAdmin],
     wor.storeRecap
   );

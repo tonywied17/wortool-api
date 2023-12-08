@@ -1,21 +1,21 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp58226\public_html\api.tonewebdesign.com\pa-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sun November 12th 2023 2:34:23 
+ * Last Modified: Thu December 7th 2023 7:13:06 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
 
 const db = require("../models");
-const Regiment = db.regiment;
-const DiscordGuild = db.discordGuild;
-const User = db.user;
-const GameId = db.gameid;
-const RegSchedule = db.regSchedule;
+const Regiment = db.Regiment;
+const DiscordGuild = db.DiscordGuild;
+const User = db.User;
+const GameId = db.SteamUser;
+const RegSchedule = db.RegSchedule;
 const axios = require("axios");
 const uploadFile = require("../middleware/upload").uploadFileMiddleware;
 const uploadCover = require("../middleware/upload").uploadCoverMiddleware;
@@ -100,7 +100,7 @@ exports.findUsersByRegimentId = async (req, res) => {
 
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
-      const roles = await user.getRoles();
+      const roles = await user.getWor_Roles();
       let authorities = [];
 
       for (let j = 0; j < roles.length; j++) {
@@ -268,14 +268,14 @@ exports.createRegiment = async (req, res) => {
         }
       });
 
-      let roles = await user.getRoles();
+      let roles = await user.getWor_Roles();
       const hasRole2 = roles.some(role => role.id === 2);
 
       if (!hasRole2) {
         roles.push(2);
       }
       
-      await user.setRoles(roles);
+      await user.setWor_Roles(roles);
 
       return res.status(200).json({
         regimentId: regimentId,
@@ -412,12 +412,12 @@ exports.removeUsersRegiment = async (req, res) => {
       });
     }
 
-    user.getRoles().then(async (roles) => {
+    user.getWor_Roles().then(async (roles) => {
       const hasRole2 = roles.some(role => role.id === 2);
 
       if (hasRole2) {
         const updatedRoles = roles.filter(role => role.id !== 2);
-        await user.setRoles(updatedRoles);
+        await user.setWor_Roles(updatedRoles);
       }
 
       const updatedUser = await user.update({
@@ -1146,7 +1146,7 @@ exports.upload = async (req, res) => {
 
 
 exports.getListFiles = (req, res) => {
-  const baseUrl = `https://api.tonewebdesign.com/pa/regiments/${req.params.regimentId}/files/`;
+  const baseUrl = `https://api.wortool.com/worregiments/${req.params.regimentId}/files/`;
   const directoryPath = path.join(__basedir, `resources/${req.params.regimentId}/static/assets/uploads/`);
 
   fs.readdir(directoryPath, function (err, files) {
@@ -1189,7 +1189,7 @@ exports.uploadCover = async (req, res) => {
       });
     }
 
-    const coverUrl = `https://api.tonewebdesign.com/pa/regiments/${req.params.regimentId}/files/cover/${req.file.filename}`;
+    const coverUrl = `https://api.wortool.com/worregiments/${req.params.regimentId}/files/cover/${req.file.filename}`;
 
     const updatedRegiment = await regiment.update({
       cover_photo: coverUrl,
@@ -1212,7 +1212,7 @@ exports.uploadCover = async (req, res) => {
 };
 
 exports.getCoverPhoto = (req, res) => {
-  const baseUrl = `https://api.tonewebdesign.com/pa/regiments/${req.params.regimentId}/files/cover/`;
+  const baseUrl = `https://api.wortool.com/worregiments/${req.params.regimentId}/files/cover/`;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
 
   fs.readdir(directoryPath, function (err, files) {

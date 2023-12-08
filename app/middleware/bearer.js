@@ -1,6 +1,6 @@
 
 const db = require("../models");
-const User = db.user;
+const User = db.User;
 require("dotenv").config({ path: "/home/tonewebdesign/envs/wor/.env" });
 
 const checkBearerToken = (req, res, next) => {

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 3:10:28 
+ * Last Modified: Thu December 7th 2023 7:13:06 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,9 +12,9 @@
 
 const db = require("../models");
 const config = require("../config/auth.config");
-const User = db.user;
-const DiscordUser = db.discordUser;
-const Role = db.role;
+const User = db.User;
+const DiscordUser = db.DiscordUser;
+const Role = db.Role;
 const Op = db.Sequelize.Op;
 const Sequelize = db.sequelize;
 let jwt = require("jsonwebtoken");
@@ -45,7 +45,7 @@ exports.signup = async (req, res) => {
             },
           },
         }).then((roles) => {
-          user.setRoles(roles).then(() => {
+          user.setWor_Roles(roles).then(() => {
             res.send({
               message: "User registered successfully!"
             });
@@ -53,7 +53,7 @@ exports.signup = async (req, res) => {
         });
       } else {
         // user role = 1
-        user.setRoles([1]).then(async () => {
+        user.setWor_Roles([1]).then(async () => {
 
           const transporter = nodemailer.createTransport({
             sendmail: true,
@@ -140,14 +140,14 @@ exports.setModerator = (req, res) => {
         });
       }
 
-      user.getRoles().then((roles) => {
+      user.getWor_Roles().then((roles) => {
         const hasRole2 = roles.some(role => role.id === 2);
 
         if (!hasRole2) {
           roles.push(2);
         }
 
-        user.setRoles(roles).then(() => {
+        user.setWor_Roles(roles).then(() => {
           res.send({
             message: "User roles updated successfully!"
           });
@@ -182,11 +182,11 @@ exports.removeModerator = (req, res) => {
         });
       }
 
-      user.getRoles().then((roles) => {
+      user.getWor_Roles().then((roles) => {
 
         const updatedRoles = roles.filter(role => role.id !== 2); // Remove role 2 from the roles array
 
-        user.setRoles(updatedRoles).then(() => {
+        user.setWor_Roles(updatedRoles).then(() => {
           res.send({
             message: "User roles updated successfully!"
           });
@@ -371,7 +371,7 @@ exports.signin = (req, res) => {
       );
 
       let authorities = [];
-      user.getRoles().then((roles) => {
+      user.getWor_Roles().then((roles) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push('ROLE_' + roles[i].name.toUpperCase());
         }

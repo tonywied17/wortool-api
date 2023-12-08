@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\user.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:41:11 
+ * Last Modified: Thu December 7th 2023 5:47:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -31,43 +31,43 @@ module.exports = function (app) {
 
   /**
    * Vet Public Access
-   * @route GET /pa/vet/all
+   * @route GET /v2/vet/all
    * @group Vet
    * @returns {object} 200 - An object containing the vet data
    */
-  app.get("/pa/vet/all", controller.allAccess);
+  app.get("/v2/vet/all", controller.allAccess);
 
 
   // ! POST Routes //
 
   /**
    * Vet User Access
-   * @route POST /pa/vet/user
+   * @route POST /v2/vet/user
    * @group Vet
    * @returns {object} 200 - An object containing the vet data
    */
-  app.post("/pa/vet/user/", [authJwt.verifyToken], controller.userBoard);
+  app.post("/v2/vet/user/", [authJwt.verifyToken], controller.userBoard);
 
   /**
    * Vet Moderator Access
-   * @route POST /pa/vet/mod
+   * @route POST /v2/vet/mod
    * @group Vet
    * @returns {object} 200 - An object containing the vet data
    */
   app.post(
-    "/pa/vet/mod/",
+    "/v2/vet/mod/",
     [authJwt.isModerator],
     controller.moderatorBoard
   )
 
   /**
    * Vet Admin Access
-   * @route POST /pa/vet/admin
+   * @route POST /v2/vet/admin
    * @group Vet
    * @returns {object} 200 - An object containing the vet data
    */
   app.post(
-    "/pa/vet/admin/",
+    "/v2/vet/admin/",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );

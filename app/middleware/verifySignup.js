@@ -1,18 +1,18 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\verifySignup.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:00:32 
+ * Last Modified: Thu December 7th 2023 5:27:37 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
 
 const db = require("../models");
-const ROLES = db.ROLES;
-const User = db.user;
+const ROLES = db.RoleS;
+const User = db.User;
 
 /**
  * Check Duplicate Username or Email

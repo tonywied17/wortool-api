@@ -1,14 +1,15 @@
 /*
- * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\gameid.model.js
+ * File: c:\Users\tonyw\Desktop\WoRApi\wortool-api\app\models\steam.user.model.js
  * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
- * Created Date: Thursday July 27th 2023
+ * Created Date: Thursday December 7th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 12:12:51 
+ * Last Modified: Thu December 7th 2023 5:31:31 
  * Modified By: Tony Wiedman
  * -----
- * Copyright (c) 2023 Tone Web Design, Molex
+ * Copyright (c) 2023 MolexWorks / Tone Web Design
  */
+
 
 /**
  * GameID Model

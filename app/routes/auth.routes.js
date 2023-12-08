@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\auth.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp14378\public_html\api.tonewebdesign.com\pa-api\app\routes
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu November 16th 2023 4:16:46 
+ * Last Modified: Thu December 7th 2023 5:47:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -33,27 +33,27 @@ module.exports = function (app) {
   /**
    * Forgot Login
    */
-app.post("/pa/auth/forgot", controller.forgot);
-app.post('/pa/auth/reset/:token', controller.reset);
+app.post("/v2/auth/forgot", controller.forgot);
+app.post('/v2/auth/reset/:token', controller.reset);
 
   /**
    * Signin Route
-   * @route POST /pa/auth/signin
+   * @route POST /v2/auth/signin
    * @group Auth
    * @returns {object} 200 - An object containing the user's token and user information
    * @security JWT
    */
-  app.post("/pa/auth/signin", controller.signin);
+  app.post("/v2/auth/signin", controller.signin);
 
   /**
    * Signup Route
-   * @route POST /pa/auth/signup
+   * @route POST /v2/auth/signup
    * @group Auth
    * @returns {object} 200 - An object containing the user's token and user information
    * @security JWT
    */
   app.post(
-    "/pa/auth/signup",
+    "/v2/auth/signup",
     [
       verifySignUp.checkDuplicateUsernameOrEmail,
       verifySignUp.checkRolesExisted,
@@ -63,52 +63,52 @@ app.post('/pa/auth/reset/:token', controller.reset);
 
   /**
    * Update Password Route
-   * @route PUT /pa/auth/:userId/updatePassword
+   * @route PUT /v2/auth/:userId/updatePassword
    * @group Auth
    * @returns {object} 200 - An object containing the user's token and user information
    * @security JWT
    */
   app.put(
-    "/pa/auth/:userId/updatePassword",
+    "/v2/auth/:userId/updatePassword",
     [authJwt.verifyToken],
     controller.password
   );
 
   /**
    * Update Profile Route
-   * @route PUT /pa/auth/:userId/updateProfile
+   * @route PUT /v2/auth/:userId/updateProfile
    * @group Auth
    * @returns {object} 200 - An object containing the user's token and user information
    * @security JWT
    */
   app.put(
-    "/pa/auth/:userId/updateProfile",
+    "/v2/auth/:userId/updateProfile",
     [authJwt.verifyToken],
     controller.profile
   );
 
   /**
    * Set Moderator Route
-   * @route PUT /pa/auth/:userId/setModerator
+   * @route PUT /v2/auth/:userId/setModerator
    * @group Auth
    * @returns {object} 200 - An object containing the user's token and user information
    * @security JWT
    */
   app.put(
-    "/pa/auth/:memberId/setModerator",
+    "/v2/auth/:memberId/setModerator",
     [authJwt.verifyToken],
     controller.setModerator
   );
 
   /**
    * Remove Moderator Route
-   * @route PUT /pa/auth/:userId/removeModerator
+   * @route PUT /v2/auth/:userId/removeModerator
    * @group Auth
    * @returns {object} 200 - An object containing the user's token and user information
    * @security JWT
    */
   app.put(
-    "/pa/auth/:memberId/removeModerator",
+    "/v2/auth/:memberId/removeModerator",
     [authJwt.verifyToken],
     controller.removeModerator
   );

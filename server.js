@@ -19,7 +19,7 @@ app.set('json spaces', 2)
 db.sequelize.sync();
 
 // Main API Route
-app.get("/wor", (req, res) => {
+app.get("/v2", (req, res) => {
   res.json({ message: "WoRTool Beta API." });
 });
 

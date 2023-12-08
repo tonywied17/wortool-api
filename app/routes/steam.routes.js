@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\steam.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 3:10:28 
+ * Last Modified: Thu December 7th 2023 5:52:12 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -25,11 +25,11 @@ module.exports = function (app) {
   // ! GET Routes //
   /**
    * Get All Steam Data By Steam ID
-   * @route GET /pa/steamid/:id
+   * @route GET /v2/steamid/:id
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steamid/:id", async (req, res) => {
+  app.get("/v2/steamid/:id", async (req, res) => {
     try {
       const { id } = req.params;
       console.log('Received ID:', id);
@@ -47,11 +47,11 @@ module.exports = function (app) {
 
   /**
    * Get All Verbose Steam Data By Steam ID
-   * @route GET /pa/steamid/:id/verbose
+   * @route GET /v2/steamid/:id/verbose
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steamid/:id/verbose", async (req, res) => {
+  app.get("/v2/steamid/:id/verbose", async (req, res) => {
     const id = req.params.id;
     const appId = req.query.appId || 424030;
 
@@ -134,11 +134,11 @@ module.exports = function (app) {
 
   /**
    * Get Game Details of Steam App
-   * @route GET /pa/steam/appnews
+   * @route GET /v2/steam/appnews
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steam/appdetails", async (req, res) => {
+  app.get("/v2/steam/appdetails", async (req, res) => {
     try {
       const { appid } = req.query;
       const steamApiKey = process.env.STEAM_API_KEY;
@@ -154,11 +154,11 @@ module.exports = function (app) {
 
   /**
    * Get Game News of Steam App
-   * @route GET /pa/steam/appnews
+   * @route GET /v2/steam/appnews
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steam/appnews", async (req, res) => {
+  app.get("/v2/steam/appnews", async (req, res) => {
     try {
       const { appid } = req.query;
       const steamApiKey = process.env.STEAM_API_KEY;
@@ -174,7 +174,7 @@ module.exports = function (app) {
   });
 
   // ! Post Routes //
-  app.post('/pa/getSteamId', async (req, res) => {
+  app.post('/v2/getSteamId', async (req, res) => {
     const { profileUrl } = req.body;
     const steamApiKey = process.env.STEAM_API_KEY;
 

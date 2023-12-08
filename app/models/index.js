@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\index.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp44517\public_html\api.tonewebdesign.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 12:18:47 
+ * Last Modified: Thu December 7th 2023 5:30:30 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -32,31 +32,31 @@ db.sequelize = sequelize;
  * MODELS
  * This is where we import all of our models.
  */
-db.maps = require("./map.model.js")(sequelize, Sequelize);
-db.user = require("./user.model.js")(sequelize, Sequelize);
-db.role = require("./role.model.js")(sequelize, Sequelize);
-db.weapon = require("./weapon.model.js")(sequelize, Sequelize);
-db.note = require("./note.model.js")(sequelize, Sequelize);
-db.favorite = require("./favorite.model.js")(sequelize, Sequelize);
-db.discordUser = require("./discord.user.model.js")(sequelize, Sequelize);
-db.discordGuild = require("./discord.guild.model.js")(sequelize, Sequelize);
-db.regiment = require("./regiment.model.js")(sequelize, Sequelize);
-db.recap = require("./wor.recap.model.js")(sequelize, Sequelize);
-db.gameid = require("./gameid.model.js")(sequelize, Sequelize);
-db.regSchedule = require("./regiment.schedule.model.js")(sequelize, Sequelize);
-db.musterUser= require("./muster.user.model.js")(sequelize, Sequelize);
+db.Maps = require("./map.model.js")(sequelize, Sequelize);
+db.User = require("./user.model.js")(sequelize, Sequelize);
+db.Role = require("./role.model.js")(sequelize, Sequelize);
+db.Weapon = require("./weapon.model.js")(sequelize, Sequelize);
+db.Note = require("./note.model.js")(sequelize, Sequelize);
+db.Favorite = require("./favorite.model.js")(sequelize, Sequelize);
+db.DiscordUser = require("./discord.user.model.js")(sequelize, Sequelize);
+db.DiscordGuild = require("./discord.guild.model.js")(sequelize, Sequelize);
+db.Regiment = require("./regiment.model.js")(sequelize, Sequelize);
+db.Recap = require("./wor.recap.model.js")(sequelize, Sequelize);
+db.SteamUser = require("./steam.user.model.js")(sequelize, Sequelize);
+db.RegSchedule = require("./regiment.schedule.model.js")(sequelize, Sequelize);
+db.MusterUser= require("./muster.user.model.js")(sequelize, Sequelize);
 
 
 /**
  * ASSOCIATIONS
  * This is where we define our user and role associations because this is how we originally did it and haven't updated it yet.
  */
-db.role.belongsToMany(db.user, {
+db.Role.belongsToMany(db.User, {
   through: "wor_UserRoles_JUNC",
   foreignKey: "roleId",
   otherKey: "userId",
 });
-db.user.belongsToMany(db.role, {
+db.User.belongsToMany(db.Role, {
   through: "wor_UserRoles_JUNC",
   foreignKey: "userId",
   otherKey: "roleId",
@@ -64,77 +64,77 @@ db.user.belongsToMany(db.role, {
 
 
 // A Regiment can have one discord guild
-db.regiment.hasOne(db.discordGuild, {
+db.Regiment.hasOne(db.DiscordGuild, {
   foreignKey: "regimentId"
 })
-// db.discordGuild.belongsTo(db.regiment)
+// db.DiscordGuild.belongsTo(db.Regiment)
 
 
 // A Regiment can have many users
-db.regiment.hasMany(db.user, {
+db.Regiment.hasMany(db.User, {
   foreignKey: "regimentId",
   onDelete: "CASCADE",
 });
-// db.user.belongsTo(db.regiment);
+// db.User.belongsTo(db.Regiment);
 
 
 // A User can have one discord account
-db.user.hasOne(db.discordUser, {
+db.User.hasOne(db.DiscordUser, {
   foreignKey: "userId",
   onDelete: "CASCADE",
 })
-// db.discordUser.belongsTo(db.user)
+// db.DiscordUser.belongsTo(db.User)
 
 
 // A User can have many favorites
-db.user.hasMany(db.favorite, {
+db.User.hasMany(db.Favorite, {
   foreignKey: "userId",
   onDelete: "CASCADE",
 });
-// db.favorite.belongsTo(db.user);
+// db.Favorite.belongsTo(db.User);
 
 
 // A Map can have many favorites
-db.maps.hasMany(db.favorite, {
+db.Maps.hasMany(db.Favorite, {
   foreignKey: "mapId",
   onDelete: "CASCADE",
 });
-// db.favorite.belongsTo(db.maps);
+// db.Favorite.belongsTo(db.Maps);
 
 
 // A Regiment can have many steam stat users
-db.regiment.hasMany(db.gameid, {
+db.Regiment.hasMany(db.SteamUser, {
   foreignKey: "regimentId",
   onDelete: "CASCADE",
 })
-// db.gameid.belongsTo(db.regiment)
+// db.SteamUser.belongsTo(db.Regiment)
 
 
 // A user can have many notes
-db.user.hasMany(db.note, {
+db.User.hasMany(db.Note, {
   foreignKey: "userId"
 })
-// db.note.belongsTo(db.user)
+// db.Note.belongsTo(db.User)
 
 
 // Maps can have many notes
-db.maps.hasMany(db.note, {
+db.Maps.hasMany(db.Note, {
   foreignKey: "mapId"
 })
-// db.note.belongsTo(db.maps)
+// db.Note.belongsTo(db.Maps)
 
 
 // A regiment can have many schedules
-db.regiment.hasMany(db.regSchedule, {
+db.Regiment.hasMany(db.RegSchedule, {
   foreignKey: "regimentId"
 })
-// db.regSchedule.belongsTo(db.regiment)
+// db.RegSchedule.belongsTo(db.Regiment)
 
-db.regiment.hasMany(db.musterUser, {
+db.Regiment.hasMany(db.MusterUser, {
   foreignKey: "regimentId"
 })
-// db.musterUser.belongsTo(db.regiment)
+// db.MusterUser.belongsTo(db.Regiment)
 
-db.ROLES = ["user", "admin", "moderator"];
+db.RoleS = ["user", "admin", "moderator"];
 
 module.exports = db;

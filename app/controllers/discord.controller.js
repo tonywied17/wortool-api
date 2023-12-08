@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\discord.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 3:10:28 
+ * Last Modified: Thu December 7th 2023 7:13:06 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -17,9 +17,9 @@ const {
 } = require("discord.js");
 const axios = require("axios");
 const db = require("../models");
-const User = db.user;
-const Regiment = db.regiment;
-const DiscordUser = db.discordUser;
+const User = db.User;
+const Regiment = db.Regiment;
+const DiscordUser = db.DiscordUser;
 require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
 
 
@@ -432,8 +432,8 @@ exports.findOneUser = (req, res) => {
           GUILD_NICKNAME: serverNickname,
         },
         API_SPECIFIC: {
-          GUILD_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/get`,
-          GUILD_USER_API_URL: `https://api.tonewebdesign.com/pa/discord/guild/${guildId}/user/${userId}/get`,
+          GUILD_API_URL: `https://api.wortool.com/wordiscord/guild/${guildId}/get`,
+          GUILD_USER_API_URL: `https://api.wortool.com/wordiscord/guild/${guildId}/user/${userId}/get`,
         }
       });
 
@@ -470,7 +470,7 @@ exports.auth = async function (req, res) {
     params.append("client_secret", process.env.CLIENT_SECRET);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", `https://api.tonewebdesign.com/pa/discord/auth`);
+    params.append("redirect_uri", `https://api.wortool.com/v2/discord/auth`);
     params.append("scope", "identify");
 
     const response = await axios.post("https://discord.com/api/oauth2/token", params);
@@ -532,14 +532,14 @@ exports.auth = async function (req, res) {
     if (regiment && existingUser) {
       existingUser.regimentId = regiment.id;
 
-      let roles = await existingUser.getRoles();
+      let roles = await existingUser.getWor_Roles();
       const hasRole2 = roles.some(role => role.id === 2);
 
       if (!hasRole2) {
         roles.push(2);
       }
 
-      await existingUser.setRoles(roles);
+      await existingUser.setWor_Roles(roles);
     }
 
     const closeScript = `

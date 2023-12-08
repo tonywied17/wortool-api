@@ -1,14 +1,15 @@
 /*
- * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\regiment.model.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp05376\public_html\api.tonewebdesign.com\wor-api\app\models
- * Created Date: Tuesday June 27th 2023
+ * File: c:\Users\tonyw\Desktop\WoRApi\wortool-api\app\models\regiment.model.js
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Created Date: Thursday December 7th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed December 6th 2023 8:51:04 
+ * Last Modified: Thu December 7th 2023 5:34:54 
  * Modified By: Tony Wiedman
  * -----
- * Copyright (c) 2023 Tone Web Design, Molex
+ * Copyright (c) 2023 MolexWorks / Tone Web Design
  */
+
 
 /**
  * Regiment Model
