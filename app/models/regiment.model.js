@@ -1,14 +1,15 @@
 /*
- * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\regiment.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
- * Created Date: Tuesday June 27th 2023
+ * File: c:\Users\tonyw\Desktop\WoRApi\wortool-api\app\models\regiment.model.js
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Created Date: Thursday December 7th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat November 11th 2023 9:38:33 
+ * Last Modified: Thu December 7th 2023 5:34:54 
  * Modified By: Tony Wiedman
  * -----
- * Copyright (c) 2023 Tone Web Design, Molex
+ * Copyright (c) 2023 MolexWorks / Tone Web Design
  */
+
 
 /**
  * Regiment Model
@@ -19,7 +20,7 @@
  * @returns - Regiment
  */
 module.exports = (sequelize, Sequelize) => {
-  const Regiment = sequelize.define("regiments", {
+  const Regiment = sequelize.define("wor_Regiments", {
     regiment: {
       type: Sequelize.STRING,
     },
@@ -60,18 +61,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-  });
-
-  /**
-   * Associate Regiment with GameID
-   * @param {*} models 
-   */
-  Regiment.associate = (models) => {
-    Regiment.hasMany(models.GameID, {
-      foreignKey: "regimentId",
-      onDelete: "CASCADE",
-    });
-  };
+  },{
+    freezeTableName: true
+});
 
   return Regiment;
 };

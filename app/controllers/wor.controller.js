@@ -1,17 +1,17 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\wor.controller.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Saturday July 15th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 3:56:58 
+ * Last Modified: Thu December 7th 2023 5:28:51 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
 
 const db = require("../models");
-const Recap = db.recap;
+const Recap = db.Recap;
 
 /**
  * Retrieve all recaps from the database.

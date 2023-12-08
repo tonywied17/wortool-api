@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp30839\public_html\api.tonewebdesign.com\pa-api\app\routes
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue November 21st 2023 11:32:24 
+ * Last Modified: Thu December 7th 2023 5:47:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -33,123 +33,123 @@ module.exports = function (app) {
 
   /**
    * Get All Regiments
-   * @route GET /pa/regiments/
+   * @route GET /v2/regiments/
    * @group Regiments
    * @returns {object} 200 - An object containing the regiments
    */
   app.get(
-    "/pa/regiments/",
+    "/v2/regiments/",
     regimentController.findAll
   );
 
 
   /**
    * Get Regiment By ID
-   * @route GET /pa/regiments/:regimentId
+   * @route GET /v2/regiments/:regimentId
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment
    */
   app.get(
-    "/pa/regiments/:regimentId",
+    "/v2/regiments/:regimentId",
     regimentController.findOne
   );
 
   /**
    * Get Users of Regiment By Regiment ID
-   * @route GET /pa/regiments/:regimentId/users
+   * @route GET /v2/regiments/:regimentId/users
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment users
    */
   app.get(
-    "/pa/regiments/:regimentId/users",
+    "/v2/regiments/:regimentId/users",
     regimentController.findUsersByRegimentId
   );
 
   /**
    * Get Game IDs of Regiment User's By Regiment ID
-   * @route GET /pa/regiments/:regimentId/gameids
+   * @route GET /v2/regiments/:regimentId/gameids
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment users game/steam ids
    */
   app.get(
-    "/pa/regiments/:regimentId/gameids",
+    "/v2/regiments/:regimentId/gameids",
     regimentController.findGameIdsByRegimentId
   );
 
   /**
    * Get the Regiment of a User By Steam ID
-   * @route GET /pa/regiments/gameid/:steamId
+   * @route GET /v2/regiments/gameid/:steamId
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment
    */
   app.get(
-    "/pa/regiments/gameid/:steamId",
+    "/v2/regiments/gameid/:steamId",
     regimentController.findRegimentBySteamId
   );
 
   /**
    * Get Steam Data for Regiment User by Game ID (not Steam ID)
-   * @route GET /pa/regiments/:regimentId/gameids/:gameId
+   * @route GET /v2/regiments/:regimentId/gameids/:gameId
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment users game/steam ids
    */
   app.get(
-    "/pa/regiments/:regimentId/gameids/:gameId",
+    "/v2/regiments/:regimentId/gameids/:gameId",
     regimentController.findGameIdsByGameId
   );
 
   /**
    * Get Regiment Schedule By Regiment ID
-   * @route GET /pa/regiments/:regimentId/schedules
+   * @route GET /v2/regiments/:regimentId/schedules
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment schedule
    */
   app.get(
-    "/pa/regiments/:regimentId/schedules/day/",
+    "/v2/regiments/:regimentId/schedules/day/",
     regimentController.findScheduleByDay
   );
 
     /**
    * Get Regiment Schedule By Guild ID
-   * @route GET /pa/regiments/:guildId/schedules
+   * @route GET /v2/regiments/:guildId/schedules
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment schedule
    */
     app.post(
-      "/pa/regiments/discord/:guildId/schedules/day/",
+      "/v2/regiments/discord/:guildId/schedules/day/",
       regimentController.findScheduleByDayGuildId
     );
 
   /**
    * Get Regiment Schedule By Regiment ID
-   * @route GET /pa/regiments/:regimentId/schedules
+   * @route GET /v2/regiments/:regimentId/schedules
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment schedule
    */
   app.get(
-    "/pa/regiments/:regimentId/schedules",
+    "/v2/regiments/:regimentId/schedules",
     regimentController.findSchedulesByRegimentId
   );
 
   /**
    * Get Regiment Schedule By Regiment ID and Region
-   * @route GET /pa/regiments/:regimentId/schedules/region
+   * @route GET /v2/regiments/:regimentId/schedules/region
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment schedule
    */
   app.get(
-    "/pa/regiments/:regimentId/schedules/region",
+    "/v2/regiments/:regimentId/schedules/region",
     regimentController.findRegimentByRegionTz
   );
 
   //Get regiment schedule by regiment id and schedule_name
   app.get(
-    "/pa/regiments/:regimentId/schedules/name",
+    "/v2/regiments/:regimentId/schedules/name",
     regimentController.findRegimentByScheduleName
   );
 
   app.get(
-    "/pa/regiments/g/:guildId/discordGuild",
+    "/v2/regiments/g/:guildId/discordGuild",
     regimentController.findDiscordGuild
   );
 
@@ -158,24 +158,24 @@ module.exports = function (app) {
 
   /**
    * Update Regiment
-   * @route POST /pa/regiments/:regimentId/update
+   * @route POST /v2/regiments/:regimentId/update
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment
    */
   app.put(
-    "/pa/regiments/:regimentId/update",
+    "/v2/regiments/:regimentId/update",
     [authJwt.verifyRegiment],
     regimentController.update
   );
 
   /**
    * Update Regiment from Public Routes (Used for Guild Icon and Name Changes)
-   * @route POST /pa/regiments/:regimentId/change
+   * @route POST /v2/regiments/:regimentId/change
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment
    */
   app.put(
-    "/pa/regiments/:regimentId/change",
+    "/v2/regiments/:regimentId/change",
     [authJwt.verifyDomainAndPath, authJwt.verifyRegiment],
     
     regimentController.update
@@ -183,12 +183,12 @@ module.exports = function (app) {
 
   /**
    * Create Regiment
-   * @route POST /pa/regiments/create
+   * @route POST /v2/regiments/create
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment
    */
   app.post(
-    "/pa/regiments/create",
+    "/v2/regiments/create",
     [authJwt.checkBearerToken],
     regimentController.createRegiment
   );
@@ -198,141 +198,141 @@ module.exports = function (app) {
    * 
    */
   app.post(
-    "/pa/regiments/:guildId/membercount",
+    "/v2/regiments/:guildId/membercount",
     [authJwt.checkBearerToken],
     regimentController.updateMemberCount
   );
 
   /**
    * Add User Game ID to Regiment
-   * @route POST /pa/regiments/:regimentId/gameid
+   * @route POST /v2/regiments/:regimentId/gameid
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment
    */
   app.post(
-    "/pa/regiments/:regimentId/gameid",
+    "/v2/regiments/:regimentId/gameid",
     // [authJwt.verifyRegiment],
     regimentController.addGameId
   );
 
   /**
    * Create Regiment Schedule
-   * @route POST /pa/regiments/:regimentId/schedules
+   * @route POST /v2/regiments/:regimentId/schedules
    * @group Regiments
    * @security JWT verifyRegiment
    * @returns {object} 200 - An object containing the regiment
    */
   app.post(
-    "/pa/regiments/:regimentId/schedules",
+    "/v2/regiments/:regimentId/schedules",
     [authJwt.verifyRegiment],
     regimentController.createSchedule
   );
 
   /**
    * Update Regiment Schedule
-   * @route PUT /pa/regiments/:regimentId/schedules/:scheduleId
+   * @route PUT /v2/regiments/:regimentId/schedules/:scheduleId
    * @group Regiments
    * @security JWT verifyRegiment
    * @returns {object} 200 - An object containing the regiment
    */
   // app.put(
-  //   "/pa/regiments/:regimentId/schedules/:scheduleId",
+  //   "/v2/regiments/:regimentId/schedules/:scheduleId",
   //   [authJwt.verifyRegiment],
   //   regimentController.updateSchedule
   // );
 
   //update discord avatar and servername
   app.put(
-    "/pa/regiments/updateDiscord",
+    "/v2/regiments/updateDiscord",
     [authJwt.checkBearerToken],
     regimentController.updateDiscord
   );
   
   //Upate regiment discord guilds prefix column
   app.put(
-    "/pa/regiments/g/:guildId/updatePrefix",
+    "/v2/regiments/g/:guildId/updatePrefix",
     regimentController.updatePrefix
   );
   // ! Delete Routes //
 
   /**
    * Delete Regiment
-   * @route DELETE /pa/regiments/:regimentId/delete
+   * @route DELETE /v2/regiments/:regimentId/delete
    * @group Regiments
    * @security JWT verifyRegiment
    * @returns {object} 200 - An object containing the regiment
    */
   app.delete(
-    "/pa/regiments/:userId/remove",
+    "/v2/regiments/:userId/remove",
     regimentController.removeUsersRegiment
   );
 
   /**
    * Delete User Game ID from Regiment
-   * @route DELETE /pa/regiments/:regimentId/gameid/:gameId
+   * @route DELETE /v2/regiments/:regimentId/gameid/:gameId
    * @group Regiments
    * @returns {object} 200 - An object containing the regiment
    */
   app.delete(
-    "/pa/regiments/:regimentId/gameid/:gameId",
+    "/v2/regiments/:regimentId/gameid/:gameId",
     [authJwt.verifyRegiment],
     regimentController.removeGameId
   );
 
   /**
    * Delete Regiment Schedule
-   * @route DELETE /pa/regiments/:regimentId/schedules/:scheduleId
+   * @route DELETE /v2/regiments/:regimentId/schedules/:scheduleId
    * @group Regiments
    * @security JWT verifyRegiment
    * @returns {object} 200 - An object containing the regiment
    */
   app.delete(
-    "/pa/regiments/:regimentId/schedules/:scheduleId",
+    "/v2/regiments/:regimentId/schedules/:scheduleId",
     [authJwt.verifyRegiment],
     regimentController.removeSchedule
   );
 
   //uploading
   app.post(
-    "/pa/regiments/:regimentId/upload",
+    "/v2/regiments/:regimentId/upload",
     [authJwt.verifyRegiment],
     regimentController.upload
   );
 
   app.post(
-    "/pa/regiments/:regimentId/upload/cover",
+    "/v2/regiments/:regimentId/upload/cover",
     [authJwt.verifyRegiment],
     regimentController.uploadCover
   );
 
   app.get(
-    "/pa/regiments/:regimentId/files",
+    "/v2/regiments/:regimentId/files",
     regimentController.getListFiles
   );
 
   app.get(
-    "/pa/regiments/:regimentId/files/cover",
+    "/v2/regiments/:regimentId/files/cover",
     regimentController.getCoverPhoto
   );
 
   app.get(
-    "/pa/regiments/:regimentId/files/:name",
+    "/v2/regiments/:regimentId/files/:name",
     regimentController.download
   );
 
   app.get(
-    "/pa/regiments/:regimentId/files/cover/:name",
+    "/v2/regiments/:regimentId/files/cover/:name",
     regimentController.downloadCover
   );
 
   app.delete(
-    "/pa/regiments/:regimentId/files/:name",
+    "/v2/regiments/:regimentId/files/:name",
     [authJwt.verifyRegiment],
     regimentController.remove
   );
 
   app.delete(
-    "/pa/regiments/:regimentId/files/cover/:name",
+    "/v2/regiments/:regimentId/files/cover/:name",
     [authJwt.verifyRegiment],
     regimentController.removeCover
   );

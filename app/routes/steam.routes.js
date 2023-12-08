@@ -1,20 +1,16 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\steam.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp59244\public_html\api.tonewebdesign.com\pa-api\app\routes
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sun November 12th 2023 9:26:25 
+ * Last Modified: Thu December 7th 2023 5:52:12 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
-
-require("dotenv").config({ path: "/home/tonewebdesign/envs/pa/.env" });
+require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
 const axios = require("axios");
-const { authJwt } = require("../middleware");
-const steamid = require("../controllers/steamid.controller");
-
 
 module.exports = function (app) {
   // CORS
@@ -27,14 +23,13 @@ module.exports = function (app) {
   });
 
   // ! GET Routes //
-
   /**
    * Get All Steam Data By Steam ID
-   * @route GET /pa/steamid/:id
+   * @route GET /v2/steamid/:id
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steamid/:id", async (req, res) => {
+  app.get("/v2/steamid/:id", async (req, res) => {
     try {
       const { id } = req.params;
       console.log('Received ID:', id);
@@ -52,11 +47,11 @@ module.exports = function (app) {
 
   /**
    * Get All Verbose Steam Data By Steam ID
-   * @route GET /pa/steamid/:id/verbose
+   * @route GET /v2/steamid/:id/verbose
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steamid/:id/verbose", async (req, res) => {
+  app.get("/v2/steamid/:id/verbose", async (req, res) => {
     const id = req.params.id;
     const appId = req.query.appId || 424030;
 
@@ -138,20 +133,12 @@ module.exports = function (app) {
   });
 
   /**
-   * Get All Steam IDs
-   * @route GET /pa/steamids/
-   * @group Steam
-   * @returns {object} 200 - An object containing the steam data
-   */
-  app.get("/pa/steamids/", steamid.findAll);
-
-  /**
    * Get Game Details of Steam App
-   * @route GET /pa/steam/appnews
+   * @route GET /v2/steam/appnews
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steam/appdetails", async (req, res) => {
+  app.get("/v2/steam/appdetails", async (req, res) => {
     try {
       const { appid } = req.query;
       const steamApiKey = process.env.STEAM_API_KEY;
@@ -167,11 +154,11 @@ module.exports = function (app) {
 
   /**
    * Get Game News of Steam App
-   * @route GET /pa/steam/appnews
+   * @route GET /v2/steam/appnews
    * @group Steam
    * @returns {object} 200 - An object containing the steam data
    */
-  app.get("/pa/steam/appnews", async (req, res) => {
+  app.get("/v2/steam/appnews", async (req, res) => {
     try {
       const { appid } = req.query;
       const steamApiKey = process.env.STEAM_API_KEY;
@@ -187,20 +174,7 @@ module.exports = function (app) {
   });
 
   // ! Post Routes //
-
-  /**
-   * Create or Update Steam ID
-   * @route POST /pa/steamid/:steamId
-   * @group Steam
-   * @returns {object} 200 - An object containing the steam data
-   */
-  app.post(
-    "/pa/steamid/:steamId",
-    [authJwt.verifyToken],
-    steamid.createOrUpdate
-  );
-
-  app.post('/pa/getSteamId', async (req, res) => {
+  app.post('/v2/getSteamId', async (req, res) => {
     const { profileUrl } = req.body;
     const steamApiKey = process.env.STEAM_API_KEY;
 
@@ -251,16 +225,4 @@ module.exports = function (app) {
     }
 });
 
-
-
-
-  // ! Delete Routes
-
-  /**
-   * Delete Steam ID
-   * @route DELETE /pa/steamid/:steamId
-   * @group Steam
-   * @returns {object} 200 - An object containing the steam data
-   */
-  app.delete("/pa/steamid/:steamId", [authJwt.verifyToken], steamid.delete);
 };

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\weapon.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:42:31 
+ * Last Modified: Thu December 7th 2023 5:47:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -32,30 +32,30 @@ module.exports = function (app) {
 
   /**
    * Get All Weapons
-   * @route GET /pa/weapons/
+   * @route GET /v2/weapons/
    * @group Weapons
    * @returns {object} 200 - An object containing the weapons
    */
-  app.get("/pa/weapons/", weapon.findAll);
+  app.get("/v2/weapons/", weapon.findAll);
 
   /**
    * Get Weapon By ID
-   * @route GET /pa/weapons/:id
+   * @route GET /v2/weapons/:id
    * @group Weapons
    * @returns {object} 200 - An object containing the weapon
    */
-  app.get("/pa/weapons/:id", weapon.findOne);
+  app.get("/v2/weapons/:id", weapon.findOne);
 
   // ! Post Routes //
 
   /**
    * Create or Update Weapon
-   * @route POST /pa/weapons/weapon/:weaponId
+   * @route POST /v2/weapons/weapon/:weaponId
    * @group Weapons
    * @returns {object} 200 - An object containing the weapon
    */
   app.post(
-    "/pa/weapons/weapon/:weaponId",
+    "/v2/weapons/weapon/:weaponId",
     [authJwt.verifyToken, authJwt.isAdmin],
     weapon.createOrUpdateWeapon
   );
@@ -64,12 +64,12 @@ module.exports = function (app) {
 
   /**
    * Delete Weapon
-   * @route DELETE /pa/weapons/weapon/:weaponId
+   * @route DELETE /v2/weapons/weapon/:weaponId
    * @group Weapons
    * @returns {object} 200 - An object containing the weapon
    */
   app.delete(
-    "/pa/weapons/weapon/:weaponId",
+    "/v2/weapons/weapon/:weaponId",
     [authJwt.verifyToken, authJwt.isAdmin],
     weapon.deleteWeapon
   );

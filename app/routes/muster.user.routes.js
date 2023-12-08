@@ -9,7 +9,7 @@ module.exports = (app) => {
     // Get All Muster Users
     /**
      * Get All Muster Users
-     * @route GET /pa/musteruser
+     * @route GET /v2/musteruser
      * @group MusterUser
      * @returns {object} 200 - An object containing the Muster User items
      */
@@ -19,7 +19,7 @@ module.exports = (app) => {
     // Get Muster User By Discord ID
     /**
      * Get Muster User By Discord ID
-     * @route GET /pa/musteruser/:discordId
+     * @route GET /v2/musteruser/:discordId
      * @group MusterUser
      * @returns {object} 200 - An object containing the Muster User item
      */
@@ -28,7 +28,7 @@ module.exports = (app) => {
     // Update Muster User By Discord ID
     /**
      * Update Muster User By Discord ID
-     * @route PUT /pa/musteruser/:discordId
+     * @route PUT /v2/musteruser/:discordId
      * @group MusterUser
      * @returns {object} 200 - Success message
      */
@@ -37,7 +37,7 @@ module.exports = (app) => {
     // Create Muster User
     /**
      * Create Muster User
-     * @route POST /pa/musteruser
+     * @route POST /v2/musteruser
      * @group MusterUser
      * @returns {object} 200 - An object containing the created Muster User item
      */
@@ -48,5 +48,5 @@ module.exports = (app) => {
     router.put("/incr-events", musterUserController.incrementEvents);
     router.put("/incr-drills", musterUserController.incrementDrills);
   
-    app.use("/pa/musteruser", router);
+    app.use("/v2/musteruser", router);
 };

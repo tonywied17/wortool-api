@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\regschedule.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday August 1st 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat August 5th 2023 2:04:12 
+ * Last Modified: Thu December 7th 2023 12:13:02 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -19,7 +19,7 @@
  * @returns 
  */
 module.exports = (sequelize, Sequelize) => {
-    const RegSchedule = sequelize.define("RegSchedules", {
+    const RegSchedule = sequelize.define("wor_RegSchedules", {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -32,10 +32,6 @@ module.exports = (sequelize, Sequelize) => {
         region_tz: {
             type: Sequelize.STRING,
             allowNull: true,
-        },
-        regimentId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
         },
         day: {
             type: Sequelize.STRING,
@@ -53,18 +49,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true,
         },
+    },{
+        freezeTableName: true
     });
-
-    /**
-     * Associate Regiment Schedule with Regiment
-     * @param {*} models 
-     */
-    RegSchedule.associate = (models) => {
-        RegSchedule.belongsTo(models.Regiment, {
-            foreignKey: "regimentId",
-            onDelete: "CASCADE",
-        });
-    };
 
     return RegSchedule;
 };

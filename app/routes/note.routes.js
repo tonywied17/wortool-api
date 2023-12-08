@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\note.routes.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon July 31st 2023 4:28:43 
+ * Last Modified: Thu December 7th 2023 5:47:25 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -31,12 +31,12 @@ module.exports = function (app) {
 
   /**
    * Get All Notes By User and Map
-   * @route GET /pa/notes/map/:userId/:mapId
+   * @route GET /v2/notes/map/:userId/:mapId
    * @group Notes
    * @returns {object} 200 - An object containing the notes
    */
   app.get(
-    "/pa/notes/map/:userId/:mapId",
+    "/v2/notes/map/:userId/:mapId",
     [authJwt.verifyToken],
     noteController.findNotesByUserAndMap
   );
@@ -45,12 +45,12 @@ module.exports = function (app) {
 
   /**
    * Create or Update Note
-   * @route POST /pa/notes/map/:userId/:mapId
+   * @route POST /v2/notes/map/:userId/:mapId
    * @group Notes
    * @returns {object} 200 - An object containing the note
    */
   app.post(
-    "/pa/notes/map/:userId/:mapId",
+    "/v2/notes/map/:userId/:mapId",
     [authJwt.verifyToken],
     noteController.createOrUpdateNote
   );

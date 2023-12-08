@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\user.model.js
- * Project: c:\Users\tonyw\Desktop\PA API\express-paarmy-api
+ * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu November 16th 2023 2:12:16 
+ * Last Modified: Thu December 7th 2023 12:11:10 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -19,7 +19,7 @@
  * @returns - User 
  */
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("users", {
+  const User = sequelize.define("wor_Users", {
     username: {
       type: Sequelize.STRING,
     },
@@ -35,43 +35,16 @@ module.exports = (sequelize, Sequelize) => {
     discordId: {
       type: Sequelize.STRING,
     },
-    regimentId: {
-      type: Sequelize.INTEGER,
-    },
     resetPasswordToken: {
       type: Sequelize.STRING,
     },
     resetPasswordExpires: {
       type: Sequelize.DATE,
     },
-  });
+  },{
+    freezeTableName: true
+});
 
-  /**
-   * Associate User with Notes and Favorites
-   * @param {*} models
-   */
-  User.associate = (models) => {
-    User.hasMany(models.Note, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-
-    User.hasMany(models.Favorite, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-
-    User.hasOne(models.DiscordUser, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-
-    User.hasOne(models.Regiment, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-
-  };
 
   return User;
 };
