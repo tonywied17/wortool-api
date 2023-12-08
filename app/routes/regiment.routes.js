@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:47:25 
+ * Last Modified: Fri December 8th 2023 10:23:52 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -176,7 +176,7 @@ module.exports = function (app) {
    */
   app.put(
     "/v2/regiments/:regimentId/change",
-    [authJwt.verifyDomainAndPath, authJwt.verifyRegiment],
+    [authJwt.verifyRegiment],
     
     regimentController.update
   );
