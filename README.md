@@ -1,8 +1,6 @@
 # wortool-api
-REST API backend for PA Army & WoRTool applications  
+API Backend for WoRTool Applications  
   
   ## Repositories that use this API
-  
- > [Paarmy.com Angular App](https://github.com/tonywied17/ng-paarmy.com)  
- > [WoRTool Angular App](https://github.com/tonywied17/ng-paapp2)
+ > [WoRTool Angular App](https://github.com/tonywied17/ng-wortool)
  > [WoRTool Discord Bot](https://github.com/tonywied17/wortool-discord-bot)
