@@ -26,8 +26,10 @@ aside {
     flex-direction: column;
     align-items: center;
     min-width: 52px;
-
-    background: radial-gradient(ellipse at 10% 10%, #61254910, #74335a10);
+    /* background: radial-gradient(ellipse at 40% 0%, #bf398910 0, transparent 75%), radial-gradient(ellipse at 60% 0%, #096bde10 0, transparent 75%); */
+    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); */
+    background: radial-gradient(ellipse at 10% 10%, #bf398910, #33597400);
+    /* background: radial-gradient(ellipse at 10% 10%, #61254910, #74335a10); */
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
@@ -105,7 +107,7 @@ h2 {
 }
 
 .section-link:hover {
-    background-color: #333;
+    background: rgba(22, 22, 36, 0.712); 
 }
 
 .section-icon {
@@ -115,11 +117,12 @@ h2 {
 .tooltip {
     display: none;
     position: absolute;
-    background-color: #333;
+    background: rgba(22, 22, 36, 0.712); 
     padding: 8px;
     border-radius: 4px;
     font-size: 0.8em;
     margin-left: 45px;
+    z-index: 6;
 }
 
 .section-link:hover .tooltip {
@@ -207,9 +210,27 @@ code {
     background: rgb(87, 87, 87);
 }
 
+.method-header{
+    display:inline-block;
+    border-radius: 5px; 
+    padding: 5px 22px; 
+    background: rgba(22, 22, 36, 0.712); 
+    width: fit-content; 
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.method-container {
+    position: sticky; 
+    top: 1.4em; 
+    z-index: 5;
+}
+
 pre {
     margin: 2em 5em;
-    background: radial-gradient(ellipse at 40% 0%, #bf398910 0, transparent 75%), radial-gradient(ellipse at 60% 0%, #096bde10 0, transparent 75%);
+    /* background: rgba(22, 22, 36, 0.5);*/
+    /* background: radial-gradient(ellipse at 40% 0%, rgba(22, 22, 36, 0.5) 0, transparent 75%), radial-gradient(ellipse at 60% 0%, rgba(22, 22, 36, 0.5) 0, transparent 75%);  */
+    background: radial-gradient(ellipse at 10% 10%, #61254910, #74335a10);
     padding: 1em;
     border-radius: 8px;
     overflow: auto;
@@ -260,7 +281,8 @@ pre::-webkit-scrollbar-thumb:hover {
 footer {
     height: 44px;
     padding: 10px;
-    background: radial-gradient(ellipse at 40% 0%, #bf398910 0, transparent 75%), radial-gradient(ellipse at 60% 0%, #096bde10 0, transparent 75%);
+    /* background: radial-gradient(ellipse at 40% 0%, #bf398910 0, transparent 75%), radial-gradient(ellipse at 60% 0%, #096bde10 0, transparent 75%); */
+    background: radial-gradient(ellipse at 10% 10%, #bf398910, #33597400);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     text-align: right;
     display: flex;
@@ -307,7 +329,7 @@ footer p {
     }
 
     aside nav li a:hover {
-        background-color: #333;
+        background: rgba(22, 22, 36, 0.712); 
     }
 
     aside nav li a .tooltip {
@@ -348,5 +370,13 @@ footer p {
 
     ul, li {
         display: inline-block;
+    }
+
+    .method-header{
+        font-size:1.2rem !important;
+        margin-left: -0.5em;
+    }
+    .method-container {
+        top: 0; 
     }
 }
