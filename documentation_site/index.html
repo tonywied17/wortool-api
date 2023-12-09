@@ -10,32 +10,47 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <aside>
-        <nav>
-            <ul>
-                <li>
-                    <a href="https://api.wortool.com/" class="section-link">
-                        <i class="fas fa-home section-icon"></i>
-                        <div class="tooltip">Start Page</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="doc.html" class="section-link">
-                        <i class="fas fa-code section-icon"></i>
-                        <div class="tooltip">API Documentation</div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
-    <main class="welcome">
-        
-        <span class="logo">WorTool API v2</span>
-
-        <p>Welcome to the WorTool API v2. This is serves as the backend API for all WorTool applications.</p>
-        <p>For documentation on available endpoints, please refer to the API documentation.</p>
-
-        <a class="get-started-button" href="doc.html" class="button">API Documentation</a>
-    </main>
+    <div class="container">
+        <aside>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://api.wortool.com/" class="section-link">
+                            <i class="fas fa-home section-icon"></i>
+                            <div class="tooltip">Start Page</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="doc.html" class="section-link">
+                            <i class="fas fa-code section-icon"></i>
+                            <div class="tooltip">API Documentation</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="welcome">
+            <div class="logo-container">
+                <span class="logo">WorTool API <sup class="version">v2</sup></span>
+            </div>
+            
+    
+            <p>Welcome to the WorTool API v2. This is serves as the backend API for all WorTool applications.</p>
+            <p>For documentation on available endpoints, please refer to the API documentation.</p>
+    
+            <a class="get-started-button" href="doc.html" class="button">API Documentation</a>
+        </main>
+    </div>
+    
+    <footer>
+        <p>
+            MolexWorks.com, WorTool.com, 
+            <script>
+                document.write(`Copyright &copy; ${new Date().getFullYear()}`);
+            </script>
+            
+            
+        </p>
+    </footer>
 </body>
 </html>

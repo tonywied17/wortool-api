@@ -10,105 +10,75 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+  <div class="container">
     <aside>
-        <nav>
-            <ul>
-                <li>
-                    <a href="https://api.wortool.com/" class="section-link">
-                        <i class="fas fa-home section-icon"></i>
-                        <div class="tooltip">Start Page</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="doc.html" class="section-link">
-                        <i class="fas fa-code section-icon"></i>
-                        <div class="tooltip">API Documentation</div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
-    <main>
+      <nav>
+          <ul>
+              <li>
+                  <a href="https://api.wortool.com/" class="section-link">
+                      <i class="fas fa-home section-icon"></i>
+                      <div class="tooltip">Start Page</div>
+                  </a>
+              </li>
+              <li>
+                  <a href="doc.html" class="section-link">
+                      <i class="fas fa-code section-icon"></i>
+                      <div class="tooltip">API Documentation</div>
+                  </a>
+              </li>
+          </ul>
+      </nav>
+  </aside>
+  <main>
 
-        <!-- 
-            ENDPOINTS:
-            - Root
-            - Regiments (/v2/regiments)
-              - Regiment Id (/v2/regiments/{id})
-            - Maps (/v2/maps)
-              - Map Id (/v2/maps/{id})
-            - Weapons (/v2/weapons)
-              - Weapon Id (/v2/weapons/{id})
-         -->
-         
-        <header>
-            <span class="logo">WorTool API v2</span>
-        </header>
+      <!-- 
+          ENDPOINTS:
+          - Root
+          - Regiments (/v2/regiments)
+            - Regiment Id (/v2/regiments/{id})
+          - Maps (/v2/maps)
+            - Map Id (/v2/maps/{id})
+          - Weapons (/v2/weapons)
+            - Weapon Id (/v2/weapons/{id})
+       -->
+       
+      <header>
+        <div class="logo-container">
+          <span class="logo">WorTool API <sup class="version">v2</sup></span>
+        </div>
+      </header>
 
 
-        <h1><span style="color:aquamarine;">GET</span> Requests</h1>
+      <h1><span style="color:aquamarine;">GET</span> Requests</h1>
 
-        <section class="endpoint">
-            <h2>Root</h2>
-            <p>This is the root of the API. It is used to test if the API is running.</p>
-            <code><span style="color:aquamarine;">GET</span> https://api.wortool.com/v2</code>
-            <pre>
+      <section class="endpoint">
+          <h2>Root</h2>
+          <p>This is the root of the API. It is used to test if the API is running.</p>
+          <div class="code-container">
+            <code>
+                <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2'>https://api.wortool.com/v2</a>
+                <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+            </code>
+          </div>        
+          <pre>
 {
-    "message": "WoRTool Beta Version 2."
-    "timestamp": "2023-12-08T12:34:56Z"
+  "message": "WoRTool Beta Version 2."
+  "timestamp": "2023-12-08T12:34:56Z"
 }
-            </pre>
-        </section>
+          </pre>
+      </section>
 
-        <section class="endpoint">
-            <h2>Regiments</h2>
-            <p>This endpoint returns a list of all regiments.</p>
-            <code><span style="color:aquamarine;">GET</span> https://api.wortool.com/v2/regiments</code>
-            <pre>
-{
-    "id": 9,
-    "regiment": "The Pennsylvania Army",
-    "guild_id": "681641606398607401",
-    "guild_avatar": "https://cdn.discordapp.com/icons/681641606398607401/ffdfe5e2b5848079fc6047fa8c3a19fb.webp",
-    "description": "The PA Army is a non-historically accurate European / North American community. We do private events on the weekend, ranging from line battles to normal skirmishes. We are a lax regiment in regards to attendance, but serious when it comes to gam",
-    "invite_link": "https://discord.gg/AjfmyH6bhk",
-    "website": "https://paarmy.com/",
-    "youtube": "https://www.youtube.com/@thepennsylvaniaarmy960",
-    "cover_photo": "https://api.tonewebdesign.com/pa/regiments/9/files/cover/glory-charge.gif",
-    "webhook_channel": "📯event-announcements",
-    "ownerId": "368518579747815424, 205902036087078917, 386521814161031168, 281639399152943105",
-    "side": "USA",
-    "memberCount": 312,
-    "createdAt": "2023-06-27T17:16:46.000Z",
-    "updatedAt": "2023-12-07T23:50:20.000Z"
-},
-{
-    "id": 19,
-    "regiment": "Hood's Division",
-    "guild_id": "761819473434640395",
-    "guild_avatar": "https://cdn.discordapp.com/icons/761819473434640395/a_4efa96bf3e80c180667afc160158fe04.gif",
-    "description": "Welcome to Hoods Division, one of the oldest and largest CSA groups around!\n\nWe currently consist of 6 different units!\n-18th Georgia / (Infantry)\n-5th Texas / (Infantry)\n-1st Tennessee (Light Infantry)\n-Palmetto Sharpshooters/ (Skirmishers)\n-Quantrill's ",
-    "invite_link": "https://discord.gg/HRFXmamYjF",
-    "website": null,
-    "youtube": "",
-    "cover_photo": null,
-    "webhook_channel": "announcements",
-    "ownerId": "510196994044854273",
-    "side": "CSA",
-    "memberCount": 1093,
-    "createdAt": "2023-11-04T18:59:26.000Z",
-    "updatedAt": "2023-12-06T19:53:46.000Z"
-  },
-
-  ... etc
-            </pre>
-        </section>
-
-        <section class="endpoint">
-            <h2>Regiment Id</h2>
-            <p>This endpoint returns a regiment by its id.</p>
-            <code><span style="color:aquamarine;">GET</span> https://api.wortool.com/v2/regiments/{id}</code>
-            <pre>
+      <section class="endpoint">
+          <h2>Regiments</h2>
+          <p>This endpoint returns a list of all regiments.</p>
+          <div class="code-container">
+            <code>
+                <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments'>https://api.wortool.com/v2/regiments</a>
+                <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+            </code>
+          </div>  
+          <pre>
 {
   "id": 9,
   "regiment": "The Pennsylvania Army",
@@ -125,50 +95,71 @@
   "memberCount": 312,
   "createdAt": "2023-06-27T17:16:46.000Z",
   "updatedAt": "2023-12-07T23:50:20.000Z"
+},
+{
+  "id": 19,
+  "regiment": "Hood's Division",
+  "guild_id": "761819473434640395",
+  "guild_avatar": "https://cdn.discordapp.com/icons/761819473434640395/a_4efa96bf3e80c180667afc160158fe04.gif",
+  "description": "Welcome to Hoods Division, one of the oldest and largest CSA groups around!\n\nWe currently consist of 6 different units!\n-18th Georgia / (Infantry)\n-5th Texas / (Infantry)\n-1st Tennessee (Light Infantry)\n-Palmetto Sharpshooters/ (Skirmishers)\n-Quantrill's ",
+  "invite_link": "https://discord.gg/HRFXmamYjF",
+  "website": null,
+  "youtube": "",
+  "cover_photo": null,
+  "webhook_channel": "announcements",
+  "ownerId": "510196994044854273",
+  "side": "CSA",
+  "memberCount": 1093,
+  "createdAt": "2023-11-04T18:59:26.000Z",
+  "updatedAt": "2023-12-06T19:53:46.000Z"
+},
+
+... etc
+          </pre>
+      </section>
+
+      <section class="endpoint">
+          <h2>Regiment Id</h2>
+          <p>This endpoint returns a regiment by its id.</p>
+          <div class="code-container">
+            <code>
+              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments/<id>'>https://api.wortool.com/v2/regiments/{id}</a>
+              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+            </code>
+          </div>
+          
+          <pre>
+{
+"id": 9,
+"regiment": "The Pennsylvania Army",
+"guild_id": "681641606398607401",
+"guild_avatar": "https://cdn.discordapp.com/icons/681641606398607401/ffdfe5e2b5848079fc6047fa8c3a19fb.webp",
+"description": "The PA Army is a non-historically accurate European / North American community. We do private events on the weekend, ranging from line battles to normal skirmishes. We are a lax regiment in regards to attendance, but serious when it comes to gam",
+"invite_link": "https://discord.gg/AjfmyH6bhk",
+"website": "https://paarmy.com/",
+"youtube": "https://www.youtube.com/@thepennsylvaniaarmy960",
+"cover_photo": "https://api.tonewebdesign.com/pa/regiments/9/files/cover/glory-charge.gif",
+"webhook_channel": "📯event-announcements",
+"ownerId": "368518579747815424, 205902036087078917, 386521814161031168, 281639399152943105",
+"side": "USA",
+"memberCount": 312,
+"createdAt": "2023-06-27T17:16:46.000Z",
+"updatedAt": "2023-12-07T23:50:20.000Z"
 }
-            </pre>
-        </section>
+          </pre>
+      </section>
 
-        <section class="endpoint">
-            <h2>Maps</h2>
-            <p>This endpoint returns a list of all maps.</p>
-            <code><span style="color:aquamarine;">GET</span> https://api.wortool.com/v2/maps</code>
-            <pre>
+      <section class="endpoint">
+          <h2>Maps</h2>
+          <p>This endpoint returns a list of all maps.</p>
+          <div class="code-container">
+            <code>
+              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/maps<id>'>https://api.wortool.com/v2/maps</a>
+              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+            </code>
+          </div>
+          <pre>
 [
-  {
-    "id": 1,
-    "map": "East Woods Skirmish",
-    "image": "assets/maps/east-woods-skirmish.jpg",
-    "usaArty": "true",
-    "csaArty": "",
-    "campaign": "Antietam",
-    "youtube": "bPUeJVZ1ad4",
-    "attacker": "USA",
-    "strat": "Cg7Ooy7XZKK"
-  },
-  {
-    "id": 2,
-    "map": "Hookers Push",
-    "image": "assets/maps/hookers-push.jpg",
-    "usaArty": "true",
-    "csaArty": "true",
-    "campaign": "Antietam",
-    "youtube": "xmOufNXIo94",
-    "attacker": "USA",
-    "strat": "RlzARCuEb2b"
-  },
-  
-  ... etc
-
-  ]
-            </pre>
-        </section>
-
-        <section class="endpoint">
-            <h2>Map Id</h2>
-            <p>This endpoint returns a map by its id.</p>
-            <code><span style="color:aquamarine;">GET</span> https://api.wortool.com/v2/maps/{id}</code>
-            <pre>
 {
   "id": 1,
   "map": "East Woods Skirmish",
@@ -178,88 +169,102 @@
   "campaign": "Antietam",
   "youtube": "bPUeJVZ1ad4",
   "attacker": "USA",
-  "strat": "Cg7Ooy7XZKK",
-  "ATTACKER": [
-    {
-      "side": "CSA",
-      "stance": "DEFENDER",
-      "reg1": "18th Georgia Company: A",
-      "reg2": "18th Georgia Company: B",
-      "reg3": "4th Texas Companies: A/B",
-      "reg1Weapons": {
-        "1": "Springfield M1842 (Buck and Ball)",
-        "2": "Pattern Enfield M1853",
-        "3": "Springfield M1855"
-      },
-      "reg2Weapons": {
-        "1": "Pattern Enfield M1853",
-        "2": "Springfield M1855"
-      },
-      "reg3Weapons": {
-        "1": "Springfield M1842 (Buck and Ball)",
-        "2": "Pattern Enfield M1853",
-        "3": "Springfield M1855"
-      }
-    }
-  ],
-  "DEFENDER": [
-    {
-      "side": "USA",
-      "stance": "ATTACKER",
-      "reg1": "42nd Pennsylvania",
-      "reg2": "32nd Pennsylvania Companies: A/B",
-      "arty1": "Cooper",
-      "reg1Weapons": {
-        "1": "Sharps Carbine M1859"
-      },
-      "reg2Weapons": {
-        "1": "Springfield M1842 (Buck and Ball)"
-      },
-      "arty1Weapons": {
-        "1": "2x 3inch, 2x 12lb"
-      }
-    }
-  ]
-}
-            </pre>
-        </section>
+  "strat": "Cg7Ooy7XZKK"
+},
+{
+  "id": 2,
+  "map": "Hookers Push",
+  "image": "assets/maps/hookers-push.jpg",
+  "usaArty": "true",
+  "csaArty": "true",
+  "campaign": "Antietam",
+  "youtube": "xmOufNXIo94",
+  "attacker": "USA",
+  "strat": "RlzARCuEb2b"
+},
 
-        <section class="endpoint">
-            <h2>Weapons</h2>
-            <p>This endpoint returns a list of all weapons.</p>
-            <code><span style="color:aquamarine;">GET</span> https://api.wortool.com/v2/weapons</code>
-            <pre>
-[
-  {
-    "id": 5,
-    "weapon": "Sharps Carbine M1859",
-    "type": "Rifle",
-    "range": "500",
-    "lengthy": "47",
-    "ammo": "Minié ball",
-    "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
-    "notes": ""
-  },
-  {
-    "id": 6,
-    "weapon": "Springfield M1842",
-    "type": "Rifle",
-    "range": "100",
-    "lengthy": "58",
-    "ammo": "Roundball, Buck and Ball",
-    "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
-    "notes": "Press 5 to switch ammo types before reloading"
-  },
-    ... etc
+... etc
+
 ]
-            </pre>
-        </section>
+          </pre>
+      </section>
 
-        <section class="endpoint">
-            <h2>Weapon Id</h2>
-            <p>This endpoint returns a weapon by its id.</p>
-            <code><span style="color:aquamarine;">GET</span> https://api.wortool.com/v2/weapons/{id}</code>
-            <pre>
+      <section class="endpoint">
+          <h2>Map Id</h2>
+          <p>This endpoint returns a map by its id.</p>
+          <div class="code-container">
+            <code>
+              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/maps/<id>'>https://api.wortool.com/v2/maps/{id}</a>
+              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+            </code>
+          </div>
+          <pre>
+{
+"id": 1,
+"map": "East Woods Skirmish",
+"image": "assets/maps/east-woods-skirmish.jpg",
+"usaArty": "true",
+"csaArty": "",
+"campaign": "Antietam",
+"youtube": "bPUeJVZ1ad4",
+"attacker": "USA",
+"strat": "Cg7Ooy7XZKK",
+"ATTACKER": [
+  {
+    "side": "USA",
+    "stance": "ATTACKER",
+    "reg1": "42nd Pennsylvania",
+    "reg2": "32nd Pennsylvania Companies: A/B",
+    "arty1": "Cooper",
+    "reg1Weapons": {
+      "1": "Sharps Carbine M1859"
+    },
+    "reg2Weapons": {
+      "1": "Springfield M1842 (Buck and Ball)"
+    },
+    "arty1Weapons": {
+      "1": "2x 3inch, 2x 12lb"
+    }
+  }
+],
+"DEFENDER": [
+  {
+    "side": "CSA",
+    "stance": "DEFENDER",
+    "reg1": "18th Georgia Company: A",
+    "reg2": "18th Georgia Company: B",
+    "reg3": "4th Texas Companies: A/B",
+    "reg1Weapons": {
+      "1": "Springfield M1842 (Buck and Ball)",
+      "2": "Pattern Enfield M1853",
+      "3": "Springfield M1855"
+    },
+    "reg2Weapons": {
+      "1": "Pattern Enfield M1853",
+      "2": "Springfield M1855"
+    },
+    "reg3Weapons": {
+      "1": "Springfield M1842 (Buck and Ball)",
+      "2": "Pattern Enfield M1853",
+      "3": "Springfield M1855"
+    }
+  }
+]
+}
+          </pre>
+      </section>
+
+      <section class="endpoint">
+          <h2>Weapons</h2>
+          <p>This endpoint returns a list of all weapons.</p>
+          <div class="code-container">
+            <code>
+              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/weapons'>https://api.wortool.com/v2/weapons</a>
+              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+            </code>
+          </div>
+          <pre>
+[
 {
   "id": 5,
   "weapon": "Sharps Carbine M1859",
@@ -269,11 +274,58 @@
   "ammo": "Minié ball",
   "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
   "notes": ""
+},
+{
+  "id": 6,
+  "weapon": "Springfield M1842",
+  "type": "Rifle",
+  "range": "100",
+  "lengthy": "58",
+  "ammo": "Roundball, Buck and Ball",
+  "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
+  "notes": "Press 5 to switch ammo types before reloading"
+},
+  ... etc
+]
+          </pre>
+      </section>
+
+      <section class="endpoint">
+          <h2>Weapon Id</h2>
+          <p>This endpoint returns a weapon by its id.</p>
+          <div class="code-container">
+            <code>
+              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/weapons/<id>'>https://api.wortool.com/v2/weapons/{id}</a>
+              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+            </code>
+          </div>
+          <pre>
+{
+"id": 5,
+"weapon": "Sharps Carbine M1859",
+"type": "Rifle",
+"range": "500",
+"lengthy": "47",
+"ammo": "Minié ball",
+"image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
+"notes": ""
 }         
-            </pre>
-        </section>      
+          </pre>
+      </section>      
 
 
-    </main>
+  </main>
+  </div>
+
+    <footer>
+      <p>
+          MolexWorks.com, WorTool.com, 
+          <script>
+              document.write(`Copyright &copy; ${new Date().getFullYear()}`);
+          </script>
+          
+          
+      </p>
+  </footer>
 </body>
 </html>
