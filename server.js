@@ -19,8 +19,17 @@ app.set('json spaces', 2)
 db.sequelize.sync();
 
 // Main API Route
+
+const fs = require('fs');
+const path = require('path');
+const filePath = path.join(__dirname, 'tmp/restart.txt');
+let dateModified = fs.statSync(filePath).mtime;
+
 app.get("/v2", (req, res) => {
-  res.json({ message: "WoRTool Beta API." });
+  res.json({ 
+    message: "WoRTool Beta Version 2.",
+    last_restart: dateModified 
+  });
 });
 
 
