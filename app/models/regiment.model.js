@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\WoRApi\wortool-api\app\models\regiment.model.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp13881\public_html\api.wortool.com\wor-api\app\models
  * Created Date: Thursday December 7th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:34:54 
+ * Last Modified: Tue February 13th 2024 11:15:28 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 MolexWorks / Tone Web Design
@@ -49,6 +49,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
     webhook_channel: {
+      type: Sequelize.STRING,
+    },
+    webhook_mention: {
       type: Sequelize.STRING,
     },
     ownerId: {

@@ -23,29 +23,35 @@ exports.findAll = (req, res) => {
   exports.findAllByGuild = async (req, res) => {
     const guildId = req.params.guildId;
 
-    const regiment = await Regiment.findOne({
+    try {
+        const regiment = await Regiment.findOne({
             where: {
                 guild_id: guildId
-              },
-        })
-
-        console.log(regiment)
-
-    await MusterUser.findAll({
-        where: {
-          regimentId: regiment.id
-        },
-      })
-      .then((data) => {
-        res.send(data);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving muster items.",
+            },
         });
-      });
-  };
+
+        console.log(regiment);
+
+        // Check if regiment exists
+        if (!regiment) {
+            // If no regiment is found, respond with an empty array or a custom message
+            return res.send([]); // or res.send({ message: "No regiment found for this guild." });
+        }
+
+        const data = await MusterUser.findAll({
+            where: {
+                regimentId: regiment.id
+            },
+        });
+
+        res.send(data);
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving muster items.",
+        });
+    }
+};
+
 
   exports.findOne = (req, res) => {
     const discordId = req.params.discordId;
