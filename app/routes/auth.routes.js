@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\auth.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp50975\public_html\api.wortool.com\wor-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:47:25 
+ * Last Modified: Mon February 12th 2024 7:51:14 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -97,6 +97,12 @@ app.post('/v2/auth/reset/:token', controller.reset);
   app.put(
     "/v2/auth/:memberId/setModerator",
     [authJwt.verifyToken],
+    controller.setModerator
+  );
+
+  app.put(
+    "/v2/auth/:memberId/setModeratorDiscord",
+    [authJwt.checkBearerToken],
     controller.setModerator
   );
 
