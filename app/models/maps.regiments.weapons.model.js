@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Units = sequelize.define(
+  const MapsRegimentWeapons = sequelize.define(
     "wor_mapsRegimentWeapons",
     {
       unitWeaponId: Sequelize.INTEGER
@@ -10,5 +10,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
-  return Units;
+  return MapsRegimentWeapons;
 };

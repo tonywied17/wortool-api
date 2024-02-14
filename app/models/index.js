@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\index.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp07162\public_html\api.wortool.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue February 13th 2024 5:15:49 
+ * Last Modified: Wed February 14th 2024 2:38:32 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -33,7 +33,7 @@ db.sequelize = sequelize;
  * This is where we import all of our models.
  */
 db.Maps = require("./map.model.js")(sequelize, Sequelize);
-db.MapsUnits = require("./maps.units.model.js")(sequelize, Sequelize);
+db.MapsRegimentWeapons = require("./maps.regiments.weapons.model.js")(sequelize, Sequelize);
 db.MapsRegiments = require("./maps.regiments.model.js")(sequelize, Sequelize);
 db.User = require("./user.model.js")(sequelize, Sequelize);
 db.Role = require("./role.model.js")(sequelize, Sequelize);
@@ -170,14 +170,14 @@ db.MusterUser.belongsTo(db.Regiment, {
 db.Maps.hasMany(db.MapsRegiments, { foreignKey: 'mapId' });
 db.MapsRegiments.belongsTo(db.Maps, { foreignKey: 'mapId' });
 
-db.MapsRegiments.hasMany(db.MapsUnits, { foreignKey: 'mapsRegimentsId' });
-db.MapsUnits.belongsTo(db.MapsRegiments, { foreignKey: 'mapsRegimentsId' });
+db.MapsRegiments.hasMany(db.MapsRegimentWeapons, { foreignKey: 'mapsRegimentsId' });
+db.MapsRegimentWeapons.belongsTo(db.MapsRegiments, { foreignKey: 'mapsRegimentsId' });
 
-db.MapsUnits.belongsTo(db.Weapon, { foreignKey: 'unitWeaponId' });
-db.Weapon.hasMany(db.MapsUnits, { foreignKey: 'unitWeaponId' });
+db.MapsRegimentWeapons.belongsTo(db.Weapon, { foreignKey: 'unitWeaponId' });
+db.Weapon.hasMany(db.MapsRegimentWeapons, { foreignKey: 'unitWeaponId' });
 
-db.MapsUnits.belongsTo(db.Maps, { foreignKey: 'mapId' });
-db.Maps.hasMany(db.MapsUnits, { foreignKey: 'mapId' });
+db.MapsRegimentWeapons.belongsTo(db.Maps, { foreignKey: 'mapId' });
+db.Maps.hasMany(db.MapsRegimentWeapons, { foreignKey: 'mapId' });
 
 
 db.RoleS = ["user", "admin", "moderator"];

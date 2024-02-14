@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue February 13th 2024 8:51:00 
+ * Last Modified: Wed February 14th 2024 3:35:13 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,7 +12,7 @@
 
 const db = require("../models");
 const Map = db.Maps;
-const MapsRegimentWeapons = db.MapsUnits;
+const MapsRegimentWeapons = db.MapsRegimentWeapons;
 const MapsRegiments = db.MapsRegiments;
 const Weapons = db.Weapon;
 const axios = require("axios");
@@ -121,12 +121,9 @@ exports.createMap = async (req, res) => {
 
 exports.updateMap = async (req, res) => {
   const { id } = req.params;
-  const map = req.body.map;
-  const regiments = req.body.wor_mapsRegiments;
-  console.log("map", map);
-  console.log("regiments", regiments);
-  console.log("regiment weapons", regiments[0].wor_mapsRegimentWeapons);
-  
+  const mapData = req.body;
+  const { wor_mapsRegiments } = mapData; 
+
   try {
     const result = await db.sequelize.transaction(async (t) => {
       const existingMap = await Map.findByPk(id, { transaction: t });
@@ -134,67 +131,64 @@ exports.updateMap = async (req, res) => {
         return res.status(404).send({ message: `Cannot find Map with id=${id}.` });
       }
 
-      await existingMap.update(map, { transaction: t });
+      await existingMap.update({
+        ...mapData,
+      }, { transaction: t });
 
       const existingRegiments = await existingMap.getWor_mapsRegiments({ transaction: t });
-      for (const existingRegiment of existingRegiments) {
-        const regimentInUpdatedList = regiments.find(regiment => regiment.id === existingRegiment.id);
-        if (!regimentInUpdatedList) {
-          await existingRegiment.destroy({ transaction: t });
-        }
-      }
+      const existingRegimentsIds = existingRegiments.map(regiment => regiment.id);
 
-      for (const regiment of regiments) {
+      const regimentsToKeep = wor_mapsRegiments.filter(regiment => regiment.id).map(regiment => regiment.id);
+      const regimentsToDelete = existingRegimentsIds.filter(id => !regimentsToKeep.includes(id));
+      await MapsRegiments.destroy({ where: { id: regimentsToDelete }, transaction: t });
+
+      for (const regiment of wor_mapsRegiments) {
         let createdOrUpdatedRegiment;
         if (regiment.id) {
           createdOrUpdatedRegiment = await MapsRegiments.findByPk(regiment.id, { transaction: t });
           await createdOrUpdatedRegiment.update(regiment, { transaction: t });
-
-          if (regiment.wor_mapsRegimentWeapons.length === 0) {
-            await MapsRegimentWeapons.destroy({ where: { mapsRegimentsId: regiment.id }, transaction: t });
-          } else {
-            for (const weapon of regiment.wor_mapsRegimentWeapons) {
-              const { id, unitWeaponId, mapsRegimentsId, mapId } = weapon;
-              let createdOrUpdatedWeapon;
-              if (id) {
-                createdOrUpdatedWeapon = await MapsRegimentWeapons.findByPk(id, { transaction: t });
-                await createdOrUpdatedWeapon.update({ unitWeaponId, mapsRegimentsId, mapId }, { transaction: t });
-              } else {
-                try {
-                  createdOrUpdatedWeapon = await MapsRegimentWeapons.create({
-                    unitWeaponId,
-                    mapsRegimentsId,
-                    mapId,
-                  }, { transaction: t });
-                } catch (error) {
-                  console.error("Error creating weapon:", error);
-                }
-              }
-            }
-          }
         } else {
           createdOrUpdatedRegiment = await MapsRegiments.create({
             ...regiment,
             mapId: id,
           }, { transaction: t });
+        }
 
-          const weapons = regiment.wor_mapsRegimentWeapons;
-          for (const weapon of weapons) {
-            const { unitWeaponId, mapsRegimentsId, mapId } = weapon;
-            try {
+        const regimentId = createdOrUpdatedRegiment.id;
+        if (regiment.wor_mapsRegimentWeapons && regiment.wor_mapsRegimentWeapons.length > 0) {
+          for (const weapon of regiment.wor_mapsRegimentWeapons) {
+            let createdOrUpdatedWeapon;
+            if (weapon.id) {
+              createdOrUpdatedWeapon = await MapsRegimentWeapons.findByPk(weapon.id, { transaction: t });
+              await createdOrUpdatedWeapon.update({ ...weapon, mapsRegimentsId: regimentId }, { transaction: t });
+            } else {
               await MapsRegimentWeapons.create({
-                unitWeaponId,
-                mapsRegimentsId,
-                mapId,
+                ...weapon,
+                mapsRegimentsId: regimentId,
+                mapId: id,
               }, { transaction: t });
-            } catch (error) {
-              console.error("Error creating weapon:", error);
             }
           }
         }
       }
 
-      return existingMap;
+      const updatedMap = await Map.findOne({
+        where: { id: id },
+        include: [{
+          model: MapsRegiments,
+          as: 'wor_mapsRegiments',
+          include: [{
+            model: MapsRegimentWeapons,
+            as: 'wor_mapsRegimentWeapons',
+            include: [{
+              model: Weapons,
+              as: 'wor_Weapon',
+            }]
+          }]
+        }]
+      }, { transaction: t });
+
+      return updatedMap;
     });
 
     res.status(200).json(result);
@@ -249,6 +243,9 @@ exports.updateMapUnit = async (req, res) => {
     res.status(500).send({ message: "Error updating unit." });
   }
 };
+
+
+// Old API to be replaced... once data is all re-entered...
 
 
 /**
