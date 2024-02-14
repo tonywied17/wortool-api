@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\map.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp57090\public_html\api.wortool.com\wor-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:47:25 
+ * Last Modified: Tue February 13th 2024 6:16:41 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -18,32 +18,22 @@ module.exports = (app) => {
   const maps = require("../controllers/map.controller.js");
   const router = require("express").Router();
 
-
-  // ! Get Routes //
-
-  /**
-   * Get All Maps
-   * @route GET /v2/maps
-   * @group Maps
-   * @returns {object} 200 - An object containing the maps
-   */
+  // GET Routes
   router.get("/", maps.findAll);
-
-  /**
-   * Get All Maps with appended regiment arrays
-   * @route GET /v2/maps/big
-   * @group Maps
-   */
   router.get("/big", maps.findAllBig);
+  router.get("/new", maps.findAllMaps);
+  router.get("/:id", maps.findOne); 
 
-  /**
-   * Get A Single Map By ID
-   * @route GET /v2/maps/:id
-   * @group Maps
-   * @returns {object} 200 - An object containing the map
-   */
-  router.get("/:id", maps.findOne);
+  // GET Routes for specific IDs
+  router.get("/new/:id", maps.findOneMap);
 
+  // POST Routes
+  router.post("/new", maps.createMap);
+
+  // PUT Routes
+  router.put("/new/map/:id", maps.updateMap);
+  router.put("/new/regiment/:id", maps.updateMapRegiment);
+  router.put("/new/unit/:id", maps.updateMapUnit);
 
   app.use("/v2/maps", router);
 };

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\index.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp50913\public_html\api.wortool.com\wor-api\app\models
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp07162\public_html\api.wortool.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue December 12th 2023 5:19:42 
+ * Last Modified: Tue February 13th 2024 5:15:49 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -33,6 +33,8 @@ db.sequelize = sequelize;
  * This is where we import all of our models.
  */
 db.Maps = require("./map.model.js")(sequelize, Sequelize);
+db.MapsUnits = require("./maps.units.model.js")(sequelize, Sequelize);
+db.MapsRegiments = require("./maps.regiments.model.js")(sequelize, Sequelize);
 db.User = require("./user.model.js")(sequelize, Sequelize);
 db.Role = require("./role.model.js")(sequelize, Sequelize);
 db.Weapon = require("./weapon.model.js")(sequelize, Sequelize);
@@ -164,6 +166,19 @@ db.MusterUser.belongsTo(db.Regiment, {
   foreignKey: "regimentId"
 })
 // db.MusterUser.belongsTo(db.Regiment)
+
+db.Maps.hasMany(db.MapsRegiments, { foreignKey: 'mapId' });
+db.MapsRegiments.belongsTo(db.Maps, { foreignKey: 'mapId' });
+
+db.MapsRegiments.hasMany(db.MapsUnits, { foreignKey: 'mapsRegimentsId' });
+db.MapsUnits.belongsTo(db.MapsRegiments, { foreignKey: 'mapsRegimentsId' });
+
+db.MapsUnits.belongsTo(db.Weapon, { foreignKey: 'unitWeaponId' });
+db.Weapon.hasMany(db.MapsUnits, { foreignKey: 'unitWeaponId' });
+
+db.MapsUnits.belongsTo(db.Maps, { foreignKey: 'mapId' });
+db.Maps.hasMany(db.MapsUnits, { foreignKey: 'mapId' });
+
 
 db.RoleS = ["user", "admin", "moderator"];
 
