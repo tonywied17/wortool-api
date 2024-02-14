@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue February 13th 2024 6:16:41 
+ * Last Modified: Wed February 14th 2024 2:58:30 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -20,7 +20,6 @@ module.exports = (app) => {
 
   // GET Routes
   router.get("/", maps.findAll);
-  router.get("/big", maps.findAllBig);
   router.get("/new", maps.findAllMaps);
   router.get("/:id", maps.findOne); 
 
