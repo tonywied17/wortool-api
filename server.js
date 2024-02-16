@@ -14,7 +14,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.set('json spaces', 2)
+app.set('json spaces', 0)
 
 db.sequelize.sync();
 
