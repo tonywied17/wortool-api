@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\map.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp19365\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 15th 2024 10:37:05 
+ * Last Modified: Fri February 16th 2024 11:42:57 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -14,9 +14,239 @@ const db = require("../models");
 const Map = db.Maps;
 const MapsRegimentWeapons = db.MapsRegimentWeapons;
 const MapsRegiments = db.MapsRegiments;
+const User = db.User;
+const Favorite = db.Favorite;
 const Weapons = db.Weapon;
 const axios = require("axios");
 
+/**
+ * Retrieve all maps from the database with well-formatted information.
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.findAllMapsVerbose = async (req, res) => {
+  try {
+    const maps = await Map.findAll({
+      include: [{
+        model: MapsRegiments,
+        as: 'wor_mapsRegiments',
+        include: [{
+          model: MapsRegimentWeapons,
+          as: 'wor_mapsRegimentWeapons',
+          include: [{
+            model: Weapons,
+            as: 'wor_Weapon',
+          }]
+        }]
+      }]
+    });
+
+    const favoritesWithUsers = await Favorite.findAll({
+      include: [{
+        model: User,
+        as: 'wor_User'
+      }]
+    });
+
+    const favoritesMap = favoritesWithUsers.reduce((acc, favorite) => {
+      const mapId = favorite.mapId;
+      if (!acc[mapId]) {
+        acc[mapId] = [];
+      }
+      acc[mapId].push(favorite.wor_User);
+      return acc;
+    }, {});
+
+
+    if (maps.length > 0) {
+      const modifiedMaps = maps.map(map => {
+
+        const usa_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
+        const csa_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
+        const mapFavorites = (favoritesMap[map.id] || []).map(user => {
+          if (user) {
+            return {
+              id: user.id,
+              username: user.username,
+              avatar_url: user.avatar_url,
+              discordId: user.discordId,
+            };
+          }
+          return null;
+        });
+
+        map.usaArty = map.usaArty === "true" || map.usaArty === true;
+        map.csaArty = map.csaArty === "true" || map.csaArty === true;
+
+        map.wor_mapsRegiments.forEach(regiment => {
+          const regimentWithRenamedWeapons = {
+            ...regiment.toJSON(),
+            regiment_weaponry: regiment.wor_mapsRegimentWeapons.map(weapon => {
+              const weaponWithRenamedApi = {
+                ...weapon.toJSON(),
+                weapon_info: {
+                  ...weapon.wor_Weapon.toJSON(),
+                  length: weapon.wor_Weapon.lengthy,
+                }
+              };
+              delete weaponWithRenamedApi.weapon_info.lengthy;
+              delete weaponWithRenamedApi.wor_Weapon;
+              return weaponWithRenamedApi;
+            })
+          };
+          delete regimentWithRenamedWeapons.wor_mapsRegimentWeapons;
+
+          if (regiment.side === 'USA') {
+            usa_regiments[regiment.type].push(regimentWithRenamedWeapons);
+          } else if (regiment.side === 'CSA') {
+            csa_regiments[regiment.type].push(regimentWithRenamedWeapons);
+          }
+        });
+
+        return {
+          id: map.id,
+          name: map.map,
+          attacker: map.attacker,
+          campaign: map.campaign,
+          map_image: 'https://wortool.com/' + map.image,
+          map_favorite_count: mapFavorites.length,
+          usa_artillery: map.usaArty,
+          csa_artillery: map.csaArty,
+          youtube_embed: 'https://www.youtube.com/embed/' + map.youtube,
+          stratsketch_url: 'https://stratsketch.com/' + map.strat,
+          usa_infantry_regiments: usa_regiments.Infantry.length,
+          csa_infantry_regiments: csa_regiments.Infantry.length,
+          usa_artillery_regiments: usa_regiments.Artillery.length,
+          csa_artillery_regiments: csa_regiments.Artillery.length,
+          usa_cavalry_regiments: usa_regiments.Cavalry.length,
+          csa_cavalry_regiments: csa_regiments.Cavalry.length,
+          usa_regiments,
+          csa_regiments,
+          map_favorites: mapFavorites,
+        };
+      });
+
+      res.status(200).send(modifiedMaps);
+    } else {
+      res.status(404).send({ message: "No maps found." });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Error retrieving maps: " + error.message
+    });
+  }
+};
+
+/**
+ * Retrieve a single map with well-formatted information.
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.findOneMap = async (req, res) => {
+  try {
+    const mapId = req.params.id;
+    const map = await Map.findByPk(mapId, {
+      include: [{
+        model: MapsRegiments,
+        as: 'wor_mapsRegiments',
+        include: [{
+          model: MapsRegimentWeapons,
+          as: 'wor_mapsRegimentWeapons',
+          include: [{
+            model: Weapons,
+            as: 'wor_Weapon',
+          }]
+        }]
+      }]
+    });
+
+    if (!map) {
+      return res.status(404).send({ message: "Map not found." });
+    }
+
+    const favoritesWithUsers = await Favorite.findAll({
+      where: { mapId: mapId },
+      include: [{
+        model: User,
+        as: 'wor_User'
+      }]
+    });
+
+    const favoritesMap = favoritesWithUsers.map(favorite => {
+      return {
+        id: favorite.wor_User.id,
+        username: favorite.wor_User.username,
+        avatar_url: favorite.wor_User.avatar_url,
+        discordId: favorite.wor_User.discordId,
+      };
+    });
+
+    const usa_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
+    const csa_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
+
+    map.usaArty = map.usaArty === "true" || map.usaArty === true;
+    map.csaArty = map.csaArty === "true" || map.csaArty === true;
+
+    map.wor_mapsRegiments.forEach(regiment => {
+      const regimentWithRenamedWeapons = {
+        ...regiment.toJSON(),
+        regiment_weaponry: regiment.wor_mapsRegimentWeapons.map(weapon => {
+          const weaponWithRenamedApi = {
+            ...weapon.toJSON(),
+            weapon_info: {
+              ...weapon.wor_Weapon.toJSON(),
+              length: weapon.wor_Weapon.lengthy,
+            }
+          };
+          delete weaponWithRenamedApi.weapon_info.lengthy;
+          delete weaponWithRenamedApi.wor_Weapon;
+          return weaponWithRenamedApi;
+        })
+      };
+      delete regimentWithRenamedWeapons.wor_mapsRegimentWeapons;
+
+      if (regiment.side === 'USA') {
+        usa_regiments[regiment.type].push(regimentWithRenamedWeapons);
+      } else if (regiment.side === 'CSA') {
+        csa_regiments[regiment.type].push(regimentWithRenamedWeapons);
+      }
+    });
+
+    const modifiedMap = {
+      id: map.id,
+      name: map.map,
+      attacker: map.attacker,
+      campaign: map.campaign,
+      map_image: 'https://wortool.com/' + map.image,
+      map_favorite_count: favoritesMap.length,
+      usa_artillery: map.usaArty,
+      csa_artillery: map.csaArty,
+      youtube_embed: 'https://www.youtube.com/embed/' + map.youtube,
+      stratsketch_url: 'https://stratsketch.com/' + map.strat,
+      usa_infantry_regiments: usa_regiments.Infantry.length,
+      csa_infantry_regiments: csa_regiments.Infantry.length,
+      usa_artillery_regiments: usa_regiments.Artillery.length,
+      csa_artillery_regiments: csa_regiments.Artillery.length,
+      usa_cavalry_regiments: usa_regiments.Cavalry.length,
+      csa_cavalry_regiments: csa_regiments.Cavalry.length,
+      usa_regiments,
+      csa_regiments,
+      map_favorites: favoritesMap,
+    };
+
+    res.status(200).send(modifiedMap);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error retrieving map: " + error.message
+    });
+  }
+};
+
+/**
+ * Retrieve all maps from the database. Used for the admin panel.
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.findAllMaps = async (req, res) => {
   try {
     const maps = await Map.findAll({
@@ -36,19 +266,19 @@ exports.findAllMaps = async (req, res) => {
 
     if (maps.length > 0) {
       const modifiedMaps = maps.map(map => {
-        let USA_infantry_regiments = 0, CSA_infantry_regiments = 0;
-        let USA_artillery_regiments = 0, CSA_artillery_regiments = 0;
-        let USA_cavlary_regiments = 0, CSA_cavlary_regiments = 0;
+        let usa_infantry_regiments = 0, csa_infantry_regiments = 0;
+        let usa_artillery_regiments = 0, csa_artillery_regiments = 0;
+        let usa_cavalry_regiments = 0, csa_cavalry_regiments = 0;
 
         map.wor_mapsRegiments.forEach(regiment => {
           if (regiment.side === 'USA') {
-            if (regiment.type === 'Infantry') USA_infantry_regiments++;
-            else if (regiment.type === 'Artillery') USA_artillery_regiments++;
-            else if (regiment.type === 'Cavalry') USA_cavlary_regiments++;
+            if (regiment.type === 'Infantry') usa_infantry_regiments++;
+            else if (regiment.type === 'Artillery') usa_artillery_regiments++;
+            else if (regiment.type === 'Cavalry') usa_cavalry_regiments++;
           } else if (regiment.side === 'CSA') {
-            if (regiment.type === 'Infantry') CSA_infantry_regiments++;
-            else if (regiment.type === 'Artillery') CSA_artillery_regiments++;
-            else if (regiment.type === 'Cavalry') CSA_cavlary_regiments++;
+            if (regiment.type === 'Infantry') csa_infantry_regiments++;
+            else if (regiment.type === 'Artillery') csa_artillery_regiments++;
+            else if (regiment.type === 'Cavalry') csa_cavalry_regiments++;
           }
         });
 
@@ -65,12 +295,12 @@ exports.findAllMaps = async (req, res) => {
           youtube: map.youtube,
           attacker: map.attacker,
           strat: map.strat,
-          USA_infantry_regiments,
-          CSA_infantry_regiments,
-          USA_artillery_regiments,
-          CSA_artillery_regiments,
-          USA_cavlary_regiments,
-          CSA_cavlary_regiments,
+          usa_infantry_regiments,
+          csa_infantry_regiments,
+          usa_artillery_regiments,
+          csa_artillery_regiments,
+          usa_cavalry_regiments,
+          csa_cavalry_regiments,
           wor_mapsRegiments: map.wor_mapsRegiments,
         };
       });
@@ -86,167 +316,11 @@ exports.findAllMaps = async (req, res) => {
   }
 };
 
-exports.findAllMapsVerbose = async (req, res) => {
-  try {
-    const maps = await Map.findAll({
-      include: [{
-        model: MapsRegiments,
-        as: 'wor_mapsRegiments',
-        include: [{
-          model: MapsRegimentWeapons,
-          as: 'wor_mapsRegimentWeapons',
-          include: [{
-            model: Weapons,
-            as: 'wor_Weapon',
-          }]
-        }]
-      }]
-    });
-
-    if (maps.length > 0) {
-      const modifiedMaps = maps.map(map => {
-        const USA_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
-        const CSA_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
-
-        map.usaArty = map.usaArty === "true" || map.usaArty === true;
-        map.csaArty = map.csaArty === "true" || map.csaArty === true;
-
-        map.wor_mapsRegiments.forEach(regiment => {
-          const regimentWithRenamedWeapons = {
-            ...regiment.toJSON(),
-            regiment_weaponry: regiment.wor_mapsRegimentWeapons.map(weapon => {
-              const weaponWithRenamedApi = {
-                ...weapon.toJSON(),
-                weapon_api: {
-                  ...weapon.wor_Weapon.toJSON(),
-                  length: weapon.wor_Weapon.lengthy,
-                }
-              };
-              delete weaponWithRenamedApi.weapon_api.lengthy;
-              delete weaponWithRenamedApi.wor_Weapon;
-              return weaponWithRenamedApi;
-            })
-          };
-          delete regimentWithRenamedWeapons.wor_mapsRegimentWeapons;
-
-          if (regiment.side === 'USA') {
-            USA_regiments[regiment.type].push(regimentWithRenamedWeapons);
-          } else if (regiment.side === 'CSA') {
-            CSA_regiments[regiment.type].push(regimentWithRenamedWeapons);
-          }
-        });
-
-        return {
-          id: map.id,
-          name: map.map,
-          attacker: map.attacker,
-          campaign: map.campaign,
-          map_image: 'https://wortool.com/' + map.image,
-          USA_artillery: map.usaArty,
-          CSA_artillery: map.csaArty,
-          youtube_embed: 'https://www.youtube.com/embed/' + map.youtube,
-          stratsketch_url: 'https://stratsketch.com/' + map.strat,
-          USA_infantry_regiments: USA_regiments.Infantry.length,
-          CSA_infantry_regiments: CSA_regiments.Infantry.length,
-          USA_artillery_regiments: USA_regiments.Artillery.length,
-          CSA_artillery_regiments: CSA_regiments.Artillery.length,
-          USA_cavlary_regiments: USA_regiments.Cavalry.length,
-          CSA_cavlary_regiments: CSA_regiments.Cavalry.length,
-          USA_regiments,
-          CSA_regiments
-        };
-      });
-
-      res.status(200).send(modifiedMaps);
-    } else {
-      res.status(404).send({ message: "No maps found." });
-    }
-  } catch (error) {
-    res.status(500).send({
-      message: "Error retrieving maps: " + error.message
-    });
-  }
-};
-
-exports.findOneMap = async (req, res) => {
-  try {
-    const mapId = req.params.id;
-    const map = await Map.findOne({
-      where: { id: mapId },
-      include: [{
-        model: MapsRegiments,
-        as: 'wor_mapsRegiments',
-        include: [{
-          model: MapsRegimentWeapons,
-          as: 'wor_mapsRegimentWeapons',
-          include: [{
-            model: Weapons,
-            as: 'wor_Weapon',
-          }]
-        }]
-      }]
-    });
-
-    if (map) {
-      const USA_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
-      const CSA_regiments = { Infantry: [], Artillery: [], Cavalry: [] };
-
-      map.wor_mapsRegiments.forEach(regiment => {
-        const regimentWithRenamedWeapons = {
-          ...regiment.toJSON(),
-          regiment_weaponry: regiment.wor_mapsRegimentWeapons.map(weapon => {
-            const weaponWithRenamedApi = {
-              ...weapon.toJSON(),
-              weapon_api: {
-                ...weapon.wor_Weapon.toJSON(),
-                length: weapon.wor_Weapon.lengthy,
-              }
-            };
-            delete weaponWithRenamedApi.weapon_api.lengthy;
-            delete weaponWithRenamedApi.wor_Weapon;
-            return weaponWithRenamedApi;
-          })
-        };
-        delete regimentWithRenamedWeapons.wor_mapsRegimentWeapons;
-
-        if (regiment.side === 'USA') {
-          USA_regiments[regiment.type].push(regimentWithRenamedWeapons);
-        } else if (regiment.side === 'CSA') {
-          CSA_regiments[regiment.type].push(regimentWithRenamedWeapons);
-        }
-      });
-
-      const verboseMap = {
-        id: map.id,
-        name: map.map,
-        attacker: map.attacker,
-        campaign: map.campaign,
-        map_image: 'https://wortool.com/' + map.image,
-        USA_artillery: map.usaArty === "true" || map.usaArty === true,
-        CSA_artillery: map.csaArty === "true" || map.csaArty === true,
-        youtube_embed: 'https://www.youtube.com/embed/' + map.youtube,
-        stratsketch_url: 'https://stratsketch.com/' + map.strat,
-        USA_infantry_regiments: USA_regiments.Infantry.length,
-        CSA_infantry_regiments: CSA_regiments.Infantry.length,
-        USA_artillery_regiments: USA_regiments.Artillery.length,
-        CSA_artillery_regiments: CSA_regiments.Artillery.length,
-        USA_cavlary_regiments: USA_regiments.Cavalry.length,
-        CSA_cavlary_regiments: CSA_regiments.Cavalry.length,
-        USA_regiments,
-        CSA_regiments
-      };
-
-      res.status(200).send(verboseMap);
-    } else {
-      res.status(404).send({ message: "Map not found." });
-    }
-  } catch (error) {
-    res.status(500).send({
-      message: "Error retrieving map: " + error.message
-    });
-  }
-};
-
+/**
+ * Create a new map with regiments and units.
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.createMap = async (req, res) => {
   const { map, regiments } = req.body;
 
@@ -284,6 +358,11 @@ exports.createMap = async (req, res) => {
   }
 };
 
+/**
+ * Update a map with regiments and units.
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.updateMap = async (req, res) => {
   const { id } = req.params;
   const mapData = req.body;
@@ -365,6 +444,11 @@ exports.updateMap = async (req, res) => {
   }
 };
 
+/**
+ * Update a regiment object
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.updateMapRegiment = async (req, res) => {
   const id = req.params.id;
   const regimentDetails = req.body;
@@ -386,6 +470,11 @@ exports.updateMapRegiment = async (req, res) => {
   }
 };
 
+/**
+ * Update a unit object
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.updateMapUnit = async (req, res) => {
   const id = req.params.id;
   const unitDetails = req.body;
