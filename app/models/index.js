@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed February 14th 2024 2:38:32 
+ * Last Modified: Fri February 16th 2024 11:43:11 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -33,7 +33,10 @@ db.sequelize = sequelize;
  * This is where we import all of our models.
  */
 db.Maps = require("./map.model.js")(sequelize, Sequelize);
-db.MapsRegimentWeapons = require("./maps.regiments.weapons.model.js")(sequelize, Sequelize);
+db.MapsRegimentWeapons = require("./maps.regiments.weapons.model.js")(
+  sequelize,
+  Sequelize
+);
 db.MapsRegiments = require("./maps.regiments.model.js")(sequelize, Sequelize);
 db.User = require("./user.model.js")(sequelize, Sequelize);
 db.Role = require("./role.model.js")(sequelize, Sequelize);
@@ -46,8 +49,7 @@ db.Regiment = require("./regiment.model.js")(sequelize, Sequelize);
 db.Recap = require("./wor.recap.model.js")(sequelize, Sequelize);
 db.SteamUser = require("./steam.user.model.js")(sequelize, Sequelize);
 db.RegSchedule = require("./regiment.schedule.model.js")(sequelize, Sequelize);
-db.MusterUser= require("./muster.user.model.js")(sequelize, Sequelize);
-
+db.MusterUser = require("./muster.user.model.js")(sequelize, Sequelize);
 
 /**
  * ASSOCIATIONS
@@ -64,18 +66,13 @@ db.User.belongsToMany(db.Role, {
   otherKey: "roleId",
 });
 
-
-// A Regiment can have one discord guild
 db.Regiment.hasOne(db.DiscordGuild, {
-  foreignKey: "regimentId"
-})
+  foreignKey: "regimentId",
+});
 db.DiscordGuild.belongsTo(db.Regiment, {
-  foreignKey: "regimentId"
-})
-// db.DiscordGuild.belongsTo(db.Regiment)
+  foreignKey: "regimentId",
+});
 
-
-// A Regiment can have many users
 db.Regiment.hasMany(db.User, {
   foreignKey: "regimentId",
   onDelete: "CASCADE",
@@ -83,21 +80,15 @@ db.Regiment.hasMany(db.User, {
 db.User.belongsTo(db.Regiment, {
   foreignKey: "regimentId",
 });
-// db.User.belongsTo(db.Regiment);
 
-
-// A User can have one discord account
 db.User.hasOne(db.DiscordUser, {
   foreignKey: "userId",
   onDelete: "CASCADE",
-})
+});
 db.DiscordUser.belongsTo(db.User, {
   foreignKey: "userId",
-})
-// db.DiscordUser.belongsTo(db.User)
+});
 
-
-// A User can have many favorites
 db.User.hasMany(db.Favorite, {
   foreignKey: "userId",
   onDelete: "CASCADE",
@@ -105,10 +96,7 @@ db.User.hasMany(db.Favorite, {
 db.Favorite.belongsTo(db.User, {
   foreignKey: "userId",
 });
-// db.Favorite.belongsTo(db.User);
 
-
-// A Map can have many favorites
 db.Maps.hasMany(db.Favorite, {
   foreignKey: "mapId",
   onDelete: "CASCADE",
@@ -116,69 +104,70 @@ db.Maps.hasMany(db.Favorite, {
 db.Favorite.belongsTo(db.Maps, {
   foreignKey: "mapId",
 });
-// db.Favorite.belongsTo(db.Maps);
 
-
-// A Regiment can have many steam stat users
 db.Regiment.hasMany(db.SteamUser, {
   foreignKey: "regimentId",
   onDelete: "CASCADE",
-})
+});
 db.SteamUser.belongsTo(db.Regiment, {
   foreignKey: "regimentId",
-})
-// db.SteamUser.belongsTo(db.Regiment)
+});
 
-
-// A user can have many notes
 db.User.hasMany(db.Note, {
-  foreignKey: "userId"
-})
+  foreignKey: "userId",
+});
 db.Note.belongsTo(db.User, {
-  foreignKey: "userId"
-})
-// db.Note.belongsTo(db.User)
+  foreignKey: "userId",
+});
 
-
-// Maps can have many notes
 db.Maps.hasMany(db.Note, {
-  foreignKey: "mapId"
-})
+  foreignKey: "mapId",
+});
 db.Note.belongsTo(db.Maps, {
-  foreignKey: "mapId"
-})
-// db.Note.belongsTo(db.Maps)
+  foreignKey: "mapId",
+});
 
-
-// A regiment can have many schedules
 db.Regiment.hasMany(db.RegSchedule, {
-  foreignKey: "regimentId"
-})
+  foreignKey: "regimentId",
+});
 db.RegSchedule.belongsTo(db.Regiment, {
-  foreignKey: "regimentId"
-})
-// db.RegSchedule.belongsTo(db.Regiment)
+  foreignKey: "regimentId",
+});
 
 db.Regiment.hasMany(db.MusterUser, {
-  foreignKey: "regimentId"
-})
+  foreignKey: "regimentId",
+});
 db.MusterUser.belongsTo(db.Regiment, {
-  foreignKey: "regimentId"
-})
-// db.MusterUser.belongsTo(db.Regiment)
+  foreignKey: "regimentId",
+});
 
-db.Maps.hasMany(db.MapsRegiments, { foreignKey: 'mapId' });
-db.MapsRegiments.belongsTo(db.Maps, { foreignKey: 'mapId' });
+db.Maps.hasMany(db.MapsRegiments, 
+  { foreignKey: "mapId" 
+});
+db.MapsRegiments.belongsTo(db.Maps, 
+  { foreignKey: "mapId" 
+});
 
-db.MapsRegiments.hasMany(db.MapsRegimentWeapons, { foreignKey: 'mapsRegimentsId' });
-db.MapsRegimentWeapons.belongsTo(db.MapsRegiments, { foreignKey: 'mapsRegimentsId' });
+db.MapsRegiments.hasMany(db.MapsRegimentWeapons, {
+  foreignKey: "mapsRegimentsId",
+});
+db.MapsRegimentWeapons.belongsTo(db.MapsRegiments, {
+  foreignKey: "mapsRegimentsId",
+});
 
-db.MapsRegimentWeapons.belongsTo(db.Weapon, { foreignKey: 'unitWeaponId' });
-db.Weapon.hasMany(db.MapsRegimentWeapons, { foreignKey: 'unitWeaponId' });
+db.MapsRegimentWeapons.belongsTo(db.Weapon, { 
+  foreignKey: "unitWeaponId" 
+});
+db.Weapon.hasMany(db.MapsRegimentWeapons, { 
+  foreignKey: "unitWeaponId" 
+});
 
-db.MapsRegimentWeapons.belongsTo(db.Maps, { foreignKey: 'mapId' });
-db.Maps.hasMany(db.MapsRegimentWeapons, { foreignKey: 'mapId' });
-
+db.MapsRegimentWeapons.belongsTo(db.Maps, { 
+  foreignKey: "mapId" 
+});
+db.Maps.hasMany(db.MapsRegimentWeapons, { 
+  foreignKey: "mapId" 
+});
 
 db.RoleS = ["user", "admin", "moderator"];
 
