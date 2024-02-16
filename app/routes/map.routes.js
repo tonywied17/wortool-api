@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\map.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp57090\public_html\api.wortool.com\wor-api\app\routes
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp37473\public_html\api.wortool.com\wor-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed February 14th 2024 2:58:30 
+ * Last Modified: Thu February 15th 2024 10:37:37 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -21,6 +21,7 @@ module.exports = (app) => {
   // GET Routes
   router.get("/", maps.findAll);
   router.get("/new", maps.findAllMaps);
+  router.get("/new-verbose", maps.findAllMapsVerbose);
   router.get("/:id", maps.findOne); 
 
   // GET Routes for specific IDs
