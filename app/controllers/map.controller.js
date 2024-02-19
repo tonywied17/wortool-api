@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\map.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp55560\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri February 16th 2024 11:42:57 
+ * Last Modified: Fri February 16th 2024 11:41:35 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -397,8 +397,21 @@ exports.updateMap = async (req, res) => {
             mapId: id,
           }, { transaction: t });
         }
-
         const regimentId = createdOrUpdatedRegiment.id;
+        
+        const existingWeapons = await MapsRegimentWeapons.findAll({
+          where: { mapsRegimentsId: regimentId },
+          transaction: t
+        });
+
+        const updatedWeaponIds = regiment.wor_mapsRegimentWeapons.map(weapon => weapon.id);
+        const weaponsToDelete = existingWeapons.filter(weapon => !updatedWeaponIds.includes(weapon.id));
+        
+        for (const weapon of weaponsToDelete) {
+          await weapon.destroy({ transaction: t });
+        }
+
+        
         if (regiment.wor_mapsRegimentWeapons && regiment.wor_mapsRegimentWeapons.length > 0) {
           for (const weapon of regiment.wor_mapsRegimentWeapons) {
             let createdOrUpdatedWeapon;
