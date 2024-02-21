@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp49281\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri December 8th 2023 10:26:34 
+ * Last Modified: Wed February 21st 2024 3:09:51 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -94,12 +94,18 @@ exports.findUsersByRegimentId = async (req, res) => {
       attributes: {
         exclude: ['password']
       },
+      include: [{
+        model: Regiment,
+        as: 'wor_Regiment',
+      }]
     });
 
-    const usersWithRoles = [];
+    const usersWithRolesAndGuildId = [];
 
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
+      const guildId = user.wor_Regiment ? user.wor_Regiment.guild_id : 'No Regiment';
+
       const roles = await user.getWor_Roles();
       let authorities = [];
 
@@ -107,7 +113,7 @@ exports.findUsersByRegimentId = async (req, res) => {
         authorities.push("ROLE_" + roles[j].name.toUpperCase());
       }
 
-      usersWithRoles.push({
+      usersWithRolesAndGuildId.push({
         id: user.id,
         username: user.username,
         email: user.email,
@@ -115,10 +121,11 @@ exports.findUsersByRegimentId = async (req, res) => {
         discordId: user.discordId,
         regimentId: user.regimentId,
         roles: authorities,
+        guildId: guildId, 
       });
     }
 
-    return res.status(200).json(usersWithRoles);
+    return res.status(200).json(usersWithRolesAndGuildId);
   } catch (err) {
     console.error("Error retrieving regiment:", err);
     return res.status(500).json({
@@ -126,6 +133,7 @@ exports.findUsersByRegimentId = async (req, res) => {
     });
   }
 };
+
 
 /**
  * Update a regiment by the id in the request

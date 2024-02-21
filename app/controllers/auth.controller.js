@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp24650\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 7:13:06 
+ * Last Modified: Wed February 21st 2024 3:25:29 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -459,6 +459,50 @@ exports.password = (req, res) => {
       });
     });
 };
+
+exports.profilePic = (req, res) => {
+  const userID = req.params.userId;
+  const avatar_url = req.body.avatar_url;
+
+  console.log("userID: " + userID);
+  console.log("avatar_url: " + avatar_url);
+
+  User.findOne({
+    where: {
+      id: userID,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: "User ID Not found."
+        });
+      }
+
+      User.update({
+        avatar_url: avatar_url
+      }, {
+        where: {
+          id: userID,
+        },
+      })
+        .then(() => {
+          res.status(200).send({
+            message: "Profile picture updated successfully!"
+          });
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message: err.message
+          });
+        });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message
+      });
+    });
+}
 
 /**
  * Update User Profile
