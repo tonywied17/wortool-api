@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\auth.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp50975\public_html\api.wortool.com\wor-api\app\routes
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp22574\public_html\api.wortool.com\wor-api\app\routes
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Mon February 12th 2024 7:51:14 
+ * Last Modified: Wed February 21st 2024 3:25:40 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -86,6 +86,12 @@ app.post('/v2/auth/reset/:token', controller.reset);
     [authJwt.verifyToken],
     controller.profile
   );
+  app.put(
+    "/v2/auth/:userId/syncPic",
+    controller.profilePic
+  );
+
+
 
   /**
    * Set Moderator Route

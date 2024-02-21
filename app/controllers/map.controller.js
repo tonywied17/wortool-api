@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\map.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp55560\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp41388\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri February 16th 2024 11:41:35 
+ * Last Modified: Sun February 18th 2024 8:17:35 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -75,9 +75,6 @@ exports.findAllMapsVerbose = async (req, res) => {
           return null;
         });
 
-        map.usaArty = map.usaArty === "true" || map.usaArty === true;
-        map.csaArty = map.csaArty === "true" || map.csaArty === true;
-
         map.wor_mapsRegiments.forEach(regiment => {
           const regimentWithRenamedWeapons = {
             ...regiment.toJSON(),
@@ -103,6 +100,12 @@ exports.findAllMapsVerbose = async (req, res) => {
           }
         });
 
+        const usa_artillery = usa_regiments.Artillery.length > 0;
+        const csa_artillery = csa_regiments.Artillery.length > 0;
+
+        console.log("*****" + usa_regiments.Artillery.length + "*****")
+        console.log("*****" + csa_regiments.Artillery.length + "*****")
+
         return {
           id: map.id,
           name: map.map,
@@ -110,8 +113,8 @@ exports.findAllMapsVerbose = async (req, res) => {
           campaign: map.campaign,
           map_image: 'https://wortool.com/' + map.image,
           map_favorite_count: mapFavorites.length,
-          usa_artillery: map.usaArty,
-          csa_artillery: map.csaArty,
+          usa_artillery: usa_artillery,
+          csa_artillery: csa_artillery,
           youtube_embed: 'https://www.youtube.com/embed/' + map.youtube,
           stratsketch_url: 'https://stratsketch.com/' + map.strat,
           usa_infantry_regiments: usa_regiments.Infantry.length,
@@ -212,6 +215,9 @@ exports.findOneMap = async (req, res) => {
       }
     });
 
+    const usa_artillery = usa_regiments.Artillery.length > 0;
+    const csa_artillery = csa_regiments.Artillery.length > 0;
+
     const modifiedMap = {
       id: map.id,
       name: map.map,
@@ -219,8 +225,8 @@ exports.findOneMap = async (req, res) => {
       campaign: map.campaign,
       map_image: 'https://wortool.com/' + map.image,
       map_favorite_count: favoritesMap.length,
-      usa_artillery: map.usaArty,
-      csa_artillery: map.csaArty,
+      usa_artillery: usa_artillery,
+      csa_artillery: csa_artillery,
       youtube_embed: 'https://www.youtube.com/embed/' + map.youtube,
       stratsketch_url: 'https://stratsketch.com/' + map.strat,
       usa_infantry_regiments: usa_regiments.Infantry.length,
