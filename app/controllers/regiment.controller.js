@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp53769\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 3:49:39 
+ * Last Modified: Thu February 22nd 2024 5:47:15 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -1567,10 +1567,10 @@ exports.deleteGuildChannel = async (req, res) => {
 
 exports.updateGuildChannel = async (req, res) => {
   const { guildId } = req.params;
-  const { channelId, newChannelName, newChannelType } = req.body;
+  const { channelId, newChannelName, channelType } = req.body;
 
   try {
-      const channel = await db.GuildChannel.findOne({
+      let channel = await db.GuildChannel.findOne({
           where: {
               channelId: channelId,
               guildId: guildId,
@@ -1578,11 +1578,25 @@ exports.updateGuildChannel = async (req, res) => {
       });
 
       if (!channel) {
-          return res.status(404).send({ message: "Channel not found." });
+          channel = await db.GuildChannel.create({
+              channelId: channelId,
+              guildId: guildId,
+              channelName: newChannelName,
+              channelType: channelType
+          });
+          return res.status(201).send({
+              message: "Channel created successfully.",
+              channel: {
+                  channelId: channel.channelId,
+                  channelName: channel.channelName,
+                  channelType: channel.channelType,
+                  guildId: channel.guildId
+              }
+          });
       }
 
       channel.channelName = newChannelName;
-      channel.channelType = newChannelType;
+      channel.channelType = channelType;
       await channel.save();
 
       return res.status(200).send({
@@ -1595,7 +1609,7 @@ exports.updateGuildChannel = async (req, res) => {
           }
       });
   } catch (error) {
-      console.error("Error updating guild channel:", error);
-      return res.status(500).send({ message: "Error updating guild channel" });
+      console.error("Error updating or creating guild channel:", error);
+      return res.status(500).send({ message: "Error updating or creating guild channel" });
   }
 };
