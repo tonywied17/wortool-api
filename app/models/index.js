@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\index.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp11439\public_html\api.wortool.com\wor-api\app\models
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp50763\public_html\api.wortool.com\wor-api\app\models
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri February 16th 2024 11:12:47 
+ * Last Modified: Thu February 22nd 2024 2:07:27 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -50,6 +50,7 @@ db.Recap = require("./wor.recap.model.js")(sequelize, Sequelize);
 db.SteamUser = require("./steam.user.model.js")(sequelize, Sequelize);
 db.RegSchedule = require("./regiment.schedule.model.js")(sequelize, Sequelize);
 db.MusterUser = require("./muster.user.model.js")(sequelize, Sequelize);
+db.GuildRole = require("./guild.role.model.js")(sequelize, Sequelize);
 
 /**
  * ASSOCIATIONS
@@ -168,6 +169,16 @@ db.MapsRegimentWeapons.belongsTo(db.Maps, {
 db.Maps.hasMany(db.MapsRegimentWeapons, { 
   foreignKey: "mapId" 
 });
+
+db.Regiment.hasMany(db.GuildRole, {
+  foreignKey: "guildId",
+  as: "roles",
+});
+db.GuildRole.belongsTo(db.Regiment, {
+  foreignKey: "guildId",
+  as: "regiment"
+});
+
 
 db.RoleS = ["user", "admin", "moderator"];
 
