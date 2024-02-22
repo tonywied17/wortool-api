@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\index.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp50763\public_html\api.wortool.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 2:07:27 
+ * Last Modified: Thu February 22nd 2024 3:46:33 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -51,6 +51,7 @@ db.SteamUser = require("./steam.user.model.js")(sequelize, Sequelize);
 db.RegSchedule = require("./regiment.schedule.model.js")(sequelize, Sequelize);
 db.MusterUser = require("./muster.user.model.js")(sequelize, Sequelize);
 db.GuildRole = require("./guild.role.model.js")(sequelize, Sequelize);
+db.GuildChannel = require("./guild.channel.model.js")(sequelize, Sequelize);
 
 /**
  * ASSOCIATIONS
@@ -175,6 +176,15 @@ db.Regiment.hasMany(db.GuildRole, {
   as: "roles",
 });
 db.GuildRole.belongsTo(db.Regiment, {
+  foreignKey: "guildId",
+  as: "regiment"
+});
+
+db.Regiment.hasMany(db.GuildChannel, {
+  foreignKey: "guildId",
+  as: "channels",
+});
+db.GuildChannel.belongsTo(db.Regiment, {
   foreignKey: "guildId",
   as: "regiment"
 });
