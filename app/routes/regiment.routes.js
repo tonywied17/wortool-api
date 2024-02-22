@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp52743\public_html\api.wortool.com\wor-api\app\routes
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 1:55:36 
+ * Last Modified: Thu February 22nd 2024 3:47:46 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -348,6 +348,12 @@ module.exports = function (app) {
   app.post('/v2/regiments/:guildId/updateRole', [authJwt.checkBearerToken], regimentController.updateGuildRole);
 
   app.get('/v2/regiments/:regimentId/roles', regimentController.getGuildRoles);
+
+  app.post('/v2/regiments/:guildId/newChannels', [authJwt.checkBearerToken], regimentController.newGuildChannels);
+app.post('/v2/regiments/:guildId/deleteChannel', [authJwt.checkBearerToken], regimentController.deleteGuildChannel);
+app.post('/v2/regiments/:guildId/updateChannel', [authJwt.checkBearerToken], regimentController.updateGuildChannel);
+
+app.get('/v2/regiments/:regimentId/channels', regimentController.getGuildChannels);
 
 
 };

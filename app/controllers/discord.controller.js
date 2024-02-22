@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\discord.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp55568\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 7:13:06 
+ * Last Modified: Thu February 22nd 2024 4:28:28 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -38,10 +38,7 @@ exports.createWebhook = async (req, res) => {
     const client = new Client({
       intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildWebhooks,
+        GatewayIntentBits.GuildWebhooks, 
       ],
     });
 
@@ -50,22 +47,26 @@ exports.createWebhook = async (req, res) => {
     client.on('ready', async () => {
       try {
         const guild = await client.guilds.fetch(guildId);
-        const channel = guild.channels.cache.get(channelId);
-        console.log('Guild ID:', guildId);
-        console.log('Guild Name:', guild.name);
-        console.log('Channel Name:', channel.name);
+        const webhooks = await guild.fetchWebhooks();
 
-        const webhook = await channel.createWebhook({
+        for (const webhook of webhooks.values()) {
+          if (webhook.owner?.id === client.user?.id) {
+            await webhook.delete('Removing old webhooks before creating a new one.');
+            console.log(`Deleted old webhook: ${webhook.id}`);
+          }
+        }
+
+        const channel = guild.channels.cache.get(channelId);
+        if (!channel) throw new Error("Channel not found");
+
+        const newWebhook = await channel.createWebhook({
           name: 'Server Info',
           avatar: 'https://app.paarmy.com/assets/boticon.png',
         });
 
-        console.log('Webhook created:');
-        console.log(`ID: ${webhook.id}`);
-        const webhookURL = `https://discord.com/api/webhooks/${webhook.id}/${webhook.token}`;
-        console.log(`URL: ${webhookURL}`);
+        console.log('New Webhook created:', newWebhook.id);
+        const webhookURL = `https://discord.com/api/webhooks/${newWebhook.id}/${newWebhook.token}`;
 
-        // Update the Regiment model with the webhookURL and webhook_channel
         await Regiment.update({
           webhook: webhookURL,
           webhook_channel: channel.name
@@ -81,9 +82,9 @@ exports.createWebhook = async (req, res) => {
 
         client.destroy();
       } catch (error) {
-        console.error('Error creating webhook:', error);
+        console.error('Error creating/deleting webhook:', error);
         res.status(500).json({
-          error: 'Failed to create webhook.'
+          error: 'Failed to create/delete webhook.'
         });
         client.destroy();
       }

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp53769\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 1:59:23 
+ * Last Modified: Thu February 22nd 2024 3:49:39 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -1467,5 +1467,135 @@ exports.updateGuildRole = async (req, res) => {
   } catch (error) {
       console.error("Error updating guild role:", error);
       return res.status(500).send({ message: "Error updating guild role" });
+  }
+};
+
+exports.newGuildChannel = async (req, res) => {
+  const { guildId } = req.params;
+  const { channelId, channelName, channelType } = req.body;
+
+  try {
+      const regiment = await db.Regiment.findOne({ where: { guild_id: guildId } });
+      if (!regiment) return res.status(404).send({ message: "Regiment not found." });
+
+      const newChannel = await db.GuildChannel.create({
+          channelId,
+          channelName,
+          channelType,
+          guildId: regiment.guild_id,
+      });
+
+      return res.status(201).send(newChannel);
+  } catch (error) {
+      console.error("Error creating new guild channel:", error);
+      return res.status(500).send({ message: "Error creating new guild channel" });
+  }
+};
+
+
+exports.newGuildChannels = async (req, res) => {
+  const { guildId } = req.params;
+  const channels = req.body.channels; 
+
+  if (!Array.isArray(channels) || channels.length === 0) {
+      return res.status(400).send({ message: "Invalid channels data provided." });
+  }
+
+  try {
+      const regiment = await db.Regiment.findOne({ where: { guild_id: guildId } });
+      if (!regiment) return res.status(404).send({ message: "Regiment not found." });
+
+      const channelsData = channels.map(channel => ({
+          channelId: channel.id,
+          channelName: channel.name,
+          channelType: channel.type,
+          guildId: guildId
+      }));
+
+      const createdChannels = await db.GuildChannel.bulkCreate(channelsData, {
+          updateOnDuplicate: ['channelName'], 
+      });
+
+      return res.status(201).send(createdChannels);
+  } catch (error) {
+      console.error("Error creating new guild channels:", error);
+      return res.status(500).send({ message: "Error creating new guild channels" });
+  }
+};
+
+exports.getGuildChannels = async (req, res) => {
+  const { regimentId } = req.params;
+
+  try {
+      const regiment = await db.Regiment.findByPk(regimentId);
+      if (!regiment) {
+          return res.status(404).send({ message: "Regiment not found." });
+      }
+
+      const channels = await db.GuildChannel.findAll({
+          where: { guildId: regiment.guild_id }
+      });
+
+      if (!channels || channels.length === 0) {
+          return res.status(404).send({ message: "No channels found for this guild." });
+      }
+
+      return res.status(200).send(channels);
+  } catch (error) {
+      console.error("Error finding guild channels:", error);
+      return res.status(500).send({ message: "Error retrieving guild channels" });
+  }
+};
+
+exports.deleteGuildChannel = async (req, res) => {
+  const { guildId } = req.params;
+  const { channelId } = req.body;
+
+  try {
+      const result = await db.GuildChannel.destroy({
+          where: { guildId, channelId }
+      });
+
+      if (result === 0) return res.status(404).send({ message: "Channel not found or already deleted." });
+
+      return res.status(200).send({ message: "Channel deleted successfully." });
+  } catch (error) {
+      console.error("Error deleting guild channel:", error);
+      return res.status(500).send({ message: "Error deleting guild channel" });
+  }
+};
+
+exports.updateGuildChannel = async (req, res) => {
+  const { guildId } = req.params;
+  const { channelId, newChannelName, newChannelType } = req.body;
+
+  try {
+      const channel = await db.GuildChannel.findOne({
+          where: {
+              channelId: channelId,
+              guildId: guildId,
+          }
+      });
+
+      if (!channel) {
+          return res.status(404).send({ message: "Channel not found." });
+      }
+
+      channel.channelName = newChannelName;
+      channel.channelType = newChannelType;
+      await channel.save();
+
+      return res.status(200).send({
+          message: "Channel updated successfully.",
+          channel: {
+              channelId: channel.channelId,
+              channelName: channel.channelName,
+              channelType: channel.channelType,
+              guildId: channel.guildId
+          }
+      });
+  } catch (error) {
+      console.error("Error updating guild channel:", error);
+      return res.status(500).send({ message: "Error updating guild channel" });
   }
 };
