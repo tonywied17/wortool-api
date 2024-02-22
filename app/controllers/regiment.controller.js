@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp49281\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp53769\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed February 21st 2024 3:09:51 
+ * Last Modified: Thu February 22nd 2024 1:59:23 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -1327,8 +1327,6 @@ exports.removeCover = async (req, res) => {
   }
 };
 
-
-
 exports.removeSync = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
@@ -1343,5 +1341,131 @@ exports.removeSync = (req, res) => {
     res.status(500).send({
       message: "Could not delete the file. " + err,
     });
+  }
+};
+
+  exports.newGuildRole = async (req, res) => {
+    const { guildId } = req.params;
+    const { roleId, roleName } = req.body;
+
+    try {
+        const regiment = await db.Regiment.findOne({ where: { guild_id: guildId } });
+        if (!regiment) return res.status(404).send({ message: "Regiment not found." });
+
+        const newRole = await db.GuildRole.create({
+            roleId,
+            roleName,
+            guildId: regiment.guild_id,
+        });
+
+        return res.status(201).send(newRole);
+    } catch (error) {
+        console.error("Error creating new guild role:", error);
+        return res.status(500).send({ message: "Error creating new guild role" });
+    }
+};
+
+exports.newGuildRoles = async (req, res) => {
+  const { guildId } = req.params;
+  const roles = req.body.roles; 
+
+  if (!Array.isArray(roles) || roles.length === 0) {
+      return res.status(400).send({ message: "Invalid roles data provided." });
+  }
+
+  try {
+      const regiment = await db.Regiment.findOne({ where: { guild_id: guildId } });
+      if (!regiment) return res.status(404).send({ message: "Regiment not found." });
+
+      const rolesData = roles.map(role => ({
+          roleId: role.id,
+          roleName: role.name,
+          guildId: guildId
+      }));
+
+      const createdRoles = await db.GuildRole.bulkCreate(rolesData, {
+          updateOnDuplicate: ['roleName'], 
+      });
+
+      return res.status(201).send(createdRoles);
+  } catch (error) {
+      console.error("Error creating new guild roles:", error);
+      return res.status(500).send({ message: "Error creating new guild roles" });
+  }
+};
+
+exports.getGuildRoles = async (req, res) => {
+  const { regimentId } = req.params;
+
+  try {
+      const regiment = await db.Regiment.findByPk(regimentId);
+      if (!regiment) {
+          return res.status(404).send({ message: "Regiment not found." });
+      }
+
+      const roles = await db.GuildRole.findAll({
+          where: { guildId: regiment.guild_id }
+      });
+
+      if (!roles || roles.length === 0) {
+          return res.status(404).send({ message: "No roles found for this guild." });
+      }
+
+      return res.status(200).send(roles);
+  } catch (error) {
+      console.error("Error finding guild roles:", error);
+      return res.status(500).send({ message: "Error retrieving guild roles" });
+  }
+};
+
+
+
+exports.deleteGuildRole = async (req, res) => {
+  const { guildId } = req.params;
+  const { roleId } = req.body;
+
+  try {
+      const result = await db.GuildRole.destroy({
+          where: { guildId, roleId }
+      });
+
+      if (result === 0) return res.status(404).send({ message: "Role not found or already deleted." });
+
+      return res.status(200).send({ message: "Role deleted successfully." });
+  } catch (error) {
+      console.error("Error deleting guild role:", error);
+      return res.status(500).send({ message: "Error deleting guild role" });
+  }
+};
+
+exports.updateGuildRole = async (req, res) => {
+  const { guildId } = req.params;
+  const { roleId, newRoleName } = req.body;
+
+  try {
+      const role = await db.GuildRole.findOne({
+          where: {
+              roleId: roleId,
+              guildId: guildId,
+          }
+      });
+
+      if (!role) {
+          return res.status(404).send({ message: "Role not found." });
+      }
+
+      role.roleName = newRoleName;
+      await role.save();
+      return res.status(200).send({
+          message: "Role updated successfully.",
+          role: {
+              roleId: role.roleId,
+              roleName: role.roleName,
+              guildId: role.guildId
+          }
+      });
+  } catch (error) {
+      console.error("Error updating guild role:", error);
+      return res.status(500).send({ message: "Error updating guild role" });
   }
 };
