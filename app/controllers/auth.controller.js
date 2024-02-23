@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp24650\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp06717\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Wed February 21st 2024 3:25:29 
+ * Last Modified: Thu February 22nd 2024 8:12:55 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -342,6 +342,7 @@ exports.signin = (req, res) => {
     where: {
       username: req.body.username.toLowerCase(),
     },
+    include: [{ model: DiscordUser, as: 'wor_DiscordUser' }]
   })
     .then((user) => {
       if (!user) {
@@ -359,11 +360,18 @@ exports.signin = (req, res) => {
         });
       }
 
+      let tokenPayload = {
+        id: user.id,
+        regimentId: user.regimentId,
+        discordUser: user.wor_DiscordUser ? { 
+          username: user.wor_DiscordUser.username,
+          discordId: user.wor_DiscordUser.discordId,
+          avatar: user.wor_DiscordUser.avatar
+        } : null 
+      };
+
       let token = jwt.sign(
-        {
-          id: user.id,
-          regimentId: user.regimentId,
-        },
+        tokenPayload,
         config.secret,
         {
           expiresIn: 31536000, // 1 year
@@ -376,8 +384,7 @@ exports.signin = (req, res) => {
           authorities.push('ROLE_' + roles[i].name.toUpperCase());
         }
 
-        // Set the token as an HTTP-only cookie
-        res.cookie('token', token, { httpOnly: true, maxAge: 31536000000 }); // Max age in milliseconds (1 year)
+        res.cookie('token', token, { httpOnly: true, maxAge: 31536000000 }); 
 
         res.status(200).send({
           id: user.id,
@@ -388,6 +395,7 @@ exports.signin = (req, res) => {
           regimentId: user.regimentId,
           roles: authorities,
           accessToken: token,
+          discordUser: tokenPayload.discordUser
         });
       });
     })
@@ -396,7 +404,10 @@ exports.signin = (req, res) => {
         message: err.message,
       });
     });
-  }
+};
+
+
+
 
 /**
  * Update User Password
