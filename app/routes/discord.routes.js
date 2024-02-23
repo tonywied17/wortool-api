@@ -1,16 +1,17 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\discord.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:47:25 
+ * Last Modified: Thu February 22nd 2024 7:24:30 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
 
 const discordController = require("../controllers/discord.controller");
+const passport = require('passport');
 
 /**
  *  Discord Routes
@@ -116,24 +117,22 @@ module.exports = function (app) {
    * @route GET /v2/discord/auth/
    * @group Discord
    */
-  app.get('/v2/discord/auth/', discordController.auth);
+  app.get('/v2/discord/auth/', (req, res, next) => {
+    const userId = req.query.state;
+    const state = encodeURIComponent(JSON.stringify({ userId }));
+    passport.authenticate('discord', { state })(req, res, next);
+  });
   
-  /**
-   * Discord OAuth2 Callback
-   * @route GET /v2/discord/callback/
-   * @group Discord
-   * @param state - The state parameter that was passed to the OAuth URL
-   */
-  app.get('/v2/discord/', (req, res) => {
-    const state = req.query.state;
-  
+
+  app.get('/v2/discord/callback', passport.authenticate('discord', {
+    failureRedirect: '/auth'
+  }), (req, res) => {
     res.send(`
       <script>
-        // Automatically redirect to the OAuth URL with the state parameter
-        window.location.href = "${process.env.OAUTH_URL}&state=${state}";
+        window.opener.postMessage('authSuccess', '*');
+        window.close();
       </script>
     `);
   });
-
 
 };

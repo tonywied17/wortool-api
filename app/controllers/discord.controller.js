@@ -1,14 +1,15 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\discord.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp55568\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 4:28:28 
+ * Last Modified: Thu February 22nd 2024 7:03:49 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
+const client = require("./clients/discord")
 
 const {
   Client,
@@ -31,71 +32,49 @@ require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
  * @param {*} res - response containing the webhook
  */
 exports.createWebhook = async (req, res) => {
-  try {
-    const guildId = req.params.guildId;
-    const channelId = req.params.channelId;
+  const guildId = req.params.guildId;
+  const channelId = req.params.channelId;
 
-    const client = new Client({
-      intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildWebhooks, 
-      ],
+  try {
+    const guild = await client.guilds.fetch(guildId);
+    const webhooks = await guild.fetchWebhooks();
+
+    for (const webhook of webhooks.values()) {
+      if (webhook.owner?.id === client.user?.id) {
+        await webhook.delete('Removing old webhooks before creating a new one.');
+        console.log(`Deleted old webhook: ${webhook.id}`);
+      }
+    }
+
+    const channel = guild.channels.cache.get(channelId);
+    if (!channel) {
+      throw new Error("Channel not found");
+    }
+
+    const newWebhook = await channel.createWebhook({
+      name: 'Server Info',
+      avatar: 'https://app.paarmy.com/assets/boticon.png',
     });
 
-    await client.login(process.env.DISCORD_TOKEN);
+    console.log('New Webhook created:', newWebhook.id);
+    const webhookURL = `https://discord.com/api/webhooks/${newWebhook.id}/${newWebhook.token}`;
 
-    client.on('ready', async () => {
-      try {
-        const guild = await client.guilds.fetch(guildId);
-        const webhooks = await guild.fetchWebhooks();
-
-        for (const webhook of webhooks.values()) {
-          if (webhook.owner?.id === client.user?.id) {
-            await webhook.delete('Removing old webhooks before creating a new one.');
-            console.log(`Deleted old webhook: ${webhook.id}`);
-          }
-        }
-
-        const channel = guild.channels.cache.get(channelId);
-        if (!channel) throw new Error("Channel not found");
-
-        const newWebhook = await channel.createWebhook({
-          name: 'Server Info',
-          avatar: 'https://app.paarmy.com/assets/boticon.png',
-        });
-
-        console.log('New Webhook created:', newWebhook.id);
-        const webhookURL = `https://discord.com/api/webhooks/${newWebhook.id}/${newWebhook.token}`;
-
-        await Regiment.update({
-          webhook: webhookURL,
-          webhook_channel: channel.name
-        }, {
-          where: {
-            guild_id: guildId
-          }
-        });
-
-        res.json({
-          webhook: webhookURL
-        });
-
-        client.destroy();
-      } catch (error) {
-        console.error('Error creating/deleting webhook:', error);
-        res.status(500).json({
-          error: 'Failed to create/delete webhook.'
-        });
-        client.destroy();
+    await Regiment.update({
+      webhook: webhookURL,
+      webhook_channel: channel.name
+    }, {
+      where: {
+        guild_id: guildId
       }
     });
+
+    res.json({ webhook: webhookURL });
   } catch (error) {
-    console.error('Error logging in:', error);
-    res.status(500).json({
-      error: 'Failed to login.'
-    });
+    console.error('Error creating/deleting webhook:', error);
+    res.status(500).json({ error: 'Failed to create/delete webhook.' });
   }
 };
+
 
 
 /**
@@ -107,17 +86,6 @@ exports.createWebhook = async (req, res) => {
  */
 exports.findOneGuild = (req, res) => {
   const id = req.params.id;
-
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMembers,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.GuildMessageReactions,
-    ],
-  });
-
-  client.login(process.env.DISCORD_TOKEN);
 
   client.on('ready', () => {
     const guild = client.guilds.cache.get(id);
@@ -140,27 +108,9 @@ exports.findOneGuild = (req, res) => {
 exports.findGuildChannels = (req, res) => {
   const id = req.params.id;
 
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMembers,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.GuildMessageReactions,
-    ],
-  });
-
-  client.login(process.env.DISCORD_TOKEN);
   client.on("ready", async () => {
     try {
-      const discordServer = await client.guilds.fetch(id);
-
-      console.log("Guild ID:", discordServer.id);
-      console.log("Guild Name:", discordServer.name);
-
       const guild = client.guilds.cache.get(id);
-
-      // Filter channels to include only text channels
-      // https://discord.com/developers/docs/resources/channel#channel-object-channel-types
       const textChannels = guild.channels.cache.filter(channel => channel.type === 0);
 
       const channelData = textChannels.map(channel => ({
@@ -234,25 +184,6 @@ exports.sendOneMsg = (req, res) => {
   const guildId = req.params.guildId;
   const channelId = req.params.channelId;
 
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMembers,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.GuildMessageReactions,
-      GatewayIntentBits.DirectMessages,
-      GatewayIntentBits.DirectMessageReactions,
-      GatewayIntentBits.DirectMessageTyping,
-      GatewayIntentBits.GuildMessageTyping,
-      GatewayIntentBits.GuildVoiceStates,
-      GatewayIntentBits.GuildPresences,
-      GatewayIntentBits.GuildEmojisAndStickers,
-      GatewayIntentBits.GuildIntegrations,
-    ],
-  });
-
-  client.login(process.env.DISCORD_TOKEN);
-
   client.on("ready", () => {
     const guild = client.guilds.cache.get(guildId);
     const channel = guild.channels.cache.get(channelId);
@@ -274,104 +205,31 @@ exports.sendOneMsg = (req, res) => {
 };
 
 exports.findDiscordGuildRoles = async (req, res) => {
-  try{
-    const guildId = req.params.guildId;
+  const guildId = req.params.guildId;
 
-    const client = new Client({
-      intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.DirectMessageReactions,
-        GatewayIntentBits.DirectMessageTyping,
-        GatewayIntentBits.GuildMessageTyping,
-        GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.GuildPresences,
-        GatewayIntentBits.GuildEmojisAndStickers,
-        GatewayIntentBits.GuildIntegrations,
-      ],
-    });
-
-    await client.login(process.env.DISCORD_TOKEN);
-
-    client.on('ready', () => {
-      const guild = client.guilds.cache.get(guildId);
-
-      if (guild) {
-       
-        const rolesArray = guild.roles.cache.map(role => ({
-          id: role.id,
-          name: role.name,
-          color: role.color,
-          // permissions: role.permissions.toArray(),
-        }));
-    
-        res.json(rolesArray);
-
-
-      } else {
-        console.error('Guild not found');
-        res.status(404).json({ error: 'Guild not found' });
-      }
-    });
-
-  }catch (error){
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-}
-
-exports.findDiscordUsersByGuildRole = async (req, res) => {
   try {
-    const guildId = req.params.guildId;
-    const roleName = req.query.roleName;
+    const guild = await client.guilds.fetch(guildId);
 
-    const client = new Client({
-      intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.DirectMessageReactions,
-        GatewayIntentBits.DirectMessageTyping,
-        GatewayIntentBits.GuildMessageTyping,
-        GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.GuildPresences,
-        GatewayIntentBits.GuildEmojisAndStickers,
-        GatewayIntentBits.GuildIntegrations,
-      ],
-    });
+    if (!guild) {
+      console.error('Guild not found');
+      return res.status(404).json({ error: 'Guild not found' });
+    }
 
-    await client.login(process.env.DISCORD_TOKEN);
+    let roles;
+    try {
+      roles = await guild.roles.fetch();
+    } catch (fetchError) {
+      console.error('Error fetching roles:', fetchError);
+      return res.status(500).json({ error: 'Failed to fetch roles' });
+    }
 
-    client.on('ready', () => {
-      const guild = client.guilds.cache.get(guildId);
+    const rolesArray = roles.cache.map(role => ({
+      id: role.id,
+      name: role.name,
+      color: role.color,
+    }));
 
-      if (guild) {
-        // Fetch the role by name
-        const role = guild.roles.cache.find(r => r.name === roleName);
-
-        if (role) {
-          const membersWithRole = role.members.map(member => ({
-            id: member.user.id,
-            username: member.user.username,
-            avatarURL: member.user.displayAvatarURL({ dynamic: true }),
-            nickname: member.nickname,
-          }));
-
-          res.json(membersWithRole);
-        } else {
-          console.error('Role not found');
-          res.status(404).json({ error: 'Role not found' });
-        }
-      } else {
-        console.error('Guild not found');
-        res.status(404).json({ error: 'Guild not found' });
-      }
-    });
+    res.json(rolesArray);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -379,194 +237,88 @@ exports.findDiscordUsersByGuildRole = async (req, res) => {
 };
 
 
-exports.findOneUser = (req, res) => {
+exports.findDiscordUsersByGuildRole = async (req, res) => {
+  const guildId = req.params.guildId;
+  const roleName = req.query.roleName;
+
+  try {
+    const guild = await client.guilds.fetch(guildId);
+    if (!guild) {
+      console.error('Guild not found');
+      return res.status(404).json({ error: 'Guild not found' });
+    }
+
+    await guild.roles.fetch();
+
+    const role = guild.roles.cache.find(r => r.name === roleName);
+    if (!role) {
+      console.error('Role not found');
+      return res.status(404).json({ error: 'Role not found' });
+    }
+
+    if (!guild.members.cache.size) await guild.members.fetch();
+
+    const membersWithRole = role.members.map(member => ({
+      id: member.user.id,
+      username: member.user.username,
+      avatarURL: member.user.displayAvatarURL({ dynamic: true }),
+      nickname: member.nickname,
+    }));
+
+    res.json(membersWithRole);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+exports.findOneUser = async (req, res) => {
   const userId = req.params.userId;
   const guildId = req.params.guildId;
 
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMembers,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.GuildMessageReactions,
-      GatewayIntentBits.DirectMessages,
-      GatewayIntentBits.DirectMessageReactions,
-      GatewayIntentBits.DirectMessageTyping,
-      GatewayIntentBits.GuildMessageTyping,
-      GatewayIntentBits.GuildVoiceStates,
-      GatewayIntentBits.GuildPresences,
-      GatewayIntentBits.GuildEmojisAndStickers,
-      GatewayIntentBits.GuildIntegrations,
-    ],
-  });
-
-  client.login(process.env.DISCORD_TOKEN);
-
-  client.on('ready', () => {
-    const guild = client.guilds.cache.get(guildId);
-    const guildMember = guild.members.cache.get(userId);
-
-    if (guildMember) {
-      const roles = guildMember.roles.cache
-        .filter(role => role.name !== '@everyone')
-        .reduce((result, role) => {
-          result[role.name] = role.id;
-          return result;
-        }, {});
-      const discordUsername = guildMember.user.username;
-      const userAvatarUrl = guildMember.user.avatarURL() || 'No avatar available.';
-      const serverNickname = guildMember.nickname || 'No server nickname.';
-      const joinedTimestamp = guildMember.joinedTimestamp;
-      const joinedDate = new Date(joinedTimestamp);
-      const formattedDate = joinedDate.toLocaleString();
-
-      res.json({
-        USER_SPECIFIC: {
-          DISCORD_USERNAME: discordUsername,
-          DISCORD_AVATAR: userAvatarUrl,
-        },
-        GUILD_SPECIFIC: {
-          GUILD_ID: guildId,
-          GUILD_NAME: guild.name,
-          GUILD_JOIN_DATE: formattedDate,
-          GUILD_ROLES: roles,
-          GUILD_NICKNAME: serverNickname,
-        },
-        API_SPECIFIC: {
-          GUILD_API_URL: `https://api.wortool.com/wordiscord/guild/${guildId}/get`,
-          GUILD_USER_API_URL: `https://api.wortool.com/wordiscord/guild/${guildId}/user/${userId}/get`,
-        }
-      });
-
-    } else {
-      res.send('Invalid user or user not found.');
+  try {
+    const guild = await client.guilds.fetch(guildId);
+    if (!guild) {
+      console.error('Guild not found');
+      return res.status(404).json({ error: 'Guild not found' });
     }
 
-    setTimeout(() => {
-      client.destroy();
-    }, 10000);
-  });
+    const member = await guild.members.fetch(userId).catch(() => null);
+    if (!member) {
+      return res.status(404).json({ error: 'User not found in the guild' });
+    }
 
-}
+    const roles = member.roles.cache
+      .filter(role => role.name !== '@everyone')
+      .reduce((acc, role) => {
+        acc[role.name] = role.id;
+        return acc;
+      }, {});
 
-
-
-
-/**
- * DISCORD OAUTH2 FLOW
- * @param {*} req
- * @param {*} res
- * @returns
- */
-exports.auth = async function (req, res) {
-  try {
-    const {
-      code,
-      state
-    } = req.query;
-    const params = new URLSearchParams();
-    let user;
-
-    params.append("client_id", process.env.CLIENT_ID);
-    params.append("client_secret", process.env.CLIENT_SECRET);
-    params.append("grant_type", "authorization_code");
-    params.append("code", code);
-    params.append("redirect_uri", `https://api.wortool.com/v2/discord/auth`);
-    params.append("scope", "identify");
-
-    const response = await axios.post("https://discord.com/api/oauth2/token", params);
-    const {
-      access_token,
-      token_type
-    } = response.data;
-
-    const userDataResponse = await axios.get("https://discord.com/api/users/@me", {
-      headers: {
-        authorization: `${token_type} ${access_token}`,
+    const userResponse = {
+      USER_SPECIFIC: {
+        DISCORD_USERNAME: member.user.username,
+        DISCORD_AVATAR: member.user.avatarURL() || 'No avatar available.',
       },
-    });
-
-    user = {
-      username: userDataResponse.data.username,
-      discordId: userDataResponse.data.id,
-      userId: state,
-      email: userDataResponse.data.email,
-      avatar: `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`,
+      GUILD_SPECIFIC: {
+        GUILD_ID: guildId,
+        GUILD_NAME: guild.name,
+        GUILD_JOIN_DATE: new Date(member.joinedTimestamp).toLocaleString(),
+        GUILD_ROLES: roles,
+        GUILD_NICKNAME: member.nickname || 'No server nickname.',
+      },
+      API_SPECIFIC: {
+        GUILD_API_URL: `https://api.wortool.com/wordiscord/guild/${guildId}/get`,
+        GUILD_USER_API_URL: `https://api.wortool.com/wordiscord/guild/${guildId}/user/${userId}/get`,
+      }
     };
 
-
-    const existingUser = await User.findOne({
-      where: {
-        id: state
-      }
-    });
-    const existingDiscordUser = await DiscordUser.findOne({
-      where: {
-        discordId: user.discordId
-      }
-    });
-
-    if (existingDiscordUser) {
-      return res.status(400).json({
-        error: "Discord ID already in use"
-      });
-    }
-
-    if (existingUser) {
-      existingUser.discordId = userDataResponse.data.id;
-      existingUser.avatar_url = `https://cdn.discordapp.com/avatars/${userDataResponse.data.id}/${userDataResponse.data.avatar}.png`;
-      await existingUser.save();
-    }
-
-    if (existingDiscordUser) {
-      await existingDiscordUser.update(user);
-    } else {
-      await DiscordUser.create(user);
-    }
-
-    const regiment = await Regiment.findOne({
-      where: {
-        ownerId: user.discordId
-      }
-    });
-
-    if (regiment && existingUser) {
-      existingUser.regimentId = regiment.id;
-
-      let roles = await existingUser.getWor_Roles();
-      const hasRole2 = roles.some(role => role.id === 2);
-
-      if (!hasRole2) {
-        roles.push(2);
-      }
-
-      await existingUser.setWor_Roles(roles);
-    }
-
-    const closeScript = `
-      <script>
-        window.opener.postMessage('popupClosed', '*');
-        window.close();
-      </script>
-    `;
-
-    res.setHeader("Content-Type", "text/html");
-
-    return res.send(`
-      <html>
-        <body>
-          <pre>${JSON.stringify({ user, closeScript }, null, 2)}</pre>
-          ${closeScript}
-        </body>
-      </html>
-    `);
+    res.json(userResponse);
   } catch (error) {
-    console.log("Error", error);
-    return res.send("Some error occurred!");
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
-
 
 
 exports.deleteOneUser = async (req, res) => {
