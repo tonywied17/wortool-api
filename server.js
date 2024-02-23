@@ -1,7 +1,10 @@
 const express = require("express");
+const session = require('express-session');
 const cors = require("cors");
 const db = require("./app/models");
 const app = express();
+const passport = require('passport');
+require('./app/config/passport');
 
 /**
  *   Cross Origin Resource Sharing
@@ -12,6 +15,20 @@ app.use(cors({
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
 
+app.use(session({
+  secret: process.env.AUTH_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  },
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('json spaces', 0)
@@ -19,7 +36,6 @@ app.set('json spaces', 0)
 db.sequelize.sync();
 
 // Main API Route
-
 const fs = require('fs');
 const path = require('path');
 const filePath = path.join(__dirname, 'tmp/restart.txt');
