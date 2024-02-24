@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\weapon.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:47:25 
+ * Last Modified: Fri February 23rd 2024 6:58:50 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,11 +12,6 @@
 
 const { authJwt } = require("../middleware");
 const weapon = require("../controllers/weapon.controller");
-
-/**
- * Weapon Routes
- * @param {*} app 
- */
 module.exports = function (app) {
   // CORS
   app.use(function (req, res, next) {
@@ -26,9 +21,6 @@ module.exports = function (app) {
     );
     next();
   });
-
-
-  // ! Get Routes //
 
   /**
    * Get All Weapons
@@ -46,7 +38,8 @@ module.exports = function (app) {
    */
   app.get("/v2/weapons/:id", weapon.findOne);
 
-  // ! Post Routes //
+
+  // ! Post Routes
 
   /**
    * Create or Update Weapon
@@ -60,7 +53,8 @@ module.exports = function (app) {
     weapon.createOrUpdateWeapon
   );
 
-  // ! Delete Routes //
+  
+  // ! Delete Routes
 
   /**
    * Delete Weapon

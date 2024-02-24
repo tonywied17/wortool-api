@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\favorite.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:47:25 
+ * Last Modified: Fri February 23rd 2024 6:37:59 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,11 +12,6 @@
 
 const { authJwt } = require("../middleware");
 const favoriteController = require("../controllers/favorite.controller");
-
-/**
- * Favorite Routes
- * @param {*} app 
- */
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header(
@@ -26,14 +21,12 @@ module.exports = function (app) {
     next();
   });
 
-
-  // ! Get Routes //
-
   /**
    * Get All Favorites By User and Map
    * @route GET /v2/favorites/user/:userId/map/:mapId
    * @group Favorites
    * @returns {object} 200 - An object containing the favorites
+   * @security verifyToken
    */
   app.get(
     "/v2/favorites/user/:userId/map/:mapId",
@@ -46,6 +39,7 @@ module.exports = function (app) {
    * @route GET /v2/favorites/user/:userId
    * @group Favorites
    * @returns {object} 200 - An object containing the favorites
+   * @security verifyToken
    */
   app.get(
     "/v2/favorites/user/:userId",
@@ -58,6 +52,7 @@ module.exports = function (app) {
    * @route GET /v2/favorites/map/:mapId
    * @group Favorites
    * @returns {object} 200 - An object containing the favorites
+   * @security verifyToken
    */
   app.get(
     "/v2/favorites/map/:mapId",
@@ -65,13 +60,15 @@ module.exports = function (app) {
     favoriteController.findFavoritesByMap
   );
 
-  // ! Post Routes //
+
+  // ! Post Routes
 
   /**
    * Create or Update Favorite
    * @route POST /v2/favorites/user/:userId/map/:mapId
    * @group Favorites
    * @returns {object} 200 - An object containing the favorites
+   * @security verifyToken
    */
   app.post(
     "/v2/favorites/user/:userId/map/:mapId",
@@ -79,13 +76,15 @@ module.exports = function (app) {
     favoriteController.createOrUpdateFavorite
   );
 
-  // ! Delete Routes //
+
+  // ! Delete Routes
 
   /**
    * Delete Favorite
    * @route DELETE /v2/favorites/user/:userId/map/:mapId
    * @group Favorites
    * @returns {object} 200 - An object containing the favorites
+   * @security verifyToken
    */
   app.delete(
     "/v2/favorites/user/:userId/map/:mapId",

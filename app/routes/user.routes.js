@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\user.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:47:25 
+ * Last Modified: Fri February 23rd 2024 6:58:29 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -15,7 +15,7 @@ const controller = require("../controllers/user.controller");
 
 /**
  * User Routes
- * @param {*} app 
+ * @param {*} app
  */
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -26,9 +26,6 @@ module.exports = function (app) {
     next();
   });
 
-
-  // ! GET Routes //
-
   /**
    * Vet Public Access
    * @route GET /v2/vet/all
@@ -36,7 +33,6 @@ module.exports = function (app) {
    * @returns {object} 200 - An object containing the vet data
    */
   app.get("/v2/vet/all", controller.allAccess);
-
 
   // ! POST Routes //
 
@@ -54,11 +50,7 @@ module.exports = function (app) {
    * @group Vet
    * @returns {object} 200 - An object containing the vet data
    */
-  app.post(
-    "/v2/vet/mod/",
-    [authJwt.isModerator],
-    controller.moderatorBoard
-  )
+  app.post("/v2/vet/mod/", [authJwt.isModerator], controller.moderatorBoard);
 
   /**
    * Vet Admin Access
@@ -71,5 +63,4 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
-  
 };

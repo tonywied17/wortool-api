@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 7:24:30 
+ * Last Modified: Fri February 23rd 2024 6:37:00 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,11 +12,6 @@
 
 const discordController = require("../controllers/discord.controller");
 const passport = require('passport');
-
-/**
- *  Discord Routes
- * @param {*} app 
- */
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header(
@@ -25,8 +20,6 @@ module.exports = function (app) {
     );
     next();
   });
-
-  // ! GET Routes //
 
   /**
    * Get All Guild Channels
@@ -37,16 +30,21 @@ module.exports = function (app) {
   app.get("/v2/discord/guild/:id/channels", discordController.findGuildChannels);
 
   /**
-   * Get discord users by role in a guild
+   * Get All Guilds
+   * @route GET /v2/discord/guild/:guildId/roles/users
+   * @group Discord
+   * @returns {object} 200 - An object containing the users for the guild
    */
   app.get("/v2/discord/guild/:guildId/roles/users", discordController.findDiscordUsersByGuildRole)
 
   /**
-   * Get discord guilds list of roles
+   * Get All Guilds
+   * @route GET /v2/discord/guild/:guildId/roles
+   * @group Discord
+   * @returns {object} 200 - An object containing the users for the guild
    */
   app.get("/v2/discord/guild/:guildId/roles", discordController.findDiscordGuildRoles)
   
-
   /**
    * Get All Discord Synced Users
    * @route GET /v2/users
@@ -86,7 +84,6 @@ module.exports = function (app) {
    */
   app.get("/v2/discord/guild/:id/get", discordController.findOneGuild);
   
-
   /**
    * Get the Guild's Webhook by Guild ID and Channel ID
    * @route GET /v2/discord/guild/:guildId/channel/:channelId/webhook
@@ -96,10 +93,10 @@ module.exports = function (app) {
   app.get("/v2/discord/guild/:guildId/channel/:channelId/webhook", discordController.createWebhook);
 
 
-  // ! DELETE Routes //
+  // ! DELETE Routes
 
   /**
-   * Delete a Single User by ID
+   * Delete a Single DiscordUser by ID (Unlink)
    * @route DELETE /v2/discord/user/:userId/remove
    * @group Discord
    * @returns {object} 200 - An object containing the user
@@ -110,12 +107,14 @@ module.exports = function (app) {
   )
 
 
-  // ! OAUTH2 Routes //
+  // ! OAUTH2 Routes
 
   /**
-   * Discord OAuth2
-   * @route GET /v2/discord/auth/
+   * Discord Auth Route (Link)
+   * Authenticate with Discord using Oauth2
+   * @route GET /v2/discord/auth
    * @group Discord
+   * 
    */
   app.get('/v2/discord/auth/', (req, res, next) => {
     const userId = req.query.state;
@@ -123,7 +122,13 @@ module.exports = function (app) {
     passport.authenticate('discord', { state })(req, res, next);
   });
   
-
+  /**
+   * Discord Callback Route
+   * This route is used to handle the callback from Discord's Oauth2
+   * @route GET /v2/discord/callback
+   * @group Discord
+   * @returns {object} 200 - An object containing the user's token and user information
+   */
   app.get('/v2/discord/callback', passport.authenticate('discord', {
     failureRedirect: '/auth'
   }), (req, res) => {
