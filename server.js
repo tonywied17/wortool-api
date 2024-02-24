@@ -14,7 +14,6 @@ app.use(cors({
   origin: ['http://localhost:4200', 'https://discord.com', 'https://wortool.com'],
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
-
 app.use(session({
   secret: process.env.AUTH_SECRET,
   resave: false,
@@ -25,22 +24,23 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000,
   },
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('json spaces', 0)
 
 db.sequelize.sync();
 
-// Main API Route
 const fs = require('fs');
 const path = require('path');
 const filePath = path.join(__dirname, 'tmp/restart.txt');
-let dateModified = fs.statSync(filePath).mtime;
+const dateModified = fs.statSync(filePath).mtime;
 
+/**
+ * Main Route
+ * Displays Version and Last Restart
+ */
 app.get("/v2", (req, res) => {
   res.json({ 
     message: "WoRTool Beta Version 2.",
@@ -48,8 +48,10 @@ app.get("/v2", (req, res) => {
   });
 });
 
-
-// Application Routes
+/**
+ * Application Routes
+ * ! Import Routes
+ */
 require("./app/routes/map.routes")(app);
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);

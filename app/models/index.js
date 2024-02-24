@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 3:46:33 
+ * Last Modified: Fri February 23rd 2024 5:57:41 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -29,14 +29,10 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 /**
- * MODELS
- * This is where we import all of our models.
+ * Import all models
  */
 db.Maps = require("./map.model.js")(sequelize, Sequelize);
-db.MapsRegimentWeapons = require("./maps.regiments.weapons.model.js")(
-  sequelize,
-  Sequelize
-);
+db.MapsRegimentWeapons = require("./maps.regiments.weapons.model.js")(sequelize, Sequelize);
 db.MapsRegiments = require("./maps.regiments.model.js")(sequelize, Sequelize);
 db.User = require("./user.model.js")(sequelize, Sequelize);
 db.Role = require("./role.model.js")(sequelize, Sequelize);
@@ -54,8 +50,8 @@ db.GuildRole = require("./guild.role.model.js")(sequelize, Sequelize);
 db.GuildChannel = require("./guild.channel.model.js")(sequelize, Sequelize);
 
 /**
- * ASSOCIATIONS
- * This is where we define our user and role associations because this is how we originally did it and haven't updated it yet.
+ * Define relationships
+ * This is where we define the relationships between the models
  */
 db.Role.belongsToMany(db.User, {
   through: "wor_UserRoles_JUNC",

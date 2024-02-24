@@ -1,20 +1,19 @@
 /*
  * File: c:\Users\tonyw\Desktop\WoRApi\wortool-api\app\models\steam.user.model.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Thursday December 7th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:31:31 
+ * Last Modified: Fri February 23rd 2024 5:59:14 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 MolexWorks / Tone Web Design
  */
 
-
 /**
  * GameID Model
- * This model represents the GameID Table in the database.
  * 
+ * This model represents the GameID Table in the database.
  * @param {*} sequelize 
  * @param {*} Sequelize 
  * @returns 

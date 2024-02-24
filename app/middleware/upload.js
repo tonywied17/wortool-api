@@ -5,6 +5,12 @@ const path = require("path");
 const fs = require("fs");
 const __basedir = path.resolve();
 
+/**
+ * Storage Configuration for Regiment Media Uploads
+ * This function is used to configure the storage for media uploads
+ * @param {*} req - request
+ * @param {*} file - file
+ */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadFolder = path.join(
@@ -24,6 +30,12 @@ const storage = multer.diskStorage({
   },
 });
 
+/**
+ * Storage Configuration for Regiment Cover Uploads
+ * This function is used to configure the storage for cover images
+ * @param {*} req - request
+ * @param {*} file - file
+ */
 const cover_storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadFolder = path.join(
@@ -48,7 +60,12 @@ const cover_storage = multer.diskStorage({
   },
 });
 
-
+/**
+ * Upload Media File
+ * This function is used to upload media files
+ * @param {*} req - request
+ * @param {*} res - response
+ */
 const uploadFile = multer({
   storage: storage,
   limits: { fileSize: maxSize },
@@ -61,6 +78,12 @@ const uploadFile = multer({
   }
 }).single("file");
 
+/**
+ * Upload Cover Image
+ * This function is used to upload cover images
+ * @param {*} req - request
+ * @param {*} res - response
+ */
 const uploadCover = multer({
   storage: cover_storage,
   limits: { fileSize: maxSize },

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp53769\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu February 22nd 2024 5:47:15 
+ * Last Modified: Fri February 23rd 2024 6:29:56 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -19,10 +19,11 @@ const RegSchedule = db.RegSchedule;
 const axios = require("axios");
 const uploadFile = require("../middleware/upload").uploadFileMiddleware;
 const uploadCover = require("../middleware/upload").uploadCoverMiddleware;
-
 const path = require("path");
 const __basedir = path.resolve();
 const fs = require("fs");
+
+// ! Basic Regiment Functions
 
 /**
  * Retrieve all regiments from the database.
@@ -34,12 +35,9 @@ const fs = require("fs");
  */
 exports.findAll = async (req, res) => {
   try {
-
     const regiments = await Regiment.findAll();
-
     return res.status(200).json(regiments);
   } catch (error) {
-    // Handle any errors
     console.error("Error retrieving regiments:", error);
     return res.status(500).json({
       error: "Internal Server Error"
@@ -77,8 +75,7 @@ exports.findOne = async (req, res) => {
 };
 
 /**
- * Retrieve a single regiment with an id.
- * This function is used to retrieve a single regiment with an id.
+ * Retrieve a user's regiment with the specified id in the request
  * @param {*} req - request containing the id
  * @param {*} res - response containing the regiment
  * @returns - regiment
@@ -134,275 +131,9 @@ exports.findUsersByRegimentId = async (req, res) => {
   }
 };
 
-
 /**
- * Update a regiment by the id in the request
- * This function is used to update a regiment by the id in the request
- * 
- * @param {*} req - request containing the id and body
- * @param {*} res - response containing the updated regiment
- * @returns - updated regiment
- */
-exports.update = async (req, res) => {
-  const id = req.params.regimentId;
-
-  console.log(req.body)
-
-  try {
-    const regiment = await Regiment.findByPk(id);
-
-    if (!regiment) {
-      return res.status(404).json({
-        error: "Regiment not found"
-      });
-    }
-
-    const updatedRegiment = await regiment.update(req.body);
-
-    return res.status(200).json(updatedRegiment);
-  } catch (error) {
-    console.error("Error updating regiment:", error);
-    return res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
-}
-
-/**
- * Create a new regiment via discord bot
- * This function is used to create a new regiment
- * 
- * @param {*} req - request containing the body from a discord axios request
- * @param {*} res - response
- * @returns - message notifying the user that the regiment was created/updated successfully
- */
-exports.createRegiment = async (req, res) => {
-  const {
-    guildId,
-    guildName,
-    guildAvatar,
-    guildInvite,
-    ownerId,
-    side,
-    memberCount,
-    members,
-    prefix
-  } = req.body;
-
-  console.log(members)
-
-  try {
-    let regiment = await Regiment.findOne({
-      where: {
-        guild_id: guildId
-      }
-    });
-
-    if (regiment) {
-      if (regiment.ownerId === ownerId) {
-        await Regiment.update({
-          regiment: guildName,
-          guild_avatar: guildAvatar,
-          invite_link: guildInvite,
-          ownerId: ownerId,
-          side: side,
-          memberCount: memberCount,
-        }, {
-          where: {
-            guild_id: guildId
-          }
-        });
-        regiment = await Regiment.findOne({ where: { guild_id: guildId } }); // Retrieve the updated regiment
-      } else {
-        return res.status(400).json({
-          error: "Owner ID mismatch. You're not authorized to update this regiment."
-        });
-      }
-    } else {
-      regiment = await Regiment.create({
-        guild_id: guildId,
-        regiment: guildName,
-        guild_avatar: guildAvatar,
-        invite_link: guildInvite,
-        ownerId: ownerId,
-        side: side,
-        memberCount: memberCount,
-      });
-    }
-
-    const regimentId = regiment.id;
-
-    const guild = await DiscordGuild.findOne({
-      where: {
-        regimentId: regimentId
-      }
-    });
-    
-    if (!guild) {
-      await DiscordGuild.create({
-        name: guildName,
-        guildId: guildId,
-        regimentId: regimentId,
-        icon: guildAvatar,
-        prefix: prefix,
-      });
-    } else {
-      await DiscordGuild.update({
-        name: guildName,
-        guildId: guildId,
-        regimentId: regimentId,
-        icon: guildAvatar,
-        prefix: prefix,
-      }, {
-        where: {
-          regimentId: regimentId
-        }
-      });
-    }
-
-
-    const user = await User.findOne({
-      where: {
-        discordId: ownerId
-      }
-    });
-
-    if (user) {
-      await User.update({
-        regimentId: regimentId
-      }, {
-        where: {
-          discordId: ownerId
-        }
-      });
-
-      let roles = await user.getWor_Roles();
-      const hasRole2 = roles.some(role => role.id === 2);
-
-      if (!hasRole2) {
-        roles.push(2);
-      }
-      
-      await user.setWor_Roles(roles);
-
-      return res.status(200).json({
-        regimentId: regimentId,
-        message: "User roles updated successfully!"
-      });
-    }
-
-    return res.status(200).json({
-      regimentId: regimentId,
-      message: "Regiment created/updated successfully!"
-    });
-  } catch (error) {
-    console.error("Error creating/updating regiment:", error);
-    return res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
-};
-
-exports.findDiscordGuild = async (req, res) => {
-  const guildId = req.params.guildId;
-
-  try {
-    const guild = await DiscordGuild.findOne({
-      where: {
-        guildId: guildId
-      }
-    });
-
-    if (!guild) {
-      return res.status(404).json({
-        error: "Discord Guild not found"
-      });
-    }
-
-    return res.status(200).json(guild);
-
-  } catch (error) {
-    console.error("Error retrieving discord guild:", error);
-    return res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
-}
-
-exports.updatePrefix = async (req, res) => {
-  const guildId = req.params.guildId;
-  const prefix = req.body.prefix;
-
-  try {
-    const guild = await DiscordGuild.findOne({
-      where: {
-        guildId: guildId
-      }
-    });
-
-    if (!guild) {
-      return res.status(404).json({
-        error: "Discord Guild not found"
-      });
-    }
-    
-    const updatedGuild = await guild.update({
-      prefix: prefix
-    });
-
-    return res.status(200).json(updatedGuild);
-
-  } catch (error) {
-    console.error("Error updating prefix:", error);
-    return res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
-}
-
-/**
- * Update memberCount for regiment guild
- * This function is used to update the memberCount for a regiment guild
- * @param {*} req - request containing the guildId and body
- * @param {*} res - response containing the updated regiment
- * @returns - updated regiment
- */
-exports.updateMemberCount = async (req, res) => {
-  const guildId = req.params.guildId;
-  const {
-    memberCount
-  } = req.body;
-
-  try {
-    const regiment = await Regiment.findOne({
-      where: {
-        guild_id: guildId
-      }
-    });
-
-    if (!regiment) {
-      return res.status(404).json({
-        error: "Regiment not found"
-      });
-    }
-
-    const updatedRegiment = await regiment.update({
-      memberCount: memberCount
-    });
-
-    return res.status(200).json(updatedRegiment);
-  } catch (error) {
-    console.error("Error updating regiment:", error);
-    return res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
-}
-
-
-/**
- * Delete a regiment with the specified id in the request
- * This function is used to delete a regiment with the specified id in the request
+ * Delete a user's regiment with the specified id in the request
+ * This function is used to delete a user's regiment with the specified id in the request
  * 
  * @param {*} req - request containing the id
  * @param {*} res - response
@@ -441,10 +172,12 @@ exports.removeUsersRegiment = async (req, res) => {
   }
 };
 
+
+// ! Steam Stats Functions
+
 /**
  * Add a game ID to a regiment
  * This function is used to add a game ID to a regiment
- * ? Note: GameID refers to a SteamID of an individual player -- This is because I use the SteamID model for registered users (naming conventions are hard).
  * 
  * @param {*} req 
  * @param {*} res 
@@ -700,7 +433,6 @@ exports.findRegimentBySteamId = async (req, res) => {
 /**
  * Retrieve a single regiment with a GAME Id.
  * This function is used to retrieve a single regiment with a GAME Id.
- * 
  * @param {*} req - request containing the GAME Id
  * @param {*} res - response containing the regiment
  * @returns - regiment
@@ -760,6 +492,9 @@ exports.findGameIdsByGameId = async (req, res) => {
     });
   }
 }
+
+
+// ! Schedule Functions
 
 /**
  * Retrieve a schedule for a certain day
@@ -856,7 +591,6 @@ exports.findScheduleByDayGuildId = async (req, res) => {
   }
 }
 
-
 /**
  * Retrieve all schedules for a regiment
  * This function is used to retrieve all schedules for a regiment
@@ -894,7 +628,6 @@ exports.findSchedulesByRegimentId = async (req, res) => {
 
 /**
  * Retrieve a schedule for a certain region
- * This function is used to retrieve a schedule for a certain region.
  * @param {*} req - request containing the regimentId and region
  * @param {*} res - response
  * @returns - schedule
@@ -934,7 +667,6 @@ exports.findRegimentByRegionTz = async (req, res) => {
 
 /**
  * Retrieve a schedule by regiment id and schedule name
- * This function is used to retrieve a schedule by regiment id and schedule name
  * @param {*} req - request containing the regimentId and schedule_name
  * @param {*} res - response
  * @returns - schedule
@@ -974,7 +706,6 @@ exports.findRegimentByScheduleName = async (req, res) => {
 
 /**
  * Create a schedule for a regiment
- * This function is used to create a schedule for a regiment
  * @param {*} req - request containing the regimentId and body
  * @param {*} res - response
  * @returns - message notifying the user that the schedule was created successfully
@@ -1043,7 +774,6 @@ exports.createSchedule = async (req, res) => {
 
 /**
  * Delete a schedule from a regiment
- * This function is used to delete a schedule from a regiment
  * @param {*} req - request containing the regimentId and scheduleId
  * @param {*} res - response
  * @returns - message notifying the user that the schedule was deleted successfully
@@ -1084,47 +814,15 @@ exports.removeSchedule = async (req, res) => {
   }
 }
 
-// update discord avatar OR guild name
-exports.updateDiscord = async (req, res) => {
-  const {
-    guildId,
-    guildName,
-    guildAvatar
-  } = req.body;
 
-  try {
-    const regiment = await Regiment.findOne({
-      where: {
-        guild_id: guildId
-      }
-    });
+// ! Media File Functions
 
-    if (!regiment) {
-      return res.status(404).json({
-        error: "Regiment not found"
-      });
-    }
-
-    if (guildName) {
-      regiment.regiment = guildName;
-    }
-
-    if (guildAvatar) {
-      regiment.guild_avatar = guildAvatar;
-    }
-
-    const updatedRegiment = await regiment.save();
-
-    return res.status(200).json(updatedRegiment);
-  } catch (error) {
-    console.error("Error updating regiment:", error);
-    return res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
-}
-
-
+/**
+ * Upload a media file to the server
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.upload = async (req, res) => {
 
   try {
@@ -1152,7 +850,11 @@ exports.upload = async (req, res) => {
   }
 }
 
-
+/**
+ * Get a regiment's media files
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getListFiles = (req, res) => {
   const baseUrl = `https://api.wortool.com/v2/regiments/${req.params.regimentId}/files/`;
   const directoryPath = path.join(__basedir, `resources/${req.params.regimentId}/static/assets/uploads/`);
@@ -1179,6 +881,12 @@ exports.getListFiles = (req, res) => {
   });
 };
 
+/**
+ * Upload a regiment's cover photo to the server
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.uploadCover = async (req, res) => {
   const regimentId = req.params.regimentId;
   try {
@@ -1219,6 +927,11 @@ exports.uploadCover = async (req, res) => {
   }
 };
 
+/**
+ * Get a regiment's cover photos
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getCoverPhoto = (req, res) => {
   const baseUrl = `https://api.wortool.com/v2/regiments/${req.params.regimentId}/files/cover/`;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
@@ -1241,6 +954,11 @@ exports.getCoverPhoto = (req, res) => {
   });
 };
 
+/**
+ * Download/GET a regiment's media file from the server
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.download = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
@@ -1254,6 +972,11 @@ exports.download = (req, res) => {
   });
 };
 
+/**
+ * Download/GET a regiment's cover photo from the server
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.downloadCover = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
@@ -1267,6 +990,11 @@ exports.downloadCover = (req, res) => {
   });
 };
 
+/**
+ * Remove a regiment's media file from the server
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.remove = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
@@ -1284,13 +1012,17 @@ exports.remove = (req, res) => {
   });
 };
 
+/**
+ * Remove a regiment's cover photo from the server
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.removeCover = async (req, res) => {
   try {
     const fileName = req.params.name;
     const regimentId = req.params.regimentId;
     const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/cover/`;
-
-    // Update regiment cover model
     const regiment = await Regiment.findByPk(regimentId);
 
     if (!regiment) {
@@ -1327,6 +1059,11 @@ exports.removeCover = async (req, res) => {
   }
 };
 
+/**
+ * Remove a regiment's media file from the server (synchronous)
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.removeSync = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = __basedir + `/resources/${req.params.regimentId}/static/assets/uploads/`;
@@ -1344,7 +1081,337 @@ exports.removeSync = (req, res) => {
   }
 };
 
-  exports.newGuildRole = async (req, res) => {
+
+// ! Discord Bot and Discord Related Functions
+
+/**
+ * Create a new regiment via discord bot
+ * @param {*} req - request containing the body from a discord axios request
+ * @param {*} res - response
+ * @returns - message notifying the user that the regiment was created/updated successfully
+ */
+exports.createRegiment = async (req, res) => {
+  const {
+    guildId,
+    guildName,
+    guildAvatar,
+    guildInvite,
+    ownerId,
+    side,
+    memberCount,
+    members,
+    prefix
+  } = req.body;
+
+  console.log(members)
+
+  try {
+    let regiment = await Regiment.findOne({
+      where: {
+        guild_id: guildId
+      }
+    });
+
+    if (regiment) {
+      if (regiment.ownerId === ownerId) {
+        await Regiment.update({
+          regiment: guildName,
+          guild_avatar: guildAvatar,
+          invite_link: guildInvite,
+          ownerId: ownerId,
+          side: side,
+          memberCount: memberCount,
+        }, {
+          where: {
+            guild_id: guildId
+          }
+        });
+        regiment = await Regiment.findOne({ where: { guild_id: guildId } });
+      } else {
+        return res.status(400).json({
+          error: "Owner ID mismatch. You're not authorized to update this regiment."
+        });
+      }
+    } else {
+      regiment = await Regiment.create({
+        guild_id: guildId,
+        regiment: guildName,
+        guild_avatar: guildAvatar,
+        invite_link: guildInvite,
+        ownerId: ownerId,
+        side: side,
+        memberCount: memberCount,
+      });
+    }
+
+    const regimentId = regiment.id;
+
+    const guild = await DiscordGuild.findOne({
+      where: {
+        regimentId: regimentId
+      }
+    });
+    
+    if (!guild) {
+      await DiscordGuild.create({
+        name: guildName,
+        guildId: guildId,
+        regimentId: regimentId,
+        icon: guildAvatar,
+        prefix: prefix,
+      });
+    } else {
+      await DiscordGuild.update({
+        name: guildName,
+        guildId: guildId,
+        regimentId: regimentId,
+        icon: guildAvatar,
+        prefix: prefix,
+      }, {
+        where: {
+          regimentId: regimentId
+        }
+      });
+    }
+
+
+    const user = await User.findOne({
+      where: {
+        discordId: ownerId
+      }
+    });
+
+    if (user) {
+      await User.update({
+        regimentId: regimentId
+      }, {
+        where: {
+          discordId: ownerId
+        }
+      });
+
+      let roles = await user.getWor_Roles();
+      const hasRole2 = roles.some(role => role.id === 2);
+
+      if (!hasRole2) {
+        roles.push(2);
+      }
+      
+      await user.setWor_Roles(roles);
+
+      return res.status(200).json({
+        regimentId: regimentId,
+        message: "User roles updated successfully!"
+      });
+    }
+
+    return res.status(200).json({
+      regimentId: regimentId,
+      message: "Regiment created/updated successfully!"
+    });
+  } catch (error) {
+    console.error("Error creating/updating regiment:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+};
+
+/**
+ * Update a regiment by the id in the request
+ * This function is used to update a regiment's profile data by the id in the request
+ * 
+ * @param {*} req - request containing the id and body
+ * @param {*} res - response containing the updated regiment
+ * @returns - updated regiment
+ */
+exports.update = async (req, res) => {
+  const id = req.params.regimentId;
+
+  console.log(req.body)
+
+  try {
+    const regiment = await Regiment.findByPk(id);
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const updatedRegiment = await regiment.update(req.body);
+
+    return res.status(200).json(updatedRegiment);
+  } catch (error) {
+    console.error("Error updating regiment:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Find guild data by the discord guild id
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.findDiscordGuild = async (req, res) => {
+  const guildId = req.params.guildId;
+
+  try {
+    const guild = await DiscordGuild.findOne({
+      where: {
+        guildId: guildId
+      }
+    });
+
+    if (!guild) {
+      return res.status(404).json({
+        error: "Discord Guild not found"
+      });
+    }
+
+    return res.status(200).json(guild);
+
+  } catch (error) {
+    console.error("Error retrieving discord guild:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * ! Check if Ready for Deletion
+ * Update a regiment prefix (was used for message commands)
+ * This function was used to update a regiment prefix
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.updatePrefix = async (req, res) => {
+  const guildId = req.params.guildId;
+  const prefix = req.body.prefix;
+
+  try {
+    const guild = await DiscordGuild.findOne({
+      where: {
+        guildId: guildId
+      }
+    });
+
+    if (!guild) {
+      return res.status(404).json({
+        error: "Discord Guild not found"
+      });
+    }
+    
+    const updatedGuild = await guild.update({
+      prefix: prefix
+    });
+
+    return res.status(200).json(updatedGuild);
+
+  } catch (error) {
+    console.error("Error updating prefix:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Update memberCount for regiment guild
+ * This function is used to update the memberCount for a regiment guild
+ * @param {*} req - request containing the guildId and body
+ * @param {*} res - response containing the updated regiment
+ * @returns - updated regiment
+ */
+exports.updateMemberCount = async (req, res) => {
+  const guildId = req.params.guildId;
+  const {
+    memberCount
+  } = req.body;
+
+  try {
+    const regiment = await Regiment.findOne({
+      where: {
+        guild_id: guildId
+      }
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    const updatedRegiment = await regiment.update({
+      memberCount: memberCount
+    });
+
+    return res.status(200).json(updatedRegiment);
+  } catch (error) {
+    console.error("Error updating regiment:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Update a regiment's discord guild data
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.updateDiscord = async (req, res) => {
+  const {
+    guildId,
+    guildName,
+    guildAvatar
+  } = req.body;
+
+  try {
+    const regiment = await Regiment.findOne({
+      where: {
+        guild_id: guildId
+      }
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    if (guildName) {
+      regiment.regiment = guildName;
+    }
+
+    if (guildAvatar) {
+      regiment.guild_avatar = guildAvatar;
+    }
+
+    const updatedRegiment = await regiment.save();
+
+    return res.status(200).json(updatedRegiment);
+  } catch (error) {
+    console.error("Error updating regiment:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+}
+
+/**
+ * Handle roleCreated event from Discord Bot
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.newGuildRole = async (req, res) => {
     const { guildId } = req.params;
     const { roleId, roleName } = req.body;
 
@@ -1365,6 +1432,12 @@ exports.removeSync = (req, res) => {
     }
 };
 
+/**
+ * Handle chunk roles from guildCreate event from Discord Bot
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.newGuildRoles = async (req, res) => {
   const { guildId } = req.params;
   const roles = req.body.roles; 
@@ -1394,6 +1467,12 @@ exports.newGuildRoles = async (req, res) => {
   }
 };
 
+/**
+ * Get a regiment's Discord roles
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.getGuildRoles = async (req, res) => {
   const { regimentId } = req.params;
 
@@ -1418,8 +1497,12 @@ exports.getGuildRoles = async (req, res) => {
   }
 };
 
-
-
+/**
+ * Delete a regiment's Discord role
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.deleteGuildRole = async (req, res) => {
   const { guildId } = req.params;
   const { roleId } = req.body;
@@ -1438,6 +1521,12 @@ exports.deleteGuildRole = async (req, res) => {
   }
 };
 
+/**
+ * Handle roleUpdate event from Discord Bot
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.updateGuildRole = async (req, res) => {
   const { guildId } = req.params;
   const { roleId, newRoleName } = req.body;
@@ -1470,6 +1559,12 @@ exports.updateGuildRole = async (req, res) => {
   }
 };
 
+/**
+ * Handle channelCreate event from Discord Bot
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.newGuildChannel = async (req, res) => {
   const { guildId } = req.params;
   const { channelId, channelName, channelType } = req.body;
@@ -1492,7 +1587,12 @@ exports.newGuildChannel = async (req, res) => {
   }
 };
 
-
+/**
+ * Handle chunk channels from guildCreate event from Discord Bot
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.newGuildChannels = async (req, res) => {
   const { guildId } = req.params;
   const channels = req.body.channels; 
@@ -1523,6 +1623,12 @@ exports.newGuildChannels = async (req, res) => {
   }
 };
 
+/**
+ * Get a regiment's Discord channels
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.getGuildChannels = async (req, res) => {
   const { regimentId } = req.params;
 
@@ -1547,6 +1653,12 @@ exports.getGuildChannels = async (req, res) => {
   }
 };
 
+/**
+ * Delete a regiment's Discord channel
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.deleteGuildChannel = async (req, res) => {
   const { guildId } = req.params;
   const { channelId } = req.body;
@@ -1565,6 +1677,12 @@ exports.deleteGuildChannel = async (req, res) => {
   }
 };
 
+/**
+ * Update a regiment's Discord channel
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.updateGuildChannel = async (req, res) => {
   const { guildId } = req.params;
   const { channelId, newChannelName, channelType } = req.body;

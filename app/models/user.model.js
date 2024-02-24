@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\models\user.model.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 12:11:10 
+ * Last Modified: Fri February 23rd 2024 5:59:24 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -12,8 +12,8 @@
 
 /**
  * User Model
- * This model represents the User Table in the database.
  * 
+ * This model represents the User Table in the database.
  * @param {*} sequelize 
  * @param {*} Sequelize 
  * @returns - User 

@@ -1,15 +1,14 @@
 /*
  * File: c:\Users\tonyw\Desktop\WoRApi\wortool-api\app\models\regiment.model.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp13881\public_html\api.wortool.com\wor-api\app\models
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Thursday December 7th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Tue February 13th 2024 11:15:28 
+ * Last Modified: Fri February 23rd 2024 5:58:35 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 MolexWorks / Tone Web Design
  */
-
 
 /**
  * Regiment Model

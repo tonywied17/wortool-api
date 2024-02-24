@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\note.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRApi\wortool-api
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Thu December 7th 2023 5:27:57 
+ * Last Modified: Fri February 23rd 2024 6:12:23 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -30,7 +30,6 @@ exports.findNotesByUserAndMap = (req, res) => {
     },
   })
     .then((notes) => {
-      console.log("notes: " + notes);
       res.send(notes);
     })
     .catch((err) => {

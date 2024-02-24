@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\map.controller.js
- * Project: c:\Users\tonyw\AppData\Local\Temp\scp41388\public_html\api.wortool.com\wor-api\app\controllers
+ * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sun February 18th 2024 8:17:35 
+ * Last Modified: Fri February 23rd 2024 6:08:42 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -20,6 +20,7 @@ const Weapons = db.Weapon;
 const axios = require("axios");
 
 /**
+ * Find All Maps (Verbose)
  * Retrieve all maps from the database with well-formatted information.
  * @param {*} req 
  * @param {*} res 
@@ -103,9 +104,6 @@ exports.findAllMapsVerbose = async (req, res) => {
         const usa_artillery = usa_regiments.Artillery.length > 0;
         const csa_artillery = csa_regiments.Artillery.length > 0;
 
-        console.log("*****" + usa_regiments.Artillery.length + "*****")
-        console.log("*****" + csa_regiments.Artillery.length + "*****")
-
         return {
           id: map.id,
           name: map.map,
@@ -141,6 +139,7 @@ exports.findAllMapsVerbose = async (req, res) => {
 };
 
 /**
+ * Find One Map (Verbose)
  * Retrieve a single map with well-formatted information.
  * @param {*} req 
  * @param {*} res 
@@ -249,7 +248,8 @@ exports.findOneMap = async (req, res) => {
 };
 
 /**
- * Retrieve all maps from the database. Used for the admin panel.
+ * Find All Maps (Admin Panel)
+ * Retrieve all maps from the database with less restructuring. Used for the admin panel.
  * @param {*} req 
  * @param {*} res 
  */
@@ -323,6 +323,7 @@ exports.findAllMaps = async (req, res) => {
 };
 
 /**
+ * Create A Map
  * Create a new map with regiments and units.
  * @param {*} req 
  * @param {*} res 
@@ -365,6 +366,7 @@ exports.createMap = async (req, res) => {
 };
 
 /**
+ * Update A Map
  * Update a map with regiments and units.
  * @param {*} req 
  * @param {*} res 
@@ -464,6 +466,7 @@ exports.updateMap = async (req, res) => {
 };
 
 /**
+ * Update a Maps Regiment/Unit
  * Update a regiment object
  * @param {*} req 
  * @param {*} res 
@@ -490,6 +493,7 @@ exports.updateMapRegiment = async (req, res) => {
 };
 
 /**
+ * Update a Maps Regiment/Unit's Weapons
  * Update a unit object
  * @param {*} req 
  * @param {*} res 
@@ -516,9 +520,7 @@ exports.updateMapUnit = async (req, res) => {
 };
 
 
-// Old API to be replaced... once data is all re-entered...
-
-
+// Old API from OG PAARMY App Map Data to be replaced... once data is all re-entered (not sure what projects uses this too scared to delete yet)...
 /**
  * Retrieve all maps from the database.
  * This function is used to retrieve all maps from the database.
