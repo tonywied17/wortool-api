@@ -15,18 +15,18 @@
     <aside>
       <nav>
           <ul>
-              <li>
-                  <a href="https://api.wortool.com/" class="section-link">
-                      <i class="fas fa-home section-icon"></i>
-                      <div class="tooltip">Start Page</div>
-                  </a>
-              </li>
-              <li>
-                  <a href="doc.html" class="section-link">
-                      <i class="fas fa-code section-icon"></i>
-                      <div class="tooltip">API Documentation</div>
-                  </a>
-              </li>
+    <li>
+        <a href="https://api.wortool.com/" class="section-link">
+  <i class="fas fa-home section-icon"></i>
+  <div class="tooltip">Start Page</div>
+        </a>
+    </li>
+    <li>
+        <a href="doc.html" class="section-link">
+  <i class="fas fa-code section-icon"></i>
+  <div class="tooltip">API Documentation</div>
+        </a>
+    </li>
           </ul>
       </nav>
   </aside>
@@ -36,11 +36,11 @@
           ENDPOINTS:
           - Root
           - Regiments (/v2/regiments)
-            - Regiment Id (/v2/regiments/{id})
+  - Regiment Id (/v2/regiments/{id})
           - Maps (/v2/maps)
-            - Map Id (/v2/maps/{id})
+  - Map Id (/v2/maps/{id})
           - Weapons (/v2/weapons)
-            - Weapon Id (/v2/weapons/{id})
+  - Weapon Id (/v2/weapons/{id})
        -->
        
       <header>
@@ -51,7 +51,7 @@
 
       <div class="method-container">
         <h1 class="method-header">
-            <span style="color: aquamarine;">GET</span> Requests
+  <span style="color: aquamarine;">GET</span> Requests
         </h1>
       </div>
     
@@ -65,16 +65,16 @@
           <h2>Root</h2>
           <p>This is the root of the API. It is used to test if the API is running.</p>
           <div class="code-container">
-            <code>
-                <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2'>https://api.wortool.com/v2</a>
-                <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
-            </code>
+  <code>
+      <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2'>https://api.wortool.com/v2</a>
+      <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+  </code>
           </div>        
           <pre>
-{
-  "message": "WoRTool Beta Version 2."
-  "timestamp": "2023-12-08T12:34:56Z"
-}
+  {
+    "message": "WoRTool Beta Version 2."
+    "timestamp": "2023-12-08T12:34:56Z"
+  }
           </pre>
       </section>
 
@@ -82,48 +82,109 @@
           <h2>Regiments</h2>
           <p>This endpoint returns a list of all regiments.</p>
           <div class="code-container">
-            <code>
-                <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments'>https://api.wortool.com/v2/regiments</a>
-                <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
-            </code>
+  <code>
+      <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments'>https://api.wortool.com/v2/regiments</a>
+      <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+  </code>
           </div>  
           <pre>
-{
-  "id": 9,
-  "regiment": "The Pennsylvania Army",
-  "guild_id": "681641606398607401",
-  "guild_avatar": "https://cdn.discordapp.com/icons/681641606398607401/ffdfe5e2b5848079fc6047fa8c3a19fb.webp",
-  "description": "The PA Army is a non-historically accurate European / North American community. We do private events on the weekend, ranging from line battles to normal skirmishes. We are a lax regiment in regards to attendance, but serious when it comes to gam",
-  "invite_link": "https://discord.gg/AjfmyH6bhk",
-  "website": "https://paarmy.com/",
-  "youtube": "https://www.youtube.com/@thepennsylvaniaarmy960",
-  "cover_photo": "https://api.tonewebdesign.com/pa/regiments/9/files/cover/glory-charge.gif",
-  "webhook_channel": "📯event-announcements",
-  "ownerId": "368518579747815424, 205902036087078917, 386521814161031168, 281639399152943105",
-  "side": "USA",
-  "memberCount": 312,
-  "createdAt": "2023-06-27T17:16:46.000Z",
-  "updatedAt": "2023-12-07T23:50:20.000Z"
-},
-{
-  "id": 19,
-  "regiment": "Hood's Division",
-  "guild_id": "761819473434640395",
-  "guild_avatar": "https://cdn.discordapp.com/icons/761819473434640395/a_4efa96bf3e80c180667afc160158fe04.gif",
-  "description": "Welcome to Hoods Division, one of the oldest and largest CSA groups around!\n\nWe currently consist of 6 different units!\n-18th Georgia / (Infantry)\n-5th Texas / (Infantry)\n-1st Tennessee (Light Infantry)\n-Palmetto Sharpshooters/ (Skirmishers)\n-Quantrill's ",
-  "invite_link": "https://discord.gg/HRFXmamYjF",
-  "website": null,
-  "youtube": "",
-  "cover_photo": null,
-  "webhook_channel": "announcements",
-  "ownerId": "510196994044854273",
-  "side": "CSA",
-  "memberCount": 1093,
-  "createdAt": "2023-11-04T18:59:26.000Z",
-  "updatedAt": "2023-12-06T19:53:46.000Z"
-},
-
-... etc
+ [
+  {
+    "id": 9,
+    "regiment": "The Pennsylvania Army",
+    "guild_id": "681641606398607401",
+    "guild_avatar": "https://cdn.discordapp.com/icons/681641606398607401/ffdfe5e2b5848079fc6047fa8c3a19fb.webp",
+    "description": "The PA Army is a non-historically accurate European / North American community. We do private events on the weekend, ranging from line battles to normal skirmishes. We are a lax regiment in regards to attendance, but serious when it comes to gam",
+    "invite_link": "https://discord.gg/AjfmyH6bhk",
+    "website": "https://paarmy.com/",
+    "youtube": "https://www.youtube.com/@thepennsylvaniaarmy960",
+    "cover_photo": "https://api.wortool.com/v2/regiments/9/files/cover/glory-charge.gif",
+    "webhook": "https://discord.com/api/webhooks/1196257063672742000/25Q3d4GhhcFgqZdFAC6f6yVI0VN5QVlogCjqWj_IWA4lVG7-2XwPj6KBNpTe05XJrUno",
+    "webhook_channel": "📯event-announcements",
+    "webhook_mention": "Pennsylvania Army |☘️, 682323346611896392",
+    "ownerId": "368518579747815424, 205902036087078917, 386521814161031168, 281639399152943105",
+    "side": "USA",
+    "memberCount": 309,
+    "createdAt": "2023-06-27T17:16:46.000Z",
+    "updatedAt": "2024-02-25T21:35:51.000Z"
+  },
+  {
+    "id": 17,
+    "regiment": "Army of Northern Virginia",
+    "guild_id": "720202601307701248",
+    "guild_avatar": "https://cdn.discordapp.com/icons/720202601307701248/859dc72ba5e2560bcf80798bdc54b741.webp",
+    "description": null,
+    "invite_link": "https://discord.gg/Dz9nvNE4dJ",
+    "website": null,
+    "youtube": "",
+    "cover_photo": "",
+    "webhook": "https://discord.com/api/webhooks/1133475403336532139/JhxWUU32s0Iju_BjTksNVEP3KbGGSvevw9pZIeubQFryI_kNGWLB-YBGEOES78loy9Xo",
+    "webhook_channel": "event-and-password",
+    "webhook_mention": null,
+    "ownerId": "471071392704626718",
+    "side": "CSA",
+    "memberCount": 561,
+    "createdAt": "2023-07-25T19:03:49.000Z",
+    "updatedAt": "2024-03-01T07:47:36.000Z"
+  },
+  {
+    "id": 19,
+    "regiment": "Hood's Division",
+    "guild_id": "761819473434640395",
+    "guild_avatar": "https://cdn.discordapp.com/icons/761819473434640395/a_4efa96bf3e80c180667afc160158fe04.gif",
+    "description": "Welcome to Hoods Division, one of the oldest and largest CSA groups around!\n\nWe currently consist of 6 different units!\n-18th Georgia / (Infantry)\n-5th Texas / (Infantry)\n-1st Tennessee (Light Infantry)\n-Palmetto Sharpshooters/ (Skirmishers)\n-Quantrill's ",
+    "invite_link": "https://discord.gg/HRFXmamYjF",
+    "website": null,
+    "youtube": "",
+    "cover_photo": null,
+    "webhook": "https://discord.com/api/webhooks/1170437492852404264/ENCJzqqEhTSUNWdD2Q6qbdnp0LMPoA4r48Slp-yWLVD74G042teKWYAI6OfVS5U3UePV",
+    "webhook_channel": "announcements",
+    "webhook_mention": null,
+    "ownerId": "510196994044854273",
+    "side": "CSA",
+    "memberCount": 1066,
+    "createdAt": "2023-11-04T18:59:26.000Z",
+    "updatedAt": "2024-03-01T18:08:14.000Z"
+  },
+  {
+    "id": 24,
+    "regiment": "5th North Carolina “Elite Rifles” & Edenton Bell Battery",
+    "guild_id": "830282996300775434",
+    "guild_avatar": "https://cdn.discordapp.com/icons/830282996300775434/a_014e864572626852bd3a11e4699a2ef8.gif",
+    "description": null,
+    "invite_link": "guildInvite",
+    "website": null,
+    "youtube": null,
+    "cover_photo": null,
+    "webhook": "https://discord.com/api/webhooks/1205347099177394199/cOv8Q4MEcv5iWugYAOQLOQlV1ESxrhNNWhhRqzGzpfVL2DhgNQBDjiwBICs4khMRAWdN",
+    "webhook_channel": "💪muster-arms",
+    "webhook_mention": "Carolinian, 830282996396458056",
+    "ownerId": "734879524726243398",
+    "side": "CSA",
+    "memberCount": 283,
+    "createdAt": "2024-02-09T02:44:35.000Z",
+    "updatedAt": "2024-03-01T07:47:55.000Z"
+  },
+  {
+    "id": 27,
+    "regiment": "Phriendly Content",
+    "guild_id": "1179096946577776670",
+    "guild_avatar": "https://cdn.discordapp.com/icons/1179096946577776670/1f0c1b770d04b933177a7e37ad7efb30.webp",
+    "description": "Developer/Molex's discord for testing features and troubleshooting bugs! Feel free to join and ask anything!",
+    "invite_link": "https://discord.gg/YZVcjnZ97k",
+    "website": "https://molexworks.com/",
+    "youtube": "https://www.youtube.com/watch?v=HCjlokSzlKY",
+    "cover_photo": "https://api.wortool.com/v2/regiments/27/files/cover/l1musn9mwgf81.jpg",
+    "webhook": "https://discord.com/api/webhooks/1210624591903457282/CXXx2JfHCeqwKxJK7JZqc_ZfY7PbcXpNbad1xNrM4urhJhgndQVTuQM3aqVwY1B_rK4a",
+    "webhook_channel": "bot-spam",
+    "webhook_mention": "222 Bot, 1204596084073300012",
+    "ownerId": "281639399152943105",
+    "side": "USA",
+    "memberCount": 25,
+    "createdAt": "2024-02-09T20:30:14.000Z",
+    "updatedAt": "2024-02-23T16:29:55.000Z"
+  }
+]
           </pre>
       </section>
 
@@ -131,70 +192,3005 @@
           <h2>Regiment Id</h2>
           <p>This endpoint returns a regiment by its id.</p>
           <div class="code-container">
-            <code>
-              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments/<id>'>https://api.wortool.com/v2/regiments/{id}</a>
-              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
-            </code>
+  <code>
+    <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments/9'>https://api.wortool.com/v2/regiments/{regimentId}</a>
+    <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+  </code>
           </div>
           
           <pre>
-{
-  "id": 9,
-  "regiment": "The Pennsylvania Army",
-  "guild_id": "681641606398607401",
-  "guild_avatar": "https://cdn.discordapp.com/icons/681641606398607401/ffdfe5e2b5848079fc6047fa8c3a19fb.webp",
-  "description": "The PA Army is a non-historically accurate European / North American community. We do private events on the weekend, ranging from line battles to normal skirmishes. We are a lax regiment in regards to attendance, but serious when it comes to gam",
-  "invite_link": "https://discord.gg/AjfmyH6bhk",
-  "website": "https://paarmy.com/",
-  "youtube": "https://www.youtube.com/@thepennsylvaniaarmy960",
-  "cover_photo": "https://api.tonewebdesign.com/pa/regiments/9/files/cover/glory-charge.gif",
-  "webhook_channel": "📯event-announcements",
-  "ownerId": "368518579747815424, 205902036087078917, 386521814161031168, 281639399152943105",
-  "side": "USA",
-  "memberCount": 312,
-  "createdAt": "2023-06-27T17:16:46.000Z",
-  "updatedAt": "2023-12-07T23:50:20.000Z"
-}
+  {
+    "id": 9,
+    "regiment": "The Pennsylvania Army",
+    "guild_id": "681641606398607401",
+    "guild_avatar": "https://cdn.discordapp.com/icons/681641606398607401/ffdfe5e2b5848079fc6047fa8c3a19fb.webp",
+    "description": "The PA Army is a non-historically accurate European / North American community. We do private events on the weekend, ranging from line battles to normal skirmishes. We are a lax regiment in regards to attendance, but serious when it comes to gam",
+    "invite_link": "https://discord.gg/AjfmyH6bhk",
+    "website": "https://paarmy.com/",
+    "youtube": "https://www.youtube.com/@thepennsylvaniaarmy960",
+    "cover_photo": "https://api.wortool.com/v2/regiments/9/files/cover/glory-charge.gif",
+    "webhook": "https://discord.com/api/webhooks/1196257063672742000/25Q3d4GhhcFgqZdFAC6f6yVI0VN5QVlogCjqWj_IWA4lVG7-2XwPj6KBNpTe05XJrUno",
+    "webhook_channel": "📯event-announcements",
+    "webhook_mention": "Pennsylvania Army |☘️, 682323346611896392",
+    "ownerId": "368518579747815424, 205902036087078917, 386521814161031168, 281639399152943105",
+    "side": "USA",
+    "memberCount": 309,
+    "createdAt": "2023-06-27T17:16:46.000Z",
+    "updatedAt": "2024-02-25T21:35:51.000Z"
+  }
           </pre>
       </section>
+
+      <section class="endpoint">
+        <h2>Regiment Muster Records</h2>
+        <p>This endpoint returns a regiment muster records by either regiment or discord guild id.</p>
+        <div class="code-container">
+<code>
+  <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/musteruser/reg/27'>https://api.wortool.com/v2/musteruser/reg{regimentId}</a>
+  <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+</code>
+        </div>
+        <div class="code-container" style="margin-top:0.5em;">
+          <code>
+            <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/musteruser/discord/681641606398607401'>https://api.wortool.com/v2/musteruser/discord/{guildId}</a>
+            <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+          </code>
+        </div>
+        
+        <pre>
+[
+  {
+    "id": 450,
+    "nickname": "PA-[72ndPVI] PFC. Richardson",
+    "discordId": "925786548228730933",
+    "events": 185,
+    "drills": 141,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 454,
+    "nickname": "PA-[69thPVI] PFC. Pitts",
+    "discordId": "720809323692818462",
+    "events": 103,
+    "drills": 77,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 456,
+    "nickname": "PA-[69thPVI] PFC. Subman",
+    "discordId": "294214648910315520",
+    "events": 163,
+    "drills": 67,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 457,
+    "nickname": "PA-[72ndPVI] PFC. Kiptap",
+    "discordId": "772649465336168498",
+    "events": 562,
+    "drills": 387,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 458,
+    "nickname": "PA-[116thPVI] PFC. Grand Roman",
+    "discordId": "636156990204411934",
+    "events": 264,
+    "drills": 230,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 459,
+    "nickname": "PA-[72ndPVI] PFC. CloudSauce",
+    "discordId": "415561219357933570",
+    "events": 190,
+    "drills": 126,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 481,
+    "nickname": "`PA-[116thPVI] Sgt. Spook",
+    "discordId": "612495458421571599",
+    "events": 197,
+    "drills": 172,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-01-04",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 482,
+    "nickname": "`PA-[72ndPVI] Chmn. MAOney",
+    "discordId": "298151486230233088",
+    "events": 540,
+    "drills": 182,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-12",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 483,
+    "nickname": "PA-[69thPVI] Sgt. Fork",
+    "discordId": "276842244747689995",
+    "events": 231,
+    "drills": 178,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 484,
+    "nickname": "PA-[72ndPVI] 1stSgt. Web",
+    "discordId": "510966492175663154",
+    "events": 467,
+    "drills": 332,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 485,
+    "nickname": "Pepper",
+    "discordId": "687067653491130374",
+    "events": 52,
+    "drills": 20,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 488,
+    "nickname": "PA-[106thPVI] Rct. PhantomCole",
+    "discordId": "604438717586866176",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 489,
+    "nickname": "PA-[PIB] Vol. Guardian",
+    "discordId": "275178350660681728",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 490,
+    "nickname": "PA-[116thPVI] Pvt. Baller Kalle",
+    "discordId": "717344981202763886",
+    "events": 76,
+    "drills": 6,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 491,
+    "nickname": "Connolly",
+    "discordId": "172123979715182592",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 492,
+    "nickname": "jesus_christ_777",
+    "discordId": "865852329990160414",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 493,
+    "nickname": "PA-[72ndPVI] Cpl. Jeff",
+    "discordId": "767884449814806550",
+    "events": 486,
+    "drills": 231,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 494,
+    "nickname": "PA-[106thPVI] Rct. War Angel",
+    "discordId": "578338021938823180",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 495,
+    "nickname": "PA-[116thPVI] Pvt. Sertorius",
+    "discordId": "681273381941018652",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 496,
+    "nickname": "PA-[116thPVI] Pvt. Darthjanus",
+    "discordId": "639542463484133382",
+    "events": 76,
+    "drills": 18,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 497,
+    "nickname": "PA-[69thPVI] Vol.Quixotic",
+    "discordId": "380471742394662922",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 498,
+    "nickname": "Littlehj",
+    "discordId": "775952195140976651",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 499,
+    "nickname": "`PA-[69thPVI] Cpl. Nathan",
+    "discordId": "281627104469319680",
+    "events": 120,
+    "drills": 117,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 500,
+    "nickname": "ANV - Col. killer",
+    "discordId": "471071392704626718",
+    "events": 18,
+    "drills": 11,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 501,
+    "nickname": "PA-[13ththPID] TFC.Spook",
+    "discordId": "761321830983794718",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 502,
+    "nickname": "PA-[106thPVI] Rct. Wilabu",
+    "discordId": "884416360208277554",
+    "events": 10,
+    "drills": 8,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 503,
+    "nickname": "PA-[69thPVI] Pvt. Schizo",
+    "discordId": "223981345137885194",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 504,
+    "nickname": "PIB Bot",
+    "discordId": "874700382452977724",
+    "events": 0,
+    "drills": 2,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-09",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 505,
+    "nickname": "PA-[116thPVI] Pvt. WiddowMaker",
+    "discordId": "746085486560280576",
+    "events": 64,
+    "drills": 38,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 506,
+    "nickname": "PA-[116thPVI] Pvt. Solid",
+    "discordId": "218964530515017728",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 507,
+    "nickname": "PA-[116thPVI] Pvt. Badger",
+    "discordId": "152430317997785088",
+    "events": 59,
+    "drills": 40,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 508,
+    "nickname": "PA-[106thPVI] Rct. Slotman",
+    "discordId": "684862802028003343",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 509,
+    "nickname": "'PA-[116thPVI] Ret Cpt. Stalins",
+    "discordId": "345268774892601366",
+    "events": 433,
+    "drills": 368,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 510,
+    "nickname": "PA-[106thPVI] Rct. Toad",
+    "discordId": "881615203509358682",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 511,
+    "nickname": "'PA-[72ndPVI] Cpt. EmpBobby",
+    "discordId": "386521814161031168",
+    "events": 529,
+    "drills": 430,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 512,
+    "nickname": "PA-[116thPVI] Pvt. Scotty",
+    "discordId": "125395564798935041",
+    "events": 38,
+    "drills": 23,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 513,
+    "nickname": "PA-[106thPVI] Rickety Crickets",
+    "discordId": "897471183883227158",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 514,
+    "nickname": "PA-[106thPVI] Rct. zjnp",
+    "discordId": "686371025872486453",
+    "events": 12,
+    "drills": 6,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 515,
+    "nickname": "PA-[106thPVI] Rct. Jiggly",
+    "discordId": "372593294355595284",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 516,
+    "nickname": "PA-[69thPVI] Vol. Leopold",
+    "discordId": "152200453633867777",
+    "events": 22,
+    "drills": 16,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 517,
+    "nickname": "PA-[116thPVI] Vol. Blazer780",
+    "discordId": "212362718819123200",
+    "events": 22,
+    "drills": 24,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 518,
+    "nickname": "PA-[69thPVI] Pvt. Dukes",
+    "discordId": "142444285621436417",
+    "events": 45,
+    "drills": 13,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 519,
+    "nickname": "PA[69thPVI] Vol. Ironclad",
+    "discordId": "469344150999793673",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 520,
+    "nickname": "`PA-[72ndPVI] CplCpt. Kilroy",
+    "discordId": "243413324304220160",
+    "events": 433,
+    "drills": 201,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 521,
+    "nickname": "Squatch",
+    "discordId": "702695084600066139",
+    "events": 2,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-10",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 522,
+    "nickname": "Regimental Adjutant",
+    "discordId": "235148962103951360",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 523,
+    "nickname": "'PA-[72ndPVI] 2Lt.Hobbit",
+    "discordId": "232571508524843009",
+    "events": 410,
+    "drills": 290,
+    "join_date": "2023-11-29",
+    "last_muster": "2024-02-12",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 524,
+    "nickname": "PA-[106thPVI] Rct. ghosts",
+    "discordId": "702429933430898739",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 525,
+    "nickname": "PA-[69thPVI] Vol. K9",
+    "discordId": "461325567912837120",
+    "events": 18,
+    "drills": 17,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 526,
+    "nickname": "PA-[116thPVI] Pvt. Wolpfy",
+    "discordId": "237588906512613377",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 527,
+    "nickname": "PA-[106thPVI] Rct. Baller Kalle",
+    "discordId": "867120911407644693",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 528,
+    "nickname": "PA-[69thPVI] Pvt. Crimson",
+    "discordId": "691416379886141472",
+    "events": 38,
+    "drills": 33,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 529,
+    "nickname": "PA-[106thPVI] Pvt. Rhino",
+    "discordId": "700409831579713568",
+    "events": 9,
+    "drills": 8,
+    "join_date": "2023-11-29",
+    "last_muster": "2023-11-29",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 531,
+    "nickname": "PA-[69thPVI] PFC. Sockless",
+    "discordId": "183722432702578689",
+    "events": 159,
+    "drills": 115,
+    "join_date": "2023-12-31",
+    "last_muster": "2024-02-15",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 532,
+    "nickname": "PA-[72ndPVI] PFC. Polter",
+    "discordId": "767471591876722698",
+    "events": 135,
+    "drills": 103,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 533,
+    "nickname": "PA-[116thPVI] Chp. Reynolds",
+    "discordId": "742913048318181517",
+    "events": 349,
+    "drills": 244,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 534,
+    "nickname": "PA-[116thPVI] PFC. BokuNoPingas",
+    "discordId": "164562075115454464",
+    "events": 194,
+    "drills": 135,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 535,
+    "nickname": "PA-[69thPVI] PFC.JP-DAB",
+    "discordId": "710666892653756417",
+    "events": 217,
+    "drills": 161,
+    "join_date": "2023-12-31",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 536,
+    "nickname": "PA-[72ndPVI] PFC. JohnnyTruck",
+    "discordId": "642548646738657301",
+    "events": 149,
+    "drills": 139,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 537,
+    "nickname": "PA-[69thPVI] PFC. leDelux",
+    "discordId": "641096358492635139",
+    "events": 279,
+    "drills": 62,
+    "join_date": "2023-12-31",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 538,
+    "nickname": "PA-[116thPVI] PFC.Morling",
+    "discordId": "437624000009469963",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 539,
+    "nickname": "PA-[72ndPVI] Pfc.Gunsroser",
+    "discordId": "438941388529467392",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 540,
+    "nickname": "PA-[72ndPVI] PFC. Erwin",
+    "discordId": "683327464801697874",
+    "events": 213,
+    "drills": 167,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 541,
+    "nickname": "PA-[69thPVI] PFC. Ecto",
+    "discordId": "634218223260139560",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 542,
+    "nickname": "PA-[69thPVI] PFC. WTFh3adSh0t",
+    "discordId": "519458968146280467",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 543,
+    "nickname": "`PA-[69thPVI] PFC. Guitar",
+    "discordId": "597478627633922049",
+    "events": 413,
+    "drills": 298,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 544,
+    "nickname": "PA-[116thPVI] PFC. John",
+    "discordId": "840977873103749150",
+    "events": 117,
+    "drills": 65,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 545,
+    "nickname": "PA-[69thPVI] PFC. CUZNSK33TER",
+    "discordId": "650752123608236108",
+    "events": 177,
+    "drills": 100,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 546,
+    "nickname": "'PA- Conor",
+    "discordId": "664570067371163702",
+    "events": 251,
+    "drills": 207,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 547,
+    "nickname": "PA-[116thPVI] PFC. Tim",
+    "discordId": "722113186156904485",
+    "events": 183,
+    "drills": 191,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 548,
+    "nickname": "PA-[HQ] QM. Molex",
+    "discordId": "281639399152943105",
+    "events": 307,
+    "drills": 255,
+    "join_date": "2023-12-31",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 549,
+    "nickname": "PA-[69thPVI] Sgt. Crossguide",
+    "discordId": "751216684009914388",
+    "events": 685,
+    "drills": 632,
+    "join_date": "2023-12-31",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 550,
+    "nickname": "PA-[72ndPVI]Sgt. dudkahuna",
+    "discordId": "689159239884603411",
+    "events": 396,
+    "drills": 181,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 551,
+    "nickname": "PA-[69thPVI] Sgt. Silent",
+    "discordId": "279092591578841089",
+    "events": 0,
+    "drills": 0,
+    "join_date": "2023-12-31",
+    "last_muster": "2023-12-31",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 671,
+    "nickname": "LtCol. Ninja",
+    "discordId": "205902036087078917",
+    "events": 785,
+    "drills": 726,
+    "join_date": "2024-02-09",
+    "last_muster": "2024-02-23",
+    "order_by": null,
+    "regimentId": 9
+  },
+  {
+    "id": 681,
+    "nickname": "wonderwiseazz",
+    "discordId": "516629852229468160",
+    "events": 14,
+    "drills": 11,
+    "join_date": "2024-02-09",
+    "last_muster": "2024-02-15",
+    "order_by": null,
+    "regimentId": 9
+  }
+]
+        </pre>
+    </section>
+
+    <section class="endpoint">
+      <h2>Regiment Media Files</h2>
+      <p>This endpoint returns a regiment's media files by regiment id.</p>
+      <div class="code-container">
+<code>
+<span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments/9/files'>https://api.wortool.com/v2/regiments/{regimentId}/files</a>
+<sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+</code>
+      </div>
+      
+      <pre>
+[
+  {
+    "name": "20220219130936_1.jpg",
+    "url": "https://api.wortool.com/v2/regiments/9/files/20220219130936_1.jpg"
+  },
+  {
+    "name": "20220430135325_1.jpg",
+    "url": "https://api.wortool.com/v2/regiments/9/files/20220430135325_1.jpg"
+  },
+  {
+    "name": "JOINPA.png",
+    "url": "https://api.wortool.com/v2/regiments/9/files/JOINPA.png"
+  },
+  {
+    "name": "gallery-item-PfyDX.jpg",
+    "url": "https://api.wortool.com/v2/regiments/9/files/gallery-item-PfyDX.jpg"
+  },
+  {
+    "name": "gallery-item-QgrZb.jpg",
+    "url": "https://api.wortool.com/v2/regiments/9/files/gallery-item-QgrZb.jpg"
+  },
+  {
+    "name": "gallery-item-VeVUJ.jpg",
+    "url": "https://api.wortool.com/v2/regiments/9/files/gallery-item-VeVUJ.jpg"
+  },
+  {
+    "name": "gallery-item-crCOq.jpg",
+    "url": "https://api.wortool.com/v2/regiments/9/files/gallery-item-crCOq.jpg"
+  },
+  {
+    "name": "gallery-item-v8EVh.jpg",
+    "url": "https://api.wortool.com/v2/regiments/9/files/gallery-item-v8EVh.jpg"
+  },
+  {
+    "name": "unknown.png",
+    "url": "https://api.wortool.com/v2/regiments/9/files/unknown.png"
+  }
+]
+      </pre>
+  </section>
+
+  <section class="endpoint">
+    <h2>Regiment Schedules</h2>
+    <p>This endpoint returns a regiment's schedule by regiment id.</p>
+    <div class="code-container">
+<code>
+<span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments/9/schedules'>https://api.wortool.com/v2/regiments/{regimentId}/schedules</a>
+<sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+</code>
+    </div>
+    
+    <pre>
+      [
+      {
+        "id": 83,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Friday",
+        "time": "20:00",
+        "event_type": "Event",
+        "event_name": "",
+        "createdAt": "2023-10-11T21:41:08.000Z",
+        "updatedAt": "2023-10-11T21:41:08.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 98,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Monday",
+        "time": "19:00",
+        "event_type": "Movie Night",
+        "event_name": "",
+        "createdAt": "2023-10-12T03:58:58.000Z",
+        "updatedAt": "2023-10-12T03:58:58.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 134,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Friday",
+        "time": "19:00",
+        "event_type": "Drill",
+        "event_name": "",
+        "createdAt": "2023-11-15T06:55:03.000Z",
+        "updatedAt": "2023-11-15T06:55:03.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 149,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Saturday",
+        "time": "13:30",
+        "event_type": "Drill",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:50:20.000Z",
+        "updatedAt": "2023-11-26T03:50:20.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 150,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Saturday",
+        "time": "15:00",
+        "event_type": "Grand Campaign",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:51:31.000Z",
+        "updatedAt": "2023-11-26T03:51:31.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 151,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Sunday",
+        "time": "19:00",
+        "event_type": "Drill",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:52:08.000Z",
+        "updatedAt": "2023-11-26T03:52:08.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 152,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Sunday",
+        "time": "20:00",
+        "event_type": "Event",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:52:14.000Z",
+        "updatedAt": "2023-11-26T03:52:14.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 154,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Wednesday",
+        "time": "13:45",
+        "event_type": "Drill",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:55:09.000Z",
+        "updatedAt": "2023-11-26T03:55:09.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 155,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Wednesday",
+        "time": "15:00",
+        "event_type": "Event",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:55:20.000Z",
+        "updatedAt": "2023-11-26T03:55:20.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 156,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Friday",
+        "time": "15:00",
+        "event_type": "Event",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:55:30.000Z",
+        "updatedAt": "2023-11-26T03:55:30.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 157,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Sunday",
+        "time": "15:00",
+        "event_type": "Event",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:55:41.000Z",
+        "updatedAt": "2023-11-26T03:55:41.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 158,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Sunday",
+        "time": "13:45",
+        "event_type": "Drill",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:56:27.000Z",
+        "updatedAt": "2023-11-26T03:56:27.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 159,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Friday",
+        "time": "13:45",
+        "event_type": "Drill",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:56:46.000Z",
+        "updatedAt": "2023-11-26T03:56:46.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 160,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Saturday",
+        "time": "13:30",
+        "event_type": "Drill",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:56:58.000Z",
+        "updatedAt": "2023-11-26T03:56:58.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 161,
+        "schedule_name": "EU Schedule",
+        "region_tz": "",
+        "day": "Saturday",
+        "time": "15:00",
+        "event_type": "Grand Campaign",
+        "event_name": "",
+        "createdAt": "2023-11-26T03:57:09.000Z",
+        "updatedAt": "2023-11-26T03:57:09.000Z",
+        "regimentId": 9
+      },
+      {
+        "id": 185,
+        "schedule_name": "North America Schedule",
+        "region_tz": "",
+        "day": "Wednesday",
+        "time": "19:00",
+        "event_type": "Game Night",
+        "event_name": "",
+        "createdAt": "2024-02-10T00:01:41.000Z",
+        "updatedAt": "2024-02-10T00:01:41.000Z",
+        "regimentId": 9
+      }
+    ]
+    </pre>
+</section>
+
+<section class="endpoint">
+  <h2>Regiment Steam User's</h2>
+  <p>This endpoint returns a regiment's list of steam user's and their in-game user stat's if profile is set to public by regiment id.</p>
+  <div class="code-container">
+<code>
+<span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/regiments/9/gameids'>https://api.wortool.com/v2/regiments/{regimentId}/gameids</a>
+<sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+</code>
+  </div>
+  
+  <pre>
+    [
+    {
+      "id": 3,
+      "nickname": "ninja",
+      "steamId": "76561198309525360",
+      "createdAt": "2023-07-27T17:41:10.000Z",
+      "updatedAt": "2023-07-27T17:41:10.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198309525360",
+      "liveSteamData": {
+        "steamid": "76561198309525360",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "PA-LtCol.Ninja",
+        "profileurl": "https://steamcommunity.com/profiles/76561198309525360/",
+        "avatar": "https://avatars.steamstatic.com/b2a734431d40a6c110b7c09b1b3b65ad5819c79f.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/b2a734431d40a6c110b7c09b1b3b65ad5819c79f_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/b2a734431d40a6c110b7c09b1b3b65ad5819c79f_full.jpg",
+        "avatarhash": "b2a734431d40a6c110b7c09b1b3b65ad5819c79f",
+        "lastlogoff": 1709302371,
+        "personastate": 0,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1465266040,
+        "personastateflags": 0
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 790
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 87
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 241
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 112
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 5016125
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 64
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 2147
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nickname": "crossguide",
+      "steamId": "76561198147155361",
+      "createdAt": "2023-07-27T17:41:33.000Z",
+      "updatedAt": "2023-07-27T17:41:33.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198147155361",
+      "liveSteamData": {
+        "steamid": "76561198147155361",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "Crossguide",
+        "profileurl": "https://steamcommunity.com/profiles/76561198147155361/",
+        "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+        "avatarhash": "fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb",
+        "personastate": 0,
+        "realname": "Jim",
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1406511906,
+        "personastateflags": 0,
+        "loccountrycode": "US"
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 443
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 53
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 116
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 25
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 3492900
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 22
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 697
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nickname": "dud",
+      "steamId": "76561197969941199",
+      "createdAt": "2023-07-27T17:41:44.000Z",
+      "updatedAt": "2023-07-27T17:41:44.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561197969941199",
+      "liveSteamData": {
+        "steamid": "76561197969941199",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "Dudkahuna",
+        "profileurl": "https://steamcommunity.com/profiles/76561197969941199/",
+        "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+        "avatarhash": "fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb",
+        "lastlogoff": 1709265442,
+        "personastate": 0,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1098939405,
+        "personastateflags": 0
+      }
+    },
+    {
+      "id": 6,
+      "nickname": "molex",
+      "steamId": "76561198000469634",
+      "createdAt": "2023-07-27T18:19:39.000Z",
+      "updatedAt": "2023-07-27T18:19:39.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198000469634",
+      "liveSteamData": {
+        "steamid": "76561198000469634",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "molex",
+        "commentpermission": 1,
+        "profileurl": "https://steamcommunity.com/id/molexconnectors/",
+        "avatar": "https://avatars.steamstatic.com/bc297180bbc981caa794a594d34e78dd86c3527c.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/bc297180bbc981caa794a594d34e78dd86c3527c_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/bc297180bbc981caa794a594d34e78dd86c3527c_full.jpg",
+        "avatarhash": "bc297180bbc981caa794a594d34e78dd86c3527c",
+        "lastlogoff": 1709279165,
+        "personastate": 0,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1218343265,
+        "personastateflags": 0,
+        "loccountrycode": "US",
+        "locstatecode": "PA",
+        "loccityid": 3299
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 247
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 11
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 43
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 32
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 1465247
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 22
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 22
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 9
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nickname": "Steam User",
+      "steamId": "76561197970397017",
+      "createdAt": "2023-07-29T20:41:38.000Z",
+      "updatedAt": "2023-07-29T20:41:38.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561197970397017",
+      "liveSteamData": {
+        "steamid": "76561197970397017",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "Frozen Hobbit",
+        "profileurl": "https://steamcommunity.com/profiles/76561197970397017/",
+        "avatar": "https://avatars.steamstatic.com/06c50fddf7870d3a087973550f5debd8a441ff3a.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/06c50fddf7870d3a087973550f5debd8a441ff3a_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/06c50fddf7870d3a087973550f5debd8a441ff3a_full.jpg",
+        "avatarhash": "06c50fddf7870d3a087973550f5debd8a441ff3a",
+        "lastlogoff": 1709178509,
+        "personastate": 0,
+        "realname": "Brad",
+        "primaryclanid": "103582791432644874",
+        "timecreated": 1100623347,
+        "personastateflags": 0,
+        "loccountrycode": "CA",
+        "locstatecode": "ON",
+        "loccityid": 4413
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 150
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 13
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 27
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 28
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 1574035
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 10
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 687
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nickname": "Steam User",
+      "steamId": "76561198971311891",
+      "createdAt": "2023-07-29T20:44:46.000Z",
+      "updatedAt": "2023-07-29T20:44:46.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198971311891",
+      "liveSteamData": {
+        "steamid": "76561198971311891",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "LoneGamerJ",
+        "commentpermission": 1,
+        "profileurl": "https://steamcommunity.com/profiles/76561198971311891/",
+        "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+        "avatarhash": "fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb",
+        "lastlogoff": 1709267489,
+        "personastate": 0,
+        "realname": "Jeff",
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1560995786,
+        "personastateflags": 0
+      }
+    },
+    {
+      "id": 10,
+      "nickname": "Steam User",
+      "steamId": "76561198035196845",
+      "createdAt": "2023-07-29T21:22:34.000Z",
+      "updatedAt": "2023-08-04T21:54:52.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198035196845",
+      "liveSteamData": {
+        "steamid": "76561198035196845",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "KilroyWH78",
+        "profileurl": "https://steamcommunity.com/profiles/76561198035196845/",
+        "avatar": "https://avatars.steamstatic.com/088756643d49d086a87d6df7461dcd2edc4ee49b.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/088756643d49d086a87d6df7461dcd2edc4ee49b_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/088756643d49d086a87d6df7461dcd2edc4ee49b_full.jpg",
+        "avatarhash": "088756643d49d086a87d6df7461dcd2edc4ee49b",
+        "lastlogoff": 1709231835,
+        "personastate": 0,
+        "primaryclanid": "103582791435853478",
+        "timecreated": 1292720294,
+        "personastateflags": 0,
+        "loccountrycode": "KP"
+      }
+    },
+    {
+      "id": 11,
+      "nickname": "Steam User",
+      "steamId": "76561199135343298",
+      "createdAt": "2023-07-29T21:39:08.000Z",
+      "updatedAt": "2023-07-29T21:39:08.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561199135343298",
+      "liveSteamData": {
+        "steamid": "76561199135343298",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "KingBobbyB69",
+        "profileurl": "https://steamcommunity.com/profiles/76561199135343298/",
+        "avatar": "https://avatars.steamstatic.com/20d39ce30dd213695439ef98f54ce2ef823dab81.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/20d39ce30dd213695439ef98f54ce2ef823dab81_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/20d39ce30dd213695439ef98f54ce2ef823dab81_full.jpg",
+        "avatarhash": "20d39ce30dd213695439ef98f54ce2ef823dab81",
+        "lastlogoff": 1702779611,
+        "personastate": 0,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1612007278,
+        "personastateflags": 0
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 335
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 48
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 89
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 64
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 2469760
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 23
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 898
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nickname": "Steam User",
+      "steamId": "76561198167618106",
+      "createdAt": "2023-07-29T22:02:50.000Z",
+      "updatedAt": "2023-07-30T05:11:47.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198167618106",
+      "liveSteamData": {
+        "steamid": "76561198167618106",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "JJMilk",
+        "commentpermission": 1,
+        "profileurl": "https://steamcommunity.com/profiles/76561198167618106/",
+        "avatar": "https://avatars.steamstatic.com/18cf9e93edbe79213f24fd277a0c8fc05e9ec68f.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/18cf9e93edbe79213f24fd277a0c8fc05e9ec68f_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/18cf9e93edbe79213f24fd277a0c8fc05e9ec68f_full.jpg",
+        "avatarhash": "18cf9e93edbe79213f24fd277a0c8fc05e9ec68f",
+        "lastlogoff": 1709234420,
+        "personastate": 0,
+        "realname": "Peter",
+        "primaryclanid": "103582791449602227",
+        "timecreated": 1418426271,
+        "personastateflags": 0,
+        "loccountrycode": "US",
+        "locstatecode": "VA"
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 119
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 22
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 31
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 39
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 1946083
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 14
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 21
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 7
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nickname": "Steam User",
+      "steamId": "76561197995236050",
+      "createdAt": "2023-07-29T22:04:04.000Z",
+      "updatedAt": "2023-07-29T22:04:04.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561197995236050",
+      "liveSteamData": {
+        "steamid": "76561197995236050",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "Theoneyiv",
+        "profileurl": "https://steamcommunity.com/id/theoneyiv/",
+        "avatar": "https://avatars.steamstatic.com/2158a68090be7b64dcb7fe7d6e2c63a7a7808c23.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/2158a68090be7b64dcb7fe7d6e2c63a7a7808c23_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/2158a68090be7b64dcb7fe7d6e2c63a7a7808c23_full.jpg",
+        "avatarhash": "2158a68090be7b64dcb7fe7d6e2c63a7a7808c23",
+        "lastlogoff": 1709274712,
+        "personastate": 1,
+        "primaryclanid": "103582791433356214",
+        "timecreated": 1198602738,
+        "personastateflags": 0,
+        "loccountrycode": "US",
+        "locstatecode": "AL"
+      }
+    },
+    {
+      "id": 14,
+      "nickname": "Steam User",
+      "steamId": "76561198120934369",
+      "createdAt": "2023-07-29T22:49:40.000Z",
+      "updatedAt": "2023-07-30T05:10:01.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198120934369",
+      "liveSteamData": {
+        "steamid": "76561198120934369",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "PA-[69thPVI]Pvt.Pepper",
+        "commentpermission": 1,
+        "profileurl": "https://steamcommunity.com/profiles/76561198120934369/",
+        "avatar": "https://avatars.steamstatic.com/50668fb501050bbf1484779c94a157deb83f083c.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/50668fb501050bbf1484779c94a157deb83f083c_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/50668fb501050bbf1484779c94a157deb83f083c_full.jpg",
+        "avatarhash": "50668fb501050bbf1484779c94a157deb83f083c",
+        "lastlogoff": 1709302452,
+        "personastate": 0,
+        "realname": "Brenton",
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1388393565,
+        "personastateflags": 0,
+        "loccountrycode": "US",
+        "locstatecode": "PA"
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 100
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 7
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 22
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 8
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 2088360
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 4
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nickname": "Steam User",
+      "steamId": "76561199012483835",
+      "createdAt": "2023-07-30T02:49:26.000Z",
+      "updatedAt": "2023-08-03T19:29:50.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561199012483835",
+      "liveSteamData": {
+        "steamid": "76561199012483835",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "Killer",
+        "profileurl": "https://steamcommunity.com/profiles/76561199012483835/",
+        "avatar": "https://avatars.steamstatic.com/0241507826d3e089418bb449aba234655fb7c215.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/0241507826d3e089418bb449aba234655fb7c215_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/0241507826d3e089418bb449aba234655fb7c215_full.jpg",
+        "avatarhash": "0241507826d3e089418bb449aba234655fb7c215",
+        "lastlogoff": 1709246630,
+        "personastate": 3,
+        "realname": "Brendon",
+        "primaryclanid": "103582791467956086",
+        "timecreated": 1577129491,
+        "personastateflags": 0,
+        "gameextrainfo": "Supermarket Simulator",
+        "gameid": "2670630",
+        "loccountrycode": "GB",
+        "locstatecode": "I7"
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 1170
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 108
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 452
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 28
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 8869522
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 67
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 2439
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nickname": "Steam User",
+      "steamId": "76561198042192699",
+      "createdAt": "2023-07-30T02:57:42.000Z",
+      "updatedAt": "2023-07-30T02:57:42.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198042192699",
+      "liveSteamData": {
+        "steamid": "76561198042192699",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "vanbushi",
+        "commentpermission": 1,
+        "profileurl": "https://steamcommunity.com/id/vanbushi/",
+        "avatar": "https://avatars.steamstatic.com/bafcb9e46d89016a97da1318c1b147bdf2cc7080.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/bafcb9e46d89016a97da1318c1b147bdf2cc7080_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/bafcb9e46d89016a97da1318c1b147bdf2cc7080_full.jpg",
+        "avatarhash": "bafcb9e46d89016a97da1318c1b147bdf2cc7080",
+        "lastlogoff": 1709316002,
+        "personastate": 1,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1305998909,
+        "personastateflags": 0,
+        "gameextrainfo": "Palworld",
+        "gameid": "1623730",
+        "loccountrycode": "US",
+        "locstatecode": "OH"
+      }
+    },
+    {
+      "id": 25,
+      "nickname": "Steam User",
+      "steamId": "76561198034433015",
+      "createdAt": "2023-11-13T01:09:44.000Z",
+      "updatedAt": "2023-12-12T22:11:48.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198034433015",
+      "liveSteamData": {
+        "steamid": "76561198034433015",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "danlove",
+        "profileurl": "https://steamcommunity.com/id/sirguyute/",
+        "avatar": "https://avatars.steamstatic.com/18214a0c31248f34bfa9bf237ad1aca2efb5e76c.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/18214a0c31248f34bfa9bf237ad1aca2efb5e76c_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/18214a0c31248f34bfa9bf237ad1aca2efb5e76c_full.jpg",
+        "avatarhash": "18214a0c31248f34bfa9bf237ad1aca2efb5e76c",
+        "lastlogoff": 1709159838,
+        "personastate": 0,
+        "realname": "Dan",
+        "primaryclanid": "103582791429627636",
+        "timecreated": 1291264117,
+        "personastateflags": 0,
+        "loccountrycode": "US",
+        "locstatecode": "IN",
+        "loccityid": 1409
+      }
+    },
+    {
+      "id": 30,
+      "nickname": "Steam User",
+      "steamId": "76561198814719426",
+      "createdAt": "2023-11-13T02:30:47.000Z",
+      "updatedAt": "2023-11-18T06:16:37.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198814719426",
+      "liveSteamData": {
+        "steamid": "76561198814719426",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "Guitar",
+        "commentpermission": 2,
+        "profileurl": "https://steamcommunity.com/profiles/76561198814719426/",
+        "avatar": "https://avatars.steamstatic.com/cff11a8a03adfec7d1a981aab5dc8731993b389d.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/cff11a8a03adfec7d1a981aab5dc8731993b389d_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/cff11a8a03adfec7d1a981aab5dc8731993b389d_full.jpg",
+        "avatarhash": "cff11a8a03adfec7d1a981aab5dc8731993b389d",
+        "lastlogoff": 1709262398,
+        "personastate": 0,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1518645954,
+        "personastateflags": 0
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 56
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 20
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 54
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "nickname": "Steam User",
+      "steamId": "76561198035652246",
+      "createdAt": "2023-11-13T02:41:26.000Z",
+      "updatedAt": "2023-11-22T04:15:57.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198035652246",
+      "liveSteamData": {
+        "steamid": "76561198035652246",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "General Cody HD",
+        "commentpermission": 1,
+        "profileurl": "https://steamcommunity.com/id/GeneralCodyHD/",
+        "avatar": "https://avatars.steamstatic.com/bd70865a0fcbe7b09ebe95dd6059c0f987e5b5e3.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/bd70865a0fcbe7b09ebe95dd6059c0f987e5b5e3_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/bd70865a0fcbe7b09ebe95dd6059c0f987e5b5e3_full.jpg",
+        "avatarhash": "bd70865a0fcbe7b09ebe95dd6059c0f987e5b5e3",
+        "lastlogoff": 1708897414,
+        "personastate": 0,
+        "realname": "General Cody HD",
+        "primaryclanid": "103582791456773281",
+        "timecreated": 1293289337,
+        "personastateflags": 0
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 9
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 3
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 4
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 3733873
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 1
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "nickname": "Steam User",
+      "steamId": "76561197968730063",
+      "createdAt": "2023-11-13T02:41:43.000Z",
+      "updatedAt": "2023-12-12T22:12:04.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561197968730063",
+      "liveSteamData": {
+        "steamid": "76561197968730063",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "BloodKing",
+        "profileurl": "https://steamcommunity.com/profiles/76561197968730063/",
+        "avatar": "https://avatars.steamstatic.com/bc78810a3b8a4a6c3708bec68f53ce553db861f9.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/bc78810a3b8a4a6c3708bec68f53ce553db861f9_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/bc78810a3b8a4a6c3708bec68f53ce553db861f9_full.jpg",
+        "avatarhash": "bc78810a3b8a4a6c3708bec68f53ce553db861f9",
+        "lastlogoff": 1709264007,
+        "personastate": 1,
+        "realname": "Blood",
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1094234306,
+        "personastateflags": 0,
+        "loccountrycode": "GB"
+      }
+    },
+    {
+      "id": 34,
+      "nickname": "Steam User",
+      "steamId": "76561198853102056",
+      "createdAt": "2023-11-13T02:45:35.000Z",
+      "updatedAt": "2023-11-13T02:45:35.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198853102056",
+      "liveSteamData": {
+        "steamid": "76561198853102056",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "нυввα вυввα",
+        "commentpermission": 2,
+        "profileurl": "https://steamcommunity.com/profiles/76561198853102056/",
+        "avatar": "https://avatars.steamstatic.com/aec0a15b2b15ca6fe7d8ce1785967222128fa655.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/aec0a15b2b15ca6fe7d8ce1785967222128fa655_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/aec0a15b2b15ca6fe7d8ce1785967222128fa655_full.jpg",
+        "avatarhash": "aec0a15b2b15ca6fe7d8ce1785967222128fa655",
+        "lastlogoff": 1709278066,
+        "personastate": 0,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1534040785,
+        "personastateflags": 0
+      }
+    },
+    {
+      "id": 40,
+      "nickname": "Steam User",
+      "steamId": "76561198064843761",
+      "createdAt": "2023-11-18T19:42:18.000Z",
+      "updatedAt": "2023-11-18T19:42:18.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198064843761",
+      "liveSteamData": {
+        "steamid": "76561198064843761",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "PA-[116thPVI]Chp.Reynolds",
+        "profileurl": "https://steamcommunity.com/profiles/76561198064843761/",
+        "avatar": "https://avatars.steamstatic.com/4b442a340f2d480a8f1eda65d1091d21ee2fb941.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/4b442a340f2d480a8f1eda65d1091d21ee2fb941_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/4b442a340f2d480a8f1eda65d1091d21ee2fb941_full.jpg",
+        "avatarhash": "4b442a340f2d480a8f1eda65d1091d21ee2fb941",
+        "personastate": 1,
+        "realname": "John Allen",
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1338980046,
+        "personastateflags": 0,
+        "loccountrycode": "ES",
+        "locstatecode": "56"
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 3722
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 53
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 116
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 280
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 10992626
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 82
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 1126
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 27
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "nickname": "Steam User",
+      "steamId": "76561198000469634",
+      "createdAt": "2024-02-10T00:04:35.000Z",
+      "updatedAt": "2024-02-10T00:04:35.000Z",
+      "regimentId": 9,
+      "unbanCode": "Unban.User.SteamID 76561198000469634",
+      "liveSteamData": {
+        "steamid": "76561198000469634",
+        "communityvisibilitystate": 3,
+        "profilestate": 1,
+        "personaname": "molex",
+        "commentpermission": 1,
+        "profileurl": "https://steamcommunity.com/id/molexconnectors/",
+        "avatar": "https://avatars.steamstatic.com/bc297180bbc981caa794a594d34e78dd86c3527c.jpg",
+        "avatarmedium": "https://avatars.steamstatic.com/bc297180bbc981caa794a594d34e78dd86c3527c_medium.jpg",
+        "avatarfull": "https://avatars.steamstatic.com/bc297180bbc981caa794a594d34e78dd86c3527c_full.jpg",
+        "avatarhash": "bc297180bbc981caa794a594d34e78dd86c3527c",
+        "lastlogoff": 1709279165,
+        "personastate": 0,
+        "primaryclanid": "103582791429521408",
+        "timecreated": 1218343265,
+        "personastateflags": 0,
+        "loccountrycode": "US",
+        "locstatecode": "PA",
+        "loccityid": 3299
+      },
+      "liveGameStats": [
+        {
+          "name": "STAT_GAMES_PLAYED_SKIRMISH",
+          "value": 247
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONQUEST",
+          "value": 11
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_PICKETPATROL",
+          "value": 43
+        },
+        {
+          "name": "STAT_FLAG_PICKUPS",
+          "value": 32
+        },
+        {
+          "name": "STAT_PROGRESSION_EXPERIENCE",
+          "value": 1465247
+        },
+        {
+          "name": "STAT_GAMES_PLAYED_CONTENTION",
+          "value": 22
+        },
+        {
+          "name": "STAT_LOYALTY_BONUS",
+          "value": 1
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_KILLS",
+          "value": 22
+        },
+        {
+          "name": "STAT_EVENT_UNDEAD_WAVE_SURVIVED",
+          "value": 9
+        }
+      ]
+    }
+  ]
+  </pre>
+</section>
 
       <section class="endpoint">
           <h2>Maps</h2>
           <p>This endpoint returns a list of all maps.</p>
           <div class="code-container">
-            <code>
-              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/maps'>https://api.wortool.com/v2/maps</a>
-              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
-            </code>
+  <code>
+    <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/maps/verbose/'>https://api.wortool.com/v2/maps/verbose/</a>
+    <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+  </code>
           </div>
           <pre>
-[
-{
-  "id": 1,
-  "map": "East Woods Skirmish",
-  "image": "assets/maps/east-woods-skirmish.jpg",
-  "usaArty": "true",
-  "csaArty": "",
-  "campaign": "Antietam",
-  "youtube": "bPUeJVZ1ad4",
-  "attacker": "USA",
-  "strat": "Cg7Ooy7XZKK"
-},
-{
-  "id": 2,
-  "map": "Hookers Push",
-  "image": "assets/maps/hookers-push.jpg",
-  "usaArty": "true",
-  "csaArty": "true",
-  "campaign": "Antietam",
-  "youtube": "xmOufNXIo94",
-  "attacker": "USA",
-  "strat": "RlzARCuEb2b"
-},
-
-... etc
-
-]
+ {
+    "id": 1,
+    "name": "East Woods Skirmish",
+    "attacker": "USA",
+    "campaign": "Antietam",
+    "map_image": "https://wortool.com/assets/maps/east-woods-skirmish.jpg",
+    "map_favorite_count": 4,
+    "usa_artillery": true,
+    "csa_artillery": false,
+    "youtube_embed": "https://www.youtube.com/embed/bPUeJVZ1ad4",
+    "stratsketch_url": "https://stratsketch.com/Cg7Ooy7XZKK",
+    "usa_infantry_regiments": 2,
+    "csa_infantry_regiments": 2,
+    "usa_artillery_regiments": 1,
+    "csa_artillery_regiments": 0,
+    "usa_cavalry_regiments": 0,
+    "csa_cavalry_regiments": 0,
+    "usa_regiments": {
+      "Infantry": [
+        {
+          "id": 1,
+          "name": "42nd Pennsylvania",
+          "side": "USA",
+          "type": "Infantry",
+          "mapId": 1,
+          "regiment_weaponry": [
+            {
+              "id": 15,
+              "unitWeaponId": 5,
+              "mapsRegimentsId": 1,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 5,
+                "weapon": "Sharps Carbine M1859",
+                "type": "Rifle",
+                "range": "500",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
+                "notes": "",
+                "length": "47"
+              }
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "32nd Pennsylvania",
+          "side": "USA",
+          "type": "Infantry",
+          "mapId": 1,
+          "regiment_weaponry": [
+            {
+              "id": 27,
+              "unitWeaponId": 6,
+              "mapsRegimentsId": 13,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 6,
+                "weapon": "Springfield M1842",
+                "type": "Rifle",
+                "range": "100",
+                "ammo": "Roundball, Buck and Ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
+                "notes": "Press 5 to switch ammo types before reloading",
+                "length": "58"
+              }
+            }
+          ]
+        }
+      ],
+      "Artillery": [
+        {
+          "id": 17,
+          "name": "Battery Cooper",
+          "side": "USA",
+          "type": "Artillery",
+          "mapId": 1,
+          "regiment_weaponry": [
+            {
+              "id": 35,
+              "unitWeaponId": 29,
+              "mapsRegimentsId": 17,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 29,
+                "weapon": "3in Ordinance Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                "length": ""
+              }
+            },
+            {
+              "id": 36,
+              "unitWeaponId": 29,
+              "mapsRegimentsId": 17,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 29,
+                "weapon": "3in Ordinance Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                "length": ""
+              }
+            },
+            {
+              "id": 37,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 17,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 38,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 17,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            }
+          ]
+        }
+      ],
+      "Cavalry": []
+    },
+    "csa_regiments": {
+      "Infantry": [
+        {
+          "id": 50,
+          "name": "18th Georgia",
+          "side": "CSA",
+          "type": "Infantry",
+          "mapId": 1,
+          "regiment_weaponry": [
+            {
+              "id": 106,
+              "unitWeaponId": 11,
+              "mapsRegimentsId": 50,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 11,
+                "weapon": "Pattern Enfield M1853",
+                "type": "Rifle",
+                "range": "1000",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+                "notes": null,
+                "length": "55"
+              }
+            },
+            {
+              "id": 107,
+              "unitWeaponId": 12,
+              "mapsRegimentsId": 50,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 12,
+                "weapon": "Springfield M1855",
+                "type": "Rifle",
+                "range": "500",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+                "notes": null,
+                "length": "56"
+              }
+            }
+          ]
+        },
+        {
+          "id": 51,
+          "name": "4th Texas",
+          "side": "CSA",
+          "type": "Infantry",
+          "mapId": 1,
+          "regiment_weaponry": [
+            {
+              "id": 108,
+              "unitWeaponId": 6,
+              "mapsRegimentsId": 51,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 6,
+                "weapon": "Springfield M1842",
+                "type": "Rifle",
+                "range": "100",
+                "ammo": "Roundball, Buck and Ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
+                "notes": "Press 5 to switch ammo types before reloading",
+                "length": "58"
+              }
+            },
+            {
+              "id": 109,
+              "unitWeaponId": 11,
+              "mapsRegimentsId": 51,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 11,
+                "weapon": "Pattern Enfield M1853",
+                "type": "Rifle",
+                "range": "1000",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+                "notes": null,
+                "length": "55"
+              }
+            },
+            {
+              "id": 110,
+              "unitWeaponId": 12,
+              "mapsRegimentsId": 51,
+              "mapId": 1,
+              "weapon_info": {
+                "id": 12,
+                "weapon": "Springfield M1855",
+                "type": "Rifle",
+                "range": "500",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+                "notes": null,
+                "length": "56"
+              }
+            }
+          ]
+        }
+      ],
+      "Artillery": [],
+      "Cavalry": []
+    },
+    "map_favorites": [
+      {
+        "id": 10,
+        "username": "admin",
+        "avatar_url": "",
+        "discordId": null
+      },
+      {
+        "id": 94,
+        "username": "kalle39218",
+        "avatar_url": null,
+        "discordId": null
+      },
+      {
+        "id": 108,
+        "username": "jesus",
+        "avatar_url": "https://cdn.discordapp.com/avatars/865852329990160414/32fdf60cb5f57998333bb970a5b610a5.webp",
+        "discordId": null
+      },
+      {
+        "id": 107,
+        "username": "molex",
+        "avatar_url": "https://cdn.discordapp.com/avatars/281639399152943105/450b323ac84254027f199589a2969d6f.webp",
+        "discordId": "865852329990160414"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Hooker's Push",
+    "attacker": "USA",
+    "campaign": "Antietam",
+    "map_image": "https://wortool.com/assets/maps/hookers-push.jpg",
+    "map_favorite_count": 3,
+    "usa_artillery": true,
+    "csa_artillery": true,
+    "youtube_embed": "https://www.youtube.com/embed/xmOufNXIo94",
+    "stratsketch_url": "https://stratsketch.com/RlzARCuEb2b",
+    "usa_infantry_regiments": 2,
+    "csa_infantry_regiments": 2,
+    "usa_artillery_regiments": 2,
+    "csa_artillery_regiments": 3,
+    "usa_cavalry_regiments": 0,
+    "csa_cavalry_regiments": 0,
+    "usa_regiments": {
+      "Infantry": [
+        {
+          "id": 34,
+          "name": "2nd Wisconsin",
+          "side": "USA",
+          "type": "Infantry",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 56,
+              "unitWeaponId": 14,
+              "mapsRegimentsId": 34,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 14,
+                "weapon": "Lorenz M1854",
+                "type": "Rifle",
+                "range": "300",
+                "ammo": "Compresssion ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/Lorenz2.webp",
+                "notes": null,
+                "length": "53"
+              }
+            },
+            {
+              "id": 57,
+              "unitWeaponId": 15,
+              "mapsRegimentsId": 34,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 15,
+                "weapon": "Springfield M1861",
+                "type": "Rifle",
+                "range": "500",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/M1861_Springfield.webp",
+                "notes": null,
+                "length": "56"
+              }
+            }
+          ]
+        },
+        {
+          "id": 35,
+          "name": "1st US Sharpshooters",
+          "side": "USA",
+          "type": "Infantry",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 58,
+              "unitWeaponId": 5,
+              "mapsRegimentsId": 35,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 5,
+                "weapon": "Sharps Carbine M1859",
+                "type": "Rifle",
+                "range": "500",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
+                "notes": "",
+                "length": "47"
+              }
+            }
+          ]
+        }
+      ],
+      "Artillery": [
+        {
+          "id": 36,
+          "name": "Battery Matthews",
+          "side": "USA",
+          "type": "Artillery",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 59,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 36,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 60,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 36,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 61,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 36,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 62,
+              "unitWeaponId": 53,
+              "mapsRegimentsId": 36,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 53,
+                "weapon": "10lb Parrott Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+                "notes": "",
+                "length": ""
+              }
+            },
+            {
+              "id": 63,
+              "unitWeaponId": 53,
+              "mapsRegimentsId": 36,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 53,
+                "weapon": "10lb Parrott Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+                "notes": "",
+                "length": ""
+              }
+            },
+            {
+              "id": 64,
+              "unitWeaponId": 53,
+              "mapsRegimentsId": 36,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 53,
+                "weapon": "10lb Parrott Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+                "notes": "",
+                "length": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": 37,
+          "name": "Battery Thompson",
+          "side": "USA",
+          "type": "Artillery",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 65,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 37,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 66,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 37,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 67,
+              "unitWeaponId": 29,
+              "mapsRegimentsId": 37,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 29,
+                "weapon": "3in Ordinance Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                "length": ""
+              }
+            },
+            {
+              "id": 68,
+              "unitWeaponId": 29,
+              "mapsRegimentsId": 37,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 29,
+                "weapon": "3in Ordinance Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                "length": ""
+              }
+            }
+          ]
+        }
+      ],
+      "Cavalry": []
+    },
+    "csa_regiments": {
+      "Infantry": [
+        {
+          "id": 38,
+          "name": "13th Georgia",
+          "side": "CSA",
+          "type": "Infantry",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 69,
+              "unitWeaponId": 11,
+              "mapsRegimentsId": 38,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 11,
+                "weapon": "Pattern Enfield M1853",
+                "type": "Rifle",
+                "range": "1000",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+                "notes": null,
+                "length": "55"
+              }
+            },
+            {
+              "id": 70,
+              "unitWeaponId": 12,
+              "mapsRegimentsId": 38,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 12,
+                "weapon": "Springfield M1855",
+                "type": "Rifle",
+                "range": "500",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+                "notes": null,
+                "length": "56"
+              }
+            }
+          ]
+        },
+        {
+          "id": 39,
+          "name": "6th Louisiana",
+          "side": "CSA",
+          "type": "Infantry",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 71,
+              "unitWeaponId": 11,
+              "mapsRegimentsId": 39,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 11,
+                "weapon": "Pattern Enfield M1853",
+                "type": "Rifle",
+                "range": "1000",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+                "notes": null,
+                "length": "55"
+              }
+            },
+            {
+              "id": 72,
+              "unitWeaponId": 12,
+              "mapsRegimentsId": 39,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 12,
+                "weapon": "Springfield M1855",
+                "type": "Rifle",
+                "range": "500",
+                "ammo": "Minié ball",
+                "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+                "notes": null,
+                "length": "56"
+              }
+            }
+          ]
+        }
+      ],
+      "Artillery": [
+        {
+          "id": 40,
+          "name": "Battery Brockenbrough",
+          "side": "CSA",
+          "type": "Artillery",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 73,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 40,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 74,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 40,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 75,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 40,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 76,
+              "unitWeaponId": 53,
+              "mapsRegimentsId": 40,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 53,
+                "weapon": "10lb Parrott Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+                "notes": "",
+                "length": ""
+              }
+            },
+            {
+              "id": 77,
+              "unitWeaponId": 53,
+              "mapsRegimentsId": 40,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 53,
+                "weapon": "10lb Parrott Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+                "notes": "",
+                "length": ""
+              }
+            },
+            {
+              "id": 78,
+              "unitWeaponId": 53,
+              "mapsRegimentsId": 40,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 53,
+                "weapon": "10lb Parrott Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+                "notes": "",
+                "length": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": 41,
+          "name": "Battery Jordan",
+          "side": "CSA",
+          "type": "Artillery",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 79,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 41,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 80,
+              "unitWeaponId": 29,
+              "mapsRegimentsId": 41,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 29,
+                "weapon": "3in Ordinance Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                "length": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": 42,
+          "name": "Battery Poague",
+          "side": "CSA",
+          "type": "Artillery",
+          "mapId": 2,
+          "regiment_weaponry": [
+            {
+              "id": 81,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 42,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 82,
+              "unitWeaponId": 36,
+              "mapsRegimentsId": 42,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 36,
+                "weapon": "12lb Napoleon M1857",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "12-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                "notes": "Thicc",
+                "length": ""
+              }
+            },
+            {
+              "id": 83,
+              "unitWeaponId": 29,
+              "mapsRegimentsId": 42,
+              "mapId": 2,
+              "weapon_info": {
+                "id": 29,
+                "weapon": "3in Ordinance Rifle",
+                "type": "Artillery",
+                "range": "",
+                "ammo": "3-Inch & 10-Pound Caisson",
+                "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                "length": ""
+              }
+            }
+          ]
+        }
+      ],
+      "Cavalry": []
+    },
+    "map_favorites": [
+      {
+        "id": 87,
+        "username": "tonyw17",
+        "avatar_url": null,
+        "discordId": null
+      },
+      {
+        "id": 108,
+        "username": "jesus",
+        "avatar_url": "https://cdn.discordapp.com/avatars/865852329990160414/32fdf60cb5f57998333bb970a5b610a5.webp",
+        "discordId": null
+      },
+      {
+        "id": 10,
+        "username": "admin",
+        "avatar_url": "",
+        "discordId": null
+      }
+    ]
+  },
+  {
+    .. repeats
+  }
           </pre>
       </section>
 
@@ -202,278 +3198,686 @@
           <h2>Map Id</h2>
           <p>This endpoint returns a map by its id.</p>
           <div class="code-container">
-            <code>
-              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/maps/<id>'>https://api.wortool.com/v2/maps/{id}</a>
-              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
-            </code>
+  <code>
+    <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/maps/verbose/22'>https://api.wortool.com/v2/maps/verbose/{id}</a>
+    <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+  </code>
           </div>
           <pre>
-            {
-              "id": 1,
-              "name": "East Woods Skirmish",
-              "attacker": "USA",
-              "campaign": "Antietam",
-              "map_image": "https://wortool.com/assets/maps/east-woods-skirmish.jpg",
-              "map_favorite_count": 4,
-              "usa_artillery": true,
-              "csa_artillery": false,
-              "youtube_embed": "https://www.youtube.com/embed/bPUeJVZ1ad4",
-              "stratsketch_url": "https://stratsketch.com/Cg7Ooy7XZKK",
-              "usa_infantry_regiments": 2,
-              "csa_infantry_regiments": 2,
-              "usa_artillery_regiments": 1,
-              "csa_artillery_regiments": 0,
-              "usa_cavalry_regiments": 0,
-              "csa_cavalry_regiments": 0,
-              "usa_regiments": {
-                "Infantry": [
-                  {
-                    "id": 1,
-                    "name": "42nd Pennsylvania",
-                    "side": "USA",
-                    "type": "Infantry",
-                    "mapId": 1,
-                    "regiment_weaponry": [
-                      {
-                        "id": 15,
-                        "unitWeaponId": 5,
-                        "mapsRegimentsId": 1,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 5,
-                          "weapon": "Sharps Carbine M1859",
-                          "type": "Rifle",
-                          "range": "500",
-                          "ammo": "Minié ball",
-                          "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
-                          "notes": "",
-                          "length": "47"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "id": 13,
-                    "name": "32nd Pennsylvania",
-                    "side": "USA",
-                    "type": "Infantry",
-                    "mapId": 1,
-                    "regiment_weaponry": [
-                      {
-                        "id": 27,
-                        "unitWeaponId": 6,
-                        "mapsRegimentsId": 13,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 6,
-                          "weapon": "Springfield M1842",
-                          "type": "Rifle",
-                          "range": "100",
-                          "ammo": "Roundball, Buck and Ball",
-                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
-                          "notes": "Press 5 to switch ammo types before reloading",
-                          "length": "58"
-                        }
-                      }
-                    ]
-                  }
-                ],
-                "Artillery": [
-                  {
-                    "id": 17,
-                    "name": "Battery Cooper",
-                    "side": "USA",
-                    "type": "Artillery",
-                    "mapId": 1,
-                    "regiment_weaponry": [
-                      {
-                        "id": 35,
-                        "unitWeaponId": 29,
-                        "mapsRegimentsId": 17,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 29,
-                          "weapon": "3in Ordinance Rifle",
-                          "type": "Artillery",
-                          "range": "",
-                          "ammo": "3-Inch & 10-Pound Caisson",
-                          "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
-                          "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
-                          "length": ""
-                        }
-                      },
-                      {
-                        "id": 36,
-                        "unitWeaponId": 29,
-                        "mapsRegimentsId": 17,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 29,
-                          "weapon": "3in Ordinance Rifle",
-                          "type": "Artillery",
-                          "range": "",
-                          "ammo": "3-Inch & 10-Pound Caisson",
-                          "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
-                          "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
-                          "length": ""
-                        }
-                      },
-                      {
-                        "id": 37,
-                        "unitWeaponId": 36,
-                        "mapsRegimentsId": 17,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 36,
-                          "weapon": "12lb Napoleon M1857",
-                          "type": "Artillery",
-                          "range": "",
-                          "ammo": "12-Pound Caisson",
-                          "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
-                          "notes": "Thicc",
-                          "length": ""
-                        }
-                      },
-                      {
-                        "id": 38,
-                        "unitWeaponId": 36,
-                        "mapsRegimentsId": 17,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 36,
-                          "weapon": "12lb Napoleon M1857",
-                          "type": "Artillery",
-                          "range": "",
-                          "ammo": "12-Pound Caisson",
-                          "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
-                          "notes": "Thicc",
-                          "length": ""
-                        }
-                      }
-                    ]
-                  }
-                ],
-                "Cavalry": []
-              },
-              "csa_regiments": {
-                "Infantry": [
-                  {
-                    "id": 50,
-                    "name": "18th Georgia",
-                    "side": "CSA",
-                    "type": "Infantry",
-                    "mapId": 1,
-                    "regiment_weaponry": [
-                      {
-                        "id": 106,
-                        "unitWeaponId": 11,
-                        "mapsRegimentsId": 50,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 11,
-                          "weapon": "Pattern Enfield M1853",
-                          "type": "Rifle",
-                          "range": "1000",
-                          "ammo": "Minié ball",
-                          "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
-                          "notes": null,
-                          "length": "55"
-                        }
-                      },
-                      {
-                        "id": 107,
-                        "unitWeaponId": 12,
-                        "mapsRegimentsId": 50,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 12,
-                          "weapon": "Springfield M1855",
-                          "type": "Rifle",
-                          "range": "500",
-                          "ammo": "Minié ball",
-                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
-                          "notes": null,
-                          "length": "56"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "id": 51,
-                    "name": "4th Texas",
-                    "side": "CSA",
-                    "type": "Infantry",
-                    "mapId": 1,
-                    "regiment_weaponry": [
-                      {
-                        "id": 108,
-                        "unitWeaponId": 6,
-                        "mapsRegimentsId": 51,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 6,
-                          "weapon": "Springfield M1842",
-                          "type": "Rifle",
-                          "range": "100",
-                          "ammo": "Roundball, Buck and Ball",
-                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
-                          "notes": "Press 5 to switch ammo types before reloading",
-                          "length": "58"
-                        }
-                      },
-                      {
-                        "id": 109,
-                        "unitWeaponId": 11,
-                        "mapsRegimentsId": 51,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 11,
-                          "weapon": "Pattern Enfield M1853",
-                          "type": "Rifle",
-                          "range": "1000",
-                          "ammo": "Minié ball",
-                          "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
-                          "notes": null,
-                          "length": "55"
-                        }
-                      },
-                      {
-                        "id": 110,
-                        "unitWeaponId": 12,
-                        "mapsRegimentsId": 51,
-                        "mapId": 1,
-                        "weapon_info": {
-                          "id": 12,
-                          "weapon": "Springfield M1855",
-                          "type": "Rifle",
-                          "range": "500",
-                          "ammo": "Minié ball",
-                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
-                          "notes": null,
-                          "length": "56"
-                        }
-                      }
-                    ]
-                  }
-                ],
-                "Artillery": [],
-                "Cavalry": []
-              },
-              "map_favorites": [
-                {
-                  "id": 10,
-                  "username": "admin",
-                  "avatar_url": "",
-                  "discordId": null
-                },
-                {
-                  "id": 107,
-                  "username": "molex",
-                  "avatar_url": "https://cdn.discordapp.com/avatars/281639399152943105/450b323ac84254027f199589a2969d6f.webp",
-                  "discordId": "865852329990160414"
-                }
-              ]
+  {
+  "id": 22,
+  "name": "School House Ridge",
+  "attacker": "CSA",
+  "campaign": "Harpers Ferry",
+  "map_image": "https://wortool.com/assets/maps/school-house-ridge.jpg",
+  "map_favorite_count": 0,
+  "usa_artillery": true,
+  "csa_artillery": true,
+  "youtube_embed": "https://www.youtube.com/embed/mxwfRiBviQU",
+  "stratsketch_url": "https://stratsketch.com/QZSPbxBeXPh",
+  "usa_infantry_regiments": 2,
+  "csa_infantry_regiments": 2,
+  "usa_artillery_regiments": 3,
+  "csa_artillery_regiments": 2,
+  "usa_cavalry_regiments": 0,
+  "csa_cavalry_regiments": 0,
+  "usa_regiments": {
+    "Infantry": [
+      {
+        "id": 161,
+        "name": "32nd Ohio",
+        "side": "USA",
+        "type": "Infantry",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 413,
+            "unitWeaponId": 14,
+            "mapsRegimentsId": 161,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 14,
+              "weapon": "Lorenz M1854",
+              "type": "Rifle",
+              "range": "300",
+              "ammo": "Compresssion ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Lorenz2.webp",
+              "notes": null,
+              "length": "53"
             }
+          },
+          {
+            "id": 648,
+            "unitWeaponId": 15,
+            "mapsRegimentsId": 161,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 15,
+              "weapon": "Springfield M1861",
+              "type": "Rifle",
+              "range": "500",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/M1861_Springfield.webp",
+              "notes": null,
+              "length": "56"
+            }
+          }
+        ]
+      },
+      {
+        "id": 162,
+        "name": "126th New York ",
+        "side": "USA",
+        "type": "Infantry",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 415,
+            "unitWeaponId": 11,
+            "mapsRegimentsId": 162,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 11,
+              "weapon": "Pattern Enfield M1853",
+              "type": "Rifle",
+              "range": "1000",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+              "notes": null,
+              "length": "55"
+            }
+          }
+        ]
+      }
+    ],
+    "Artillery": [
+      {
+        "id": 163,
+        "name": "Battery Von Sehlen",
+        "side": "USA",
+        "type": "Artillery",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 416,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 163,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 417,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 163,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 418,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 163,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 419,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 163,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          },
+          {
+            "id": 420,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 163,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          },
+          {
+            "id": 421,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 163,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          }
+        ]
+      },
+      {
+        "id": 164,
+        "name": "Battery Phillips",
+        "side": "USA",
+        "type": "Artillery",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 422,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 164,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 423,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 164,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 424,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 164,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 425,
+            "unitWeaponId": 53,
+            "mapsRegimentsId": 164,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 53,
+              "weapon": "10lb Parrott Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+              "notes": "",
+              "length": ""
+            }
+          },
+          {
+            "id": 426,
+            "unitWeaponId": 53,
+            "mapsRegimentsId": 164,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 53,
+              "weapon": "10lb Parrott Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+              "notes": "",
+              "length": ""
+            }
+          },
+          {
+            "id": 427,
+            "unitWeaponId": 53,
+            "mapsRegimentsId": 164,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 53,
+              "weapon": "10lb Parrott Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+              "notes": "",
+              "length": ""
+            }
+          }
+        ]
+      },
+      {
+        "id": 165,
+        "name": "Battery Graham",
+        "side": "USA",
+        "type": "Artillery",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 428,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 165,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 429,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 165,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          },
+          {
+            "id": 430,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 165,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          }
+        ]
+      }
+    ],
+    "Cavalry": []
+  },
+  "csa_regiments": {
+    "Infantry": [
+      {
+        "id": 166,
+        "name": "6th Louisiana",
+        "side": "CSA",
+        "type": "Infantry",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 431,
+            "unitWeaponId": 11,
+            "mapsRegimentsId": 166,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 11,
+              "weapon": "Pattern Enfield M1853",
+              "type": "Rifle",
+              "range": "1000",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+              "notes": null,
+              "length": "55"
+            }
+          },
+          {
+            "id": 432,
+            "unitWeaponId": 12,
+            "mapsRegimentsId": 166,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 12,
+              "weapon": "Springfield M1855",
+              "type": "Rifle",
+              "range": "500",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+              "notes": null,
+              "length": "56"
+            }
+          }
+        ]
+      },
+      {
+        "id": 167,
+        "name": "13th Virginia",
+        "side": "CSA",
+        "type": "Infantry",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 433,
+            "unitWeaponId": 6,
+            "mapsRegimentsId": 167,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 6,
+              "weapon": "Springfield M1842",
+              "type": "Rifle",
+              "range": "100",
+              "ammo": "Roundball, Buck and Ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
+              "notes": "Press 5 to switch ammo types before reloading",
+              "length": "58"
+            }
+          },
+          {
+            "id": 434,
+            "unitWeaponId": 11,
+            "mapsRegimentsId": 167,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 11,
+              "weapon": "Pattern Enfield M1853",
+              "type": "Rifle",
+              "range": "1000",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+              "notes": null,
+              "length": "55"
+            }
+          },
+          {
+            "id": 435,
+            "unitWeaponId": 12,
+            "mapsRegimentsId": 167,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 12,
+              "weapon": "Springfield M1855",
+              "type": "Rifle",
+              "range": "500",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+              "notes": null,
+              "length": "56"
+            }
+          }
+        ]
+      }
+    ],
+    "Artillery": [
+      {
+        "id": 168,
+        "name": "Battery Courtney",
+        "side": "CSA",
+        "type": "Artillery",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 436,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 168,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 437,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 168,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 438,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 168,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 439,
+            "unitWeaponId": 53,
+            "mapsRegimentsId": 168,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 53,
+              "weapon": "10lb Parrott Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+              "notes": "",
+              "length": ""
+            }
+          },
+          {
+            "id": 440,
+            "unitWeaponId": 53,
+            "mapsRegimentsId": 168,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 53,
+              "weapon": "10lb Parrott Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+              "notes": "",
+              "length": ""
+            }
+          },
+          {
+            "id": 441,
+            "unitWeaponId": 53,
+            "mapsRegimentsId": 168,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 53,
+              "weapon": "10lb Parrott Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+              "notes": "",
+              "length": ""
+            }
+          }
+        ]
+      },
+      {
+        "id": 169,
+        "name": "Battery Brockenbrough",
+        "side": "CSA",
+        "type": "Artillery",
+        "mapId": 22,
+        "regiment_weaponry": [
+          {
+            "id": 442,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 169,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 443,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 169,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 444,
+            "unitWeaponId": 36,
+            "mapsRegimentsId": 169,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc",
+              "length": ""
+            }
+          },
+          {
+            "id": 445,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 169,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          },
+          {
+            "id": 446,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 169,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          },
+          {
+            "id": 447,
+            "unitWeaponId": 29,
+            "mapsRegimentsId": 169,
+            "mapId": 22,
+            "weapon_info": {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+              "length": ""
+            }
+          }
+        ]
+      }
+    ],
+    "Cavalry": []
+  },
+  "map_favorites": []
+}
           </pre>
       </section>
 
@@ -481,35 +3885,174 @@
           <h2>Weapons</h2>
           <p>This endpoint returns a list of all weapons.</p>
           <div class="code-container">
-            <code>
-              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/weapons'>https://api.wortool.com/v2/weapons</a>
-              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
-            </code>
+  <code>
+    <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/weapons'>https://api.wortool.com/v2/weapons</a>
+    <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+  </code>
           </div>
           <pre>
-[
-{
-  "id": 5,
-  "weapon": "Sharps Carbine M1859",
-  "type": "Rifle",
-  "range": "500",
-  "lengthy": "47",
-  "ammo": "Minié ball",
-  "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
-  "notes": ""
-},
-{
-  "id": 6,
-  "weapon": "Springfield M1842",
-  "type": "Rifle",
-  "range": "100",
-  "lengthy": "58",
-  "ammo": "Roundball, Buck and Ball",
-  "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
-  "notes": "Press 5 to switch ammo types before reloading"
-},
-  ... etc
-]
+            [
+            {
+              "id": 5,
+              "weapon": "Sharps Carbine M1859",
+              "type": "Rifle",
+              "range": "500",
+              "length": "47",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
+              "notes": ""
+            },
+            {
+              "id": 6,
+              "weapon": "Springfield M1842",
+              "type": "Rifle",
+              "range": "100",
+              "length": "58",
+              "ammo": "Roundball, Buck and Ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
+              "notes": "Press 5 to switch ammo types before reloading"
+            },
+            {
+              "id": 11,
+              "weapon": "Pattern Enfield M1853",
+              "type": "Rifle",
+              "range": "1000",
+              "length": "55",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+              "notes": null
+            },
+            {
+              "id": 12,
+              "weapon": "Springfield M1855",
+              "type": "Rifle",
+              "range": "500",
+              "length": "56",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+              "notes": null
+            },
+            {
+              "id": 14,
+              "weapon": "Lorenz M1854",
+              "type": "Rifle",
+              "range": "300",
+              "length": "53",
+              "ammo": "Compresssion ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Lorenz2.webp",
+              "notes": null
+            },
+            {
+              "id": 15,
+              "weapon": "Springfield M1861",
+              "type": "Rifle",
+              "range": "500",
+              "length": "56",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/M1861_Springfield.webp",
+              "notes": null
+            },
+            {
+              "id": 16,
+              "weapon": "Mississippi M1841",
+              "type": "Rifle",
+              "range": "1100",
+              "length": "49",
+              "ammo": "Minié ball",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Mississippi_Rifle.webp",
+              "notes": null
+            },
+            {
+              "id": 17,
+              "weapon": "Whitworth Rifle M1854",
+              "type": "Rifle",
+              "range": "800",
+              "length": "49",
+              "ammo": "",
+              "image": "https://app.paarmy.com/assets/weapons/rifles/Whitworth_Rifle_1.webp",
+              "notes": null
+            },
+            {
+              "id": 18,
+              "weapon": "M1840 NCO Sword",
+              "type": "Sword",
+              "range": null,
+              "length": "31",
+              "ammo": "Metal",
+              "image": "https://app.paarmy.com/assets/weapons/swords/M1840NCOSword_1.webp",
+              "notes": null
+            },
+            {
+              "id": 19,
+              "weapon": "Colt M1860 Army Revolver",
+              "type": "Revolver",
+              "range": null,
+              "length": null,
+              "ammo": null,
+              "image": "https://app.paarmy.com/assets/weapons/revolvers/M1860_Army.webp",
+              "notes": null
+            },
+            {
+              "id": 20,
+              "weapon": "Remington M1858 Revolver",
+              "type": "Revolver",
+              "range": null,
+              "length": null,
+              "ammo": null,
+              "image": "https://app.paarmy.com/assets/weapons/revolvers/Remington_M1858_1.webp",
+              "notes": null
+            },
+            {
+              "id": 25,
+              "weapon": "US Foot Officer Sword M1850",
+              "type": "Sword",
+              "range": "0",
+              "length": "16",
+              "ammo": "Metal",
+              "image": "https://app.paarmy.com/assets/weapons/swords/M1850_Foot_officers_sword_1.webp",
+              "notes": ""
+            },
+            {
+              "id": 29,
+              "weapon": "3in Ordinance Rifle",
+              "type": "Artillery",
+              "range": "",
+              "length": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+              "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons."
+            },
+            {
+              "id": 36,
+              "weapon": "12lb Napoleon M1857",
+              "type": "Artillery",
+              "range": "",
+              "length": "",
+              "ammo": "12-Pound Caisson",
+              "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+              "notes": "Thicc"
+            },
+            {
+              "id": 52,
+              "weapon": "LeMat M1855",
+              "type": "Revolver",
+              "range": "",
+              "length": "",
+              "ammo": "BULLETS",
+              "image": "https://molex.cloud/files/2023/June/13/_9MF/assets/weapons/revolvers/Lemat_M1855.webp",
+              "notes": ""
+            },
+            {
+              "id": 53,
+              "weapon": "10lb Parrott Rifle",
+              "type": "Artillery",
+              "range": "",
+              "length": "",
+              "ammo": "3-Inch & 10-Pound Caisson",
+              "image": "https://molex.cloud/2024/February/18/_igV/Parrott-Rifle.webp",
+              "notes": ""
+            }
+          ]
           </pre>
       </section>
 
@@ -517,10 +4060,10 @@
           <h2>Weapon Id</h2>
           <p>This endpoint returns a weapon by its id.</p>
           <div class="code-container">
-            <code>
-              <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/weapons/<id>'>https://api.wortool.com/v2/weapons/{id}</a>
-              <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
-            </code>
+  <code>
+    <span style="color: aquamarine;">GET</span> <a target="_blank" style="color:unset !important;" href='https://api.wortool.com/v2/weapons/5'>https://api.wortool.com/v2/weapons/{id}</a>
+    <sup><i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 8px;margin-left:-5px"></i></sup>
+  </code>
           </div>
           <pre>
 {
@@ -528,11 +4071,11 @@
 "weapon": "Sharps Carbine M1859",
 "type": "Rifle",
 "range": "500",
-"lengthy": "47",
+"length": "47",
 "ammo": "Minié ball",
 "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
 "notes": ""
-}         
+}      
           </pre>
       </section>      
 
@@ -544,7 +4087,7 @@
       <p>
           MolexWorks.com, WorTool.com, 
           <script>
-              document.write(`Copyright &copy; ${new Date().getFullYear()}`);
+    document.write(`Copyright &copy; ${new Date().getFullYear()}`);
           </script>
           
           

@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\auth.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp43343\public_html\api.wortool.com\wor-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri March 1st 2024 12:56:34 
+ * Last Modified: Fri March 1st 2024 12:55:55 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex

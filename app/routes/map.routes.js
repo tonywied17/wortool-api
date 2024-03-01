@@ -41,6 +41,7 @@ module.exports = (app) => {
    * @returns {object} 200 - An object containing the maps
    */
   router.get("/new-verbose", maps.findAllMapsVerbose);
+  router.get("/verbose", maps.findAllMapsVerbose);
 
   /**
    * Retrieve all maps from the database. (OLD)
@@ -59,7 +60,7 @@ module.exports = (app) => {
    * @param {string} id.path.required - The id of the map
    */
   router.get("/new/:id", maps.findOneMap);
-
+  router.get("/verbose/:id", maps.findOneMap);
 
   // ! POST Routes
 
