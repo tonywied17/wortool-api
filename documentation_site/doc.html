@@ -208,58 +208,272 @@
             </code>
           </div>
           <pre>
-{
-"id": 1,
-"map": "East Woods Skirmish",
-"image": "assets/maps/east-woods-skirmish.jpg",
-"usaArty": "true",
-"csaArty": "",
-"campaign": "Antietam",
-"youtube": "bPUeJVZ1ad4",
-"attacker": "USA",
-"strat": "Cg7Ooy7XZKK",
-"ATTACKER": [
-  {
-    "side": "USA",
-    "stance": "ATTACKER",
-    "reg1": "42nd Pennsylvania",
-    "reg2": "32nd Pennsylvania Companies: A/B",
-    "arty1": "Cooper",
-    "reg1Weapons": {
-      "1": "Sharps Carbine M1859"
-    },
-    "reg2Weapons": {
-      "1": "Springfield M1842 (Buck and Ball)"
-    },
-    "arty1Weapons": {
-      "1": "2x 3inch, 2x 12lb"
-    }
-  }
-],
-"DEFENDER": [
-  {
-    "side": "CSA",
-    "stance": "DEFENDER",
-    "reg1": "18th Georgia Company: A",
-    "reg2": "18th Georgia Company: B",
-    "reg3": "4th Texas Companies: A/B",
-    "reg1Weapons": {
-      "1": "Springfield M1842 (Buck and Ball)",
-      "2": "Pattern Enfield M1853",
-      "3": "Springfield M1855"
-    },
-    "reg2Weapons": {
-      "1": "Pattern Enfield M1853",
-      "2": "Springfield M1855"
-    },
-    "reg3Weapons": {
-      "1": "Springfield M1842 (Buck and Ball)",
-      "2": "Pattern Enfield M1853",
-      "3": "Springfield M1855"
-    }
-  }
-]
-}
+            {
+              "id": 1,
+              "name": "East Woods Skirmish",
+              "attacker": "USA",
+              "campaign": "Antietam",
+              "map_image": "https://wortool.com/assets/maps/east-woods-skirmish.jpg",
+              "map_favorite_count": 4,
+              "usa_artillery": true,
+              "csa_artillery": false,
+              "youtube_embed": "https://www.youtube.com/embed/bPUeJVZ1ad4",
+              "stratsketch_url": "https://stratsketch.com/Cg7Ooy7XZKK",
+              "usa_infantry_regiments": 2,
+              "csa_infantry_regiments": 2,
+              "usa_artillery_regiments": 1,
+              "csa_artillery_regiments": 0,
+              "usa_cavalry_regiments": 0,
+              "csa_cavalry_regiments": 0,
+              "usa_regiments": {
+                "Infantry": [
+                  {
+                    "id": 1,
+                    "name": "42nd Pennsylvania",
+                    "side": "USA",
+                    "type": "Infantry",
+                    "mapId": 1,
+                    "regiment_weaponry": [
+                      {
+                        "id": 15,
+                        "unitWeaponId": 5,
+                        "mapsRegimentsId": 1,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 5,
+                          "weapon": "Sharps Carbine M1859",
+                          "type": "Rifle",
+                          "range": "500",
+                          "ammo": "Minié ball",
+                          "image": "https://app.paarmy.com/assets/weapons/rifles/Sharps_rifle_model_1859.webp",
+                          "notes": "",
+                          "length": "47"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": 13,
+                    "name": "32nd Pennsylvania",
+                    "side": "USA",
+                    "type": "Infantry",
+                    "mapId": 1,
+                    "regiment_weaponry": [
+                      {
+                        "id": 27,
+                        "unitWeaponId": 6,
+                        "mapsRegimentsId": 13,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 6,
+                          "weapon": "Springfield M1842",
+                          "type": "Rifle",
+                          "range": "100",
+                          "ammo": "Roundball, Buck and Ball",
+                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
+                          "notes": "Press 5 to switch ammo types before reloading",
+                          "length": "58"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "Artillery": [
+                  {
+                    "id": 17,
+                    "name": "Battery Cooper",
+                    "side": "USA",
+                    "type": "Artillery",
+                    "mapId": 1,
+                    "regiment_weaponry": [
+                      {
+                        "id": 35,
+                        "unitWeaponId": 29,
+                        "mapsRegimentsId": 17,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 29,
+                          "weapon": "3in Ordinance Rifle",
+                          "type": "Artillery",
+                          "range": "",
+                          "ammo": "3-Inch & 10-Pound Caisson",
+                          "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                          "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                          "length": ""
+                        }
+                      },
+                      {
+                        "id": 36,
+                        "unitWeaponId": 29,
+                        "mapsRegimentsId": 17,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 29,
+                          "weapon": "3in Ordinance Rifle",
+                          "type": "Artillery",
+                          "range": "",
+                          "ammo": "3-Inch & 10-Pound Caisson",
+                          "image": "https://app.paarmy.com/assets/weapons/artillery/3inch_render_1.webp",
+                          "notes": "3-Inch and 10-Pound caisson's hold more rounds than Napoleons.",
+                          "length": ""
+                        }
+                      },
+                      {
+                        "id": 37,
+                        "unitWeaponId": 36,
+                        "mapsRegimentsId": 17,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 36,
+                          "weapon": "12lb Napoleon M1857",
+                          "type": "Artillery",
+                          "range": "",
+                          "ammo": "12-Pound Caisson",
+                          "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                          "notes": "Thicc",
+                          "length": ""
+                        }
+                      },
+                      {
+                        "id": 38,
+                        "unitWeaponId": 36,
+                        "mapsRegimentsId": 17,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 36,
+                          "weapon": "12lb Napoleon M1857",
+                          "type": "Artillery",
+                          "range": "",
+                          "ammo": "12-Pound Caisson",
+                          "image": "https://app.paarmy.com/assets/weapons/artillery/12-pounder.webp",
+                          "notes": "Thicc",
+                          "length": ""
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "Cavalry": []
+              },
+              "csa_regiments": {
+                "Infantry": [
+                  {
+                    "id": 50,
+                    "name": "18th Georgia",
+                    "side": "CSA",
+                    "type": "Infantry",
+                    "mapId": 1,
+                    "regiment_weaponry": [
+                      {
+                        "id": 106,
+                        "unitWeaponId": 11,
+                        "mapsRegimentsId": 50,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 11,
+                          "weapon": "Pattern Enfield M1853",
+                          "type": "Rifle",
+                          "range": "1000",
+                          "ammo": "Minié ball",
+                          "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+                          "notes": null,
+                          "length": "55"
+                        }
+                      },
+                      {
+                        "id": 107,
+                        "unitWeaponId": 12,
+                        "mapsRegimentsId": 50,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 12,
+                          "weapon": "Springfield M1855",
+                          "type": "Rifle",
+                          "range": "500",
+                          "ammo": "Minié ball",
+                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+                          "notes": null,
+                          "length": "56"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": 51,
+                    "name": "4th Texas",
+                    "side": "CSA",
+                    "type": "Infantry",
+                    "mapId": 1,
+                    "regiment_weaponry": [
+                      {
+                        "id": 108,
+                        "unitWeaponId": 6,
+                        "mapsRegimentsId": 51,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 6,
+                          "weapon": "Springfield M1842",
+                          "type": "Rifle",
+                          "range": "100",
+                          "ammo": "Roundball, Buck and Ball",
+                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1842_Springfield.webp",
+                          "notes": "Press 5 to switch ammo types before reloading",
+                          "length": "58"
+                        }
+                      },
+                      {
+                        "id": 109,
+                        "unitWeaponId": 11,
+                        "mapsRegimentsId": 51,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 11,
+                          "weapon": "Pattern Enfield M1853",
+                          "type": "Rifle",
+                          "range": "1000",
+                          "ammo": "Minié ball",
+                          "image": "https://app.paarmy.com/assets/weapons/rifles/Pattern_enfield_m1853.webp",
+                          "notes": null,
+                          "length": "55"
+                        }
+                      },
+                      {
+                        "id": 110,
+                        "unitWeaponId": 12,
+                        "mapsRegimentsId": 51,
+                        "mapId": 1,
+                        "weapon_info": {
+                          "id": 12,
+                          "weapon": "Springfield M1855",
+                          "type": "Rifle",
+                          "range": "500",
+                          "ammo": "Minié ball",
+                          "image": "https://app.paarmy.com/assets/weapons/rifles/M1855_Springfield.webp",
+                          "notes": null,
+                          "length": "56"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "Artillery": [],
+                "Cavalry": []
+              },
+              "map_favorites": [
+                {
+                  "id": 10,
+                  "username": "admin",
+                  "avatar_url": "",
+                  "discordId": null
+                },
+                {
+                  "id": 107,
+                  "username": "molex",
+                  "avatar_url": "https://cdn.discordapp.com/avatars/281639399152943105/450b323ac84254027f199589a2969d6f.webp",
+                  "discordId": "865852329990160414"
+                }
+              ]
+            }
           </pre>
       </section>
 
