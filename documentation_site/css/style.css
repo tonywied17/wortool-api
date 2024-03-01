@@ -5,6 +5,7 @@
 }
 html, body{
     outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -159,7 +160,9 @@ header{
     margin-right: 3.22em;
     border-radius: 72%;
     padding: 22px;
-    background: radial-gradient(ellipse at 2% 0, #cc21881f 0, transparent 35%)
+    background: radial-gradient(ellipse at 2% 0, #cc21881f 0, transparent 35%);
+    position: relative;
+    z-index: 0;
 }
 .main-logo{
     float: right;
@@ -248,6 +251,8 @@ pre {
     line-height: 1.5;
     color: #abb2bf85;
     backdrop-filter: blur(10px);
+    max-height:600px;
+    overflow-y:auto;
 }
 
 pre::-webkit-scrollbar {
@@ -398,7 +403,7 @@ footer p {
     display: flex;
     justify-content: space-around;
     margin-top: 70px;
-    column-gap: 1em;
+    column-gap: 1.5em;
 }
 
 .tech-logo {
@@ -406,4 +411,16 @@ footer p {
     height: 42px;
     pointer-events: none;
     user-select: none;
+}
+
+.tech-link {
+    transition: all 0.3s ease;
+}
+
+.tech-link:hover {
+    transform: scale(1.1);
+}
+
+.tech-link:active {
+    transform: scale(0.9);
 }

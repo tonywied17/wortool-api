@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat February 24th 2024 11:44:38 
+ * Last Modified: Fri February 23rd 2024 5:52:56 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -17,34 +17,6 @@ const User = db.User;
 require("dotenv").config({
   path: "/home/paarmy/envs/wor/.env"
 });
-
-/**
- * Check Bearer Token
- * This function is used to check the bearer token
- * @param {*} req - request
- * @param {*} res - boolean based on bearer token
- * @returns - boolean
- */
-checkBearerToken = (req, res, next) => {
-  const authorizationHeader = req.headers["authorization"];
-  if (!authorizationHeader) {
-    return res
-      .status(401)
-      .json({
-        message: "Unauthorized. Bearer token missing."
-      });
-  }
-  const token = authorizationHeader.replace("Bearer ", "");
-  if (token !== process.env.AUTH_SECRET) {
-    return res
-      .status(403)
-      .json({
-        message: "Forbidden. Invalid Bearer token."
-      });
-  }
-  next();
-  return;
-};
 
 /**
  * Verify Token
@@ -71,12 +43,14 @@ verifyToken = (req, res, next) => {
     }
 
     if (req.params.userId && decoded.id == req.params.userId) {
+      console.log("PARAMS: " + req.params.userId + " " + decoded.id);
       req.body.userId = decoded.id;
       next();
       return;
     }
 
     if (req.body.userId && decoded.id == req.body.userId) {
+      console.log("BODY: " + req.body.userId + " " + decoded.id);
       req.body.userId = decoded.id;
       next();
       return;
@@ -200,6 +174,34 @@ isModeratorOrAdmin = (req, res, next) => {
       });
     });
   });
+};
+
+/**
+ * Check Bearer Token
+ * This function is used to check the bearer token
+ * @param {*} req - request
+ * @param {*} res - boolean based on bearer token
+ * @returns - boolean
+ */
+checkBearerToken = (req, res, next) => {
+  const authorizationHeader = req.headers["authorization"];
+  if (!authorizationHeader) {
+    return res
+      .status(401)
+      .json({
+        message: "Unauthorized. Bearer token missing."
+      });
+  }
+  const token = authorizationHeader.replace("Bearer ", "");
+  if (token !== process.env.AUTH_SECRET) {
+    return res
+      .status(403)
+      .json({
+        message: "Forbidden. Invalid Bearer token."
+      });
+  }
+  next();
+  return;
 };
 
 /**
