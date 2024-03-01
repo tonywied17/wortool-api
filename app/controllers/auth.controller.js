@@ -4,7 +4,7 @@
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri February 23rd 2024 7:18:47 
+ * Last Modified: Fri March 1st 2024 12:56:34 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -13,7 +13,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-const crypto = require("crypto");
 const emails = require("./htmlEmails/emails");
 const models = require("../models");
 const User = models.User;
@@ -22,6 +21,7 @@ const Role = models.Role;
 const Op = models.Sequelize.Op;
 const dotenv = require("dotenv");
 dotenv.config({ path: "/home/paarmy/envs/wor/.env" });
+const { randomBytes } = require('node:crypto');
 
 /**
  * Create and Save a new User
@@ -33,7 +33,7 @@ exports.signup = async (req, res) => {
   User.create({
     username: req.body.username.toLowerCase(),
     email: req.body.email,
-    password: hashSync(req.body.password, 8),
+    password: bcrypt.hashSync(req.body.password, 8),
   })
     .then((user) => {
       if (req.body.roles) {
@@ -52,7 +52,7 @@ exports.signup = async (req, res) => {
         });
       } else {
         user.setWor_Roles([1]).then(async () => {
-          const transporter = createTransport({
+          const transporter = nodemailer.createTransport({
             sendmail: true,
             path: "/usr/sbin/sendmail",
           });
@@ -174,7 +174,7 @@ exports.forgot = async (req, res) => {
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
-    const transporter = createTransport({
+    const transporter = nodemailer.createTransport({
       sendmail: true,
       path: "/usr/sbin/sendmail",
     });
@@ -230,7 +230,7 @@ exports.reset = async (req, res) => {
 
     console.log("***USER: " + user);
 
-    user.password = await hash(newPassword, 10);
+    user.password = await bcrypt.hash(newPassword, 10);
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
 
@@ -268,7 +268,7 @@ exports.signin = async (req, res) => {
         });
       }
 
-      let passwordIsValid = compareSync(req.body.password, user.password);
+      let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
       if (!passwordIsValid) {
         return res.status(401).send({
@@ -289,7 +289,7 @@ exports.signin = async (req, res) => {
           : null,
       };
 
-      let token = sign(tokenPayload, process.env.AUTH_SECRET, {
+      let token = jwt.sign(tokenPayload, process.env.AUTH_SECRET, {
         expiresIn: 31536000, // 1 year
       });
 
@@ -342,14 +342,14 @@ exports.password = async (req, res) => {
           message: "User ID Not found.",
         });
       }
-      let passwordIsValid = compareSync(passwordCurrent, user.password);
+      let passwordIsValid = bcrypt.compareSync(passwordCurrent, user.password);
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
           message: "Invalid Password!",
         });
       }
-      const hashedPassword = hashSync(passwordNew, 8);
+      const hashedPassword = bcrypt.hashSync(passwordNew, 8);
       User.update(
         {
           password: hashedPassword,
