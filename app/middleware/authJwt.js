@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\middleware\authJwt.js
- * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp47810\wortool-api\app\middleware
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri February 23rd 2024 5:52:56 
+ * Last Modified: Mon January 6th 2025 9:37:39 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -15,7 +15,7 @@ const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.User;
 require("dotenv").config({
-  path: "/home/paarmy/envs/wor/.env"
+  path: "/home/wortool/envs/wor/.env"
 });
 
 /**
@@ -189,7 +189,7 @@ checkBearerToken = (req, res, next) => {
     return res
       .status(401)
       .json({
-        message: "Unauthorized. Bearer token missing."
+        message: "Unauthorized!",
       });
   }
   const token = authorizationHeader.replace("Bearer ", "");
@@ -197,7 +197,7 @@ checkBearerToken = (req, res, next) => {
     return res
       .status(403)
       .json({
-        message: "Forbidden. Invalid Bearer token."
+        message: "Unauthorized!",
       });
   }
   next();

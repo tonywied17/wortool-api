@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\routes\regiment.routes.js
- * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
+ * Project: c:\Users\tonyw\Desktop\api.wortool.com\wortool-api
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri February 23rd 2024 6:57:18 
+ * Last Modified: Tue January 7th 2025 3:13:18 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -150,6 +150,8 @@ module.exports = function (app) {
     "/v2/regiments/g/:guildId/discordGuild",
     regimentController.findDiscordGuild
   );
+
+
 
   /**
    * Update Regiment
@@ -529,4 +531,10 @@ module.exports = function (app) {
     "/v2/regiments/:regimentId/channels",
     regimentController.getGuildChannels
   );
+
+  app.get(
+    "/v2/regiments/:regimentId/webhooks",
+    [authJwt.verifyRegiment, authJwt.verifyToken],
+    regimentController.findWebhooksByRegimentId
+  )
 };

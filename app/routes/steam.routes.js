@@ -9,7 +9,7 @@
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
  */
-require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
+require("dotenv").config({ path: "/home/wortool/envs/wor/.env" });
 const axios = require("axios");
 module.exports = function (app) {
   app.use(function (req, res, next) {

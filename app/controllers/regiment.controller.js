@@ -1,10 +1,10 @@
 /*
  * File: c:\Users\tonyw\Desktop\PA API\express-paarmy-api\app\controllers\regiment.controller.js
- * Project: c:\Users\tonyw\Desktop\WoRTool API\wortool-api
+ * Project: c:\Users\tonyw\AppData\Local\Temp\scp44236\wortool-api\app\controllers
  * Created Date: Tuesday June 27th 2023
  * Author: Tony Wiedman
  * -----
- * Last Modified: Fri February 23rd 2024 6:29:56 
+ * Last Modified: Mon January 6th 2025 9:11:56 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2023 Tone Web Design, Molex
@@ -33,9 +33,16 @@ const fs = require("fs");
  * @param {*} res - response containing the regiments
  * @returns - regiments
  */
+// The updated findAll method
 exports.findAll = async (req, res) => {
   try {
-    const regiments = await Regiment.findAll();
+    // Assuming verifyRegiment is called earlier in the middleware stack
+    const regiments = await Regiment.findAll({
+      attributes: {
+        exclude: ['webhook', 'webhook_channel', 'webhook_mention']
+      }
+    });
+
     return res.status(200).json(regiments);
   } catch (error) {
     console.error("Error retrieving regiments:", error);
@@ -44,6 +51,8 @@ exports.findAll = async (req, res) => {
     });
   }
 };
+
+
 
 /**
  * Retrieve a single regiment with an id.
@@ -57,7 +66,11 @@ exports.findOne = async (req, res) => {
   const id = req.params.regimentId;
 
   try {
-    const regiment = await Regiment.findByPk(id);
+    const regiment = await Regiment.findByPk(id, {
+      attributes: {
+        exclude: ['webhook', 'webhook_channel', 'webhook_mention']
+      }
+    });
 
     if (!regiment) {
       return res.status(404).json({
@@ -73,6 +86,7 @@ exports.findOne = async (req, res) => {
     });
   }
 };
+
 
 /**
  * Retrieve a user's regiment with the specified id in the request
@@ -1652,6 +1666,30 @@ exports.getGuildChannels = async (req, res) => {
       return res.status(500).send({ message: "Error retrieving guild channels" });
   }
 };
+
+exports.findWebhooksByRegimentId = async (req, res) => {
+  const id = req.params.regimentId;
+
+  try {
+    const regiment = await Regiment.findByPk(id, {
+      attributes: ['webhook', 'webhook_channel', 'webhook_mention'] // Only include these three fields
+    });
+
+    if (!regiment) {
+      return res.status(404).json({
+        error: "Regiment not found"
+      });
+    }
+
+    return res.status(200).json(regiment);
+  } catch (error) {
+    console.error("Error retrieving regiment:", error);
+    return res.status(500).json({
+      error: "Internal Server Error"
+    });
+  }
+};
+
 
 /**
  * Delete a regiment's Discord channel

@@ -15,7 +15,7 @@ const DiscordStrategy = require('passport-discord').Strategy;
 const db = require('../models'); 
 const User = db.User;
 const DiscordUser = db.DiscordUser;
-require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
+require("dotenv").config({ path: "/home/wortool/envs/wor/.env" });
 
 
 /**
