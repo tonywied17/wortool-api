@@ -11,7 +11,7 @@ require('./app/config/passport');
  * ! Domain Whitelist
  */
 app.use(cors({
-  origin: ['http://localhost:4200', 'https://discord.com', 'https://wortool.com'],
+  origin: ['https://discord.com', 'https://wortool.com'],
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
 app.use(session({

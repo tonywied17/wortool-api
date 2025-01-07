@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
     const uploadFolder = path.join(
       __basedir,
       `resources/${req.params.regimentId}/static/assets/uploads`
+      
     );
 
     if (!fs.existsSync(uploadFolder)) {

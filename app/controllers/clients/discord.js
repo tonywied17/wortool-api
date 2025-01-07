@@ -11,7 +11,7 @@
  */
 
 const { Client, GatewayIntentBits } = require('discord.js');
-require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
+require("dotenv").config({ path: "/home/wortool/envs/wor/.env" });
 
 
 

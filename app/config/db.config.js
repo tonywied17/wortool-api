@@ -10,7 +10,7 @@
  * Copyright (c) 2024 MolexWorks / Tone Web Design
  */
 
-require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
+require("dotenv").config({ path: "/home/wortool/envs/wor/.env" });
 
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
   USER: process.env.DB_USER,
   PASSWORD: process.env.DB_PASSWORD,
   DB: process.env.DB_NAME,
-  dialect: 'mysql',
+  dialect: 'mariadb',
   pool: {
     max: 5,
     min: 0,

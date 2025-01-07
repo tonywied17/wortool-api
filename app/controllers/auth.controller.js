@@ -20,7 +20,7 @@ const DiscordUser = models.DiscordUser;
 const Role = models.Role;
 const Op = models.Sequelize.Op;
 const dotenv = require("dotenv");
-dotenv.config({ path: "/home/paarmy/envs/wor/.env" });
+dotenv.config({ path: "/home/wortool/envs/wor/.env" });
 const { randomBytes } = require('node:crypto');
 
 /**

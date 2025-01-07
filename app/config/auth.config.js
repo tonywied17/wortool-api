@@ -10,7 +10,7 @@
  * Copyright (c) 2024 MolexWorks / Tone Web Design
  */
 
-require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
+require("dotenv").config({ path: "/home/wortool/envs/wor/.env" });
 
 
 module.exports = {

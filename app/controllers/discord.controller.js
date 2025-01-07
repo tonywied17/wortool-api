@@ -15,7 +15,7 @@ const User = db.User;
 const Regiment = db.Regiment;
 const DiscordUser = db.DiscordUser;
 
-require("dotenv").config({ path: "/home/paarmy/envs/wor/.env" });
+require("dotenv").config({ path: "/home/wortool/envs/wor/.env" });
 
 /**
  * Create a webhook for a specific guild and channel
